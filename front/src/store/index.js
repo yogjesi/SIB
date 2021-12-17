@@ -13,6 +13,37 @@ export default new Vuex.Store({
     setToken:Object,
     boardList:[],
     boardDetail:Object,
+
+    //book 더미 데이터
+    transactions: [
+      {
+        id: 1,
+        day:'121',
+        category: '활동비',
+        content: '샌드위치',
+        income: '',
+        outcome: '10,000',
+        balance: '30,000',
+      },
+      {
+        id: 2,
+        day:'122',
+        category: '헌금',
+        content: '일요미사',
+        income: '100,000',
+        outcome: '',
+        balance: '130,000',
+      },
+      {
+        id: 3,
+        day:'123',
+        category: '행사비',
+        content: '치킨',
+        income: '',
+        outcome: '100,000',
+        balance: '30,000',
+      },
+    ]
   },
   mutations: {
     LOGIN: function(state,data){
