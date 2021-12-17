@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import Income from '@/views/Income.vue'
 import Outcome from '@/views/Outcome.vue'
 import Board from '@/views/boards/Board.vue'
+import BoardDetail from '@/views/boards/BoardDetail.vue'
 import Book from '@/views/Book.vue'
 import Manager from '@/views/Manager.vue'
 import Login from '@/views/Login.vue'
@@ -31,6 +32,11 @@ const routes = [
     path: '/board',
     name: 'Board',
     component: Board
+  },
+  {
+    path: '/board/:boardPk',
+    name: 'BoardDetail',
+    component: BoardDetail
   },
   {
     path: '/book',

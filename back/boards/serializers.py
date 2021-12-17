@@ -11,7 +11,7 @@ class BoardListSerializer(serializers.ModelSerializer):
     user= UserSerializer(read_only=True)
     class Meta:
         model = Board
-        fields = ('id','title','created_at','user')
+        fields = ('id','title','created_at','user','hits')
 
 
 class BoardSerializer(serializers.ModelSerializer):

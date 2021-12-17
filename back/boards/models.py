@@ -10,6 +10,7 @@ class Board(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=True,upload_to='')
     video = models.TextField(blank=True)
+    hits = models.PositiveBigIntegerField(default=0)
 
 class Comment(models.Model):
      user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)

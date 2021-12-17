@@ -7,11 +7,12 @@ from rest_framework import status
 from .models import Board,Comment
 from .serializers import BoardListSerializer,BoardSerializer,CommentSerializer
 
+
 @api_view(['GET','POST'])
 def board_list_create(request):
     # 전체 freeboard 조회하기
     if request.method == 'GET':
-        boards = get_list_or_404(Board)
+        boards = get_list_or_404(Board.objects.order_by('-pk'))
         serializer = BoardListSerializer( boards, many = True)
         return Response(serializer.data)
     # freeboard에 글 작성하기
@@ -26,6 +27,9 @@ def board_detail_update_delete(request,board_pk):
     board = get_object_or_404(Board,pk=board_pk)
     # 상세 freeboard 조회하기
     if request.method == 'GET':
+        tmp = board.updated_at
+        tmp_hits = board.hits+1
+        Board.objects.filter(pk=board_pk).update(hits=tmp_hits,updated_at=tmp)
         serializer = BoardSerializer(board)
         return Response(serializer.data)
     # 글 하나 선택해서 수정하기

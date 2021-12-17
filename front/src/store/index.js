@@ -12,6 +12,7 @@ export default new Vuex.Store({
     token:'',
     setToken:Object,
     boardList:[],
+    boardDetail:Object,
   },
   mutations: {
     LOGIN: function(state,data){
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     BOARDLIST: function(state,data){
       state.boardList = data
+    },
+    BOARDDETAIL: function(state,data){
+      state.boardDetail = data
     },
   },
   actions: {
@@ -69,6 +73,29 @@ export default new Vuex.Store({
       })
       .then(res =>{
         commit('BOARDLIST',res.data)
+      })
+      .catch(err =>{
+        console.log(err)
+      })
+    },
+    // 5. 자유 게시판 상세글 조회
+    boardDetail: function({commit},pk){
+      axios({
+        method: 'GET',
+        url: `${BACK_URL}/boards/${pk}`,
+        headers: this.state.setToken
+      })
+      .then(res =>{
+        if(res.data.image){
+          const board = {
+            ...res.data,
+            image:`${BACK_URL}${res.data.image}`
+          }
+          commit('BOARDDETAIL',board)
+        }else{
+          commit('BOARDDETAIL',res.data)
+        }
+        
       })
       .catch(err =>{
         console.log(err)

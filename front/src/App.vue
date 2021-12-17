@@ -50,7 +50,6 @@ export default {
       // 3. True 로 변경하고 없으면 유지.
       this.isLogin = true
       this.$store.dispatch('setToken',token)
-      this.$router.push({name:'Home'})
     }else{
       this.$router.push({name:'Login'})
     }
