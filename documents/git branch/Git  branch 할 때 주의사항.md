@@ -50,7 +50,7 @@ master branch에 관해서 다음과 같이 설정함:
 
 다른 사람의 pull을 승인하는 방법은 다음과 같다.
 
-![image](branch1.JPG)
+![image](./branch1.JPG)
 
 - 1번 : Pull requests 버튼 클릭하면 위와 같은 창이 뜸
 - 2번 : 확인/승인하고자 하는 pull request의 Compare & pull request 버튼을 클릭
