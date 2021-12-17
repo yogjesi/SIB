@@ -6,4 +6,6 @@ class User(AbstractUser):
     fullname = models.TextField()
     email = models.EmailField()
     # 회원: 0, 회계: 1, 회장: 2    	
-    authority = models.IntegerField()
+    authority = models.IntegerField(default=0)
+    def __str__(self):
+        return self.fullname

@@ -14,7 +14,7 @@ class Board(models.Model):
 class Comment(models.Model):
      user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
      content  = models.TextField()
-     boards = models.ForeignKey(Board,on_delete=models.CASCADE)
+     boards = models.ForeignKey(Board,on_delete=models.CASCADE,related_name='comments')
      parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
      
 

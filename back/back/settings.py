@@ -23,14 +23,14 @@ INSTALLED_APPS = [
     'books', # income, outcome, 장부 조회 정보 json
     'boards', # 자유게시판 json - 수현꺼 내꼬..My 프레셔스...
 
-    # Third party apps
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    # 구글을 위한 allauth
-    'allauth.socialaccount.providers.google',
-    # 깃헙을 위한 allauth
-    'allauth.socialaccount.providers.github',
+    # # Third party apps
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # # 구글을 위한 allauth
+    # 'allauth.socialaccount.providers.google',
+    # # 깃헙을 위한 allauth
+    # 'allauth.socialaccount.providers.github',
     'bootstrap5', # bootstrap 적용을 위한 app, 참고사이트: https://django-bootstrap-v5.readthedocs.io/en/latest/
     'django_extensions', # shell_plus 사용을 위한 app
     'imagekit', # 이미지 크기 변경을 위한 쟝고 라이브러리
@@ -149,13 +149,13 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#Django allauth를 위한 필요 1.
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+# #Django allauth를 위한 필요 1.
+# AUTHENTICATION_BACKENDS = [
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
 
 # STATIC_ROOT 에 정적 파일을 수집
 STATIC_ROOT = BASE_DIR/'staticfiles'
