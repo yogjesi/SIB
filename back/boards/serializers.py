@@ -15,6 +15,11 @@ class BoardListSerializer(serializers.ModelSerializer):
 
 
 class BoardSerializer(serializers.ModelSerializer):
+    class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('id','fullname','username',)
+    user= UserSerializer(read_only=True)
     class Meta:
         model = Board
         fields = '__all__'
@@ -28,4 +33,4 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
-        read_only_fields = ('board',)
+        read_only_fields = ('boards',)
