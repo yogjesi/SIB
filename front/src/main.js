@@ -6,10 +6,16 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import vueMoment from 'vue-moment' 
+
+Vue.use(vueMoment)
+
 
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
+
+
 
 new Vue({
   store,
