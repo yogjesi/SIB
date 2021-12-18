@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'imagekit', # 이미지 크기 변경을 위한 쟝고 라이브러리
     'rest_framework',# JSON 으로 데이터 사용하기 위한 라이브러리
     'corsheaders', # CORS 설정을 통해 교차 출저 리소스 공유를 하기 위해서
+    'six',    # email 인증
     # Django apps
     'django.contrib.admin',
     # 인증 프레임 워크의 핵심, 기본 모델 포함
@@ -196,3 +197,19 @@ JWT_AUTH ={
 }
 #allauh를 위한 거 
 SITE_ID = 1
+
+
+# #### email auth #### 
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# # 메일을 호스트하는 서버
+# EMAIL_PORT = '587'
+# # gmail과의 통신하는 포트
+# EMAIL_HOST_USER = 'sibtest438@gmail.com'
+# # 발신할 이메일
+# EMAIL_HOST_PASSWORD = 'ssafytest'
+# # 발신할 메일의 비밀번호
+# EMAIL_USE_TLS = True
+# # TLS 보안 방법
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# # 사이트와 관련한 자동응답을 받을 이메일 주소,'webmaster@localhost'

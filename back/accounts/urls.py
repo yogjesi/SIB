@@ -6,5 +6,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 urlpatterns = [
     # jwt 유효토큰
     path('api-token-auth/',obtain_jwt_token),
+    # 회원가입
+    path('signup/',views.signup),
 ]
 

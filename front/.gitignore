@@ -2,10 +2,12 @@
 node_modules
 /dist
 
+dotenv
 
 # local env files
 .env.local
 .env.*.local
+
 
 # Log files
 npm-debug.log*

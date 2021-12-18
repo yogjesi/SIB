@@ -12,6 +12,8 @@ export default new Vuex.Store({
     token:'',
     setToken:Object,
     boardList:[],
+    outcomes:[],
+    selectOutcome : null, 
   },
   mutations: {
     LOGIN: function(state,data){
@@ -30,8 +32,54 @@ export default new Vuex.Store({
     BOARDLIST: function(state,data){
       state.boardList = data
     },
+    GETOUTCOMES:function(state,data){
+      state.outcomes = []
+      data.forEach(data => {
+        const outcome = {
+          id: data.id,
+          created_at: data.created_at,
+          content: data.content,
+          user: data.user.username,
+          state: data.state,
+        } 
+        state.outcomes.push(outcome)  
+      });
+    },
+    SELECT_OUTCOME:function(state,data){
+      state.selectOutcome = data
+    }
   },
   actions: {
+    // 1. 요금 청구 목록 조회
+    getOutcomes: function ({commit}) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GETOUTCOMES',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 2. 요금 청구 Detail 조회
+    selectOutcome: function ({commit},outcome_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/${outcome_id}`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          console.log(res.data)
+          commit('SELECT_OUTCOME',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
     // 1. 로그인을 위한 actions
     login : function({commit},credentials){
       axios({

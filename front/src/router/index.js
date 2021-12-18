@@ -2,7 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Income from '@/views/Income.vue'
-import Outcome from '@/views/Outcome.vue'
+
+import Outcome from '@/views/outcome/Outcome.vue'
+import OutcomeDetail from '@/views/outcome/OutcomeDetail.vue'
+import OutcomeCreate from '@/views/outcome/OutcomeCreate.vue'
+
+
 import Board from '@/views/boards/Board.vue'
 import Book from '@/views/Book.vue'
 import Manager from '@/views/Manager.vue'
@@ -26,6 +31,16 @@ const routes = [
     path: '/outcome',
     name: 'Outcome',
     component: Outcome
+  },
+  {
+    path: '/outcomeDetail/:id',
+    name: 'OutcomeDetail',
+    component: OutcomeDetail
+  },
+  {
+    path: '/outcomecreate',
+    name: 'OutcomeCreate',
+    component: OutcomeCreate
   },
   {
     path: '/board',

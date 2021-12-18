@@ -7,13 +7,20 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import connectPlugin from './plugins/connectPlugin'
+
+Vue.use(connectPlugin)
+
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-new Vue({
+var vm = new Vue({
   store,
   vuetify,
   router,
   render: h => h(App)
 }).$mount('#app')
+
+
+window.app = vm;

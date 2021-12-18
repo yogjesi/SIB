@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     fullname = models.TextField()
     email = models.EmailField()
-    # 회원: 0, 회계: 1, 회장: 2    	
+    # 미인증회원: 0, 인증회원 : 1, 회계: 2, 회장: 3    	
     authority = models.IntegerField(default=0)
     def __str__(self):
         return self.fullname

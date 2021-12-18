@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
   </head>
   <body>
+    <!-- 외부 js파일  -->
+    <script type="text/javascript" src="/js/nodemailer.js"></script>
+    <script type="text/javascript" src="/js/connect.js"></script>
+    <!-- 이메일보내기 -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"> </script> 
+    <script type="text/javascript"> (function(){ emailjs.init("YOUR_USER_ID"); })(); </script>
+
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>

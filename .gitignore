@@ -289,3 +289,13 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,windows,vue,vuejs,django,visualstudiocode,venv
+
+
+
+# Created by https://www.toptal.com/developers/gitignore/api/dotenv
+# Edit at https://www.toptal.com/developers/gitignore?templates=dotenv
+
+### dotenv ###
+.env
+
+# End of https://www.toptal.com/developers/gitignore/api/dotenv
