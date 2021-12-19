@@ -5,6 +5,8 @@ import Income from '@/views/Income.vue'
 import Outcome from '@/views/Outcome.vue'
 import Board from '@/views/boards/Board.vue'
 import BoardDetail from '@/views/boards/BoardDetail.vue'
+import BoardCreate from '@/views/boards/BoardCreate.vue'
+import BoardUpdate from '@/views/boards/BoardUpdate.vue'
 import Book from '@/views/Book.vue'
 import Manager from '@/views/Manager.vue'
 import Login from '@/views/Login.vue'
@@ -37,6 +39,16 @@ const routes = [
     path: '/board/:boardPk',
     name: 'BoardDetail',
     component: BoardDetail
+  },
+  {
+    path: '/board/create',
+    name: 'BoardCreate',
+    component: BoardCreate
+  },
+  {
+    path: '/board/update/',
+    name: 'BoardUpdate',
+    component: BoardUpdate
   },
   {
     path: '/book',

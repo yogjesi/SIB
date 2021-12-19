@@ -9,4 +9,6 @@ urlpatterns = [
     path('<int:board_pk>/comments/',views.comment_list_create),
     # 상세 Freeboard 수정 및 삭제
     path('comments/<int:comment_pk>/',views.comment_update_delete),
+    # Freeboard 검색
+    path('search/', views.search),
 ]

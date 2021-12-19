@@ -1,15 +1,5 @@
 <template>
-  <div class="overflow-auto">
-
-    <p class="mt-3">Current Page: {{ currentPage }}</p>
-
-    <b-table
-      id="my-table"
-      :items="boardList"
-      :per-page="perPage"
-      :current-page="currentPage"
-      small
-    ></b-table>
+  <div class="container">
     <table>
       <thead>
         <tr>
@@ -20,13 +10,7 @@
           <th>조회수</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- <tr v-for="p in paginatedData" :key="p.id">
-            <td>{{ p.id }}</td>
-            <td>{{ p.title }}</td>
-            <td>{{ p.user.fullname}}</td>
-            <td>{{ p.created_at}}</td>
-        </tr> -->
+      <tbody v-if="boardList">
         <the-board-list-item v-for="(board,index) in paginatedData" 
           :key="index"
           :board-item="board"
@@ -50,7 +34,7 @@ export default {
   name:'TheBoardList',
   data: function() {
     return {
-      perPage: 3,
+      perPage: 10,
       currentPage: 1,
       pageNum:0
     }
