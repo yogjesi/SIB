@@ -20,7 +20,7 @@ export default new Vuex.Store({
     boardDetail:{id:'',user:Object,title:'',content:'',created_at:'',updated_at:'',image:'',video:'',hits:''},
     userList:[],
     userWaitList:[],
-    commentList:[]
+    commentList:[],
     //book 더미 데이터
     transactions: [
       {
