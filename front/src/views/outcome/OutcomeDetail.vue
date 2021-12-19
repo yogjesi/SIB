@@ -4,6 +4,9 @@
     <div>
       {{selectOutcome.user.username}} | {{selectOutcome.created_at}}
     </div>
+    <v-btn @click="moveToUpdate">수정</v-btn>
+    <v-btn @click="deleteOutcome">삭제</v-btn>
+
 
     <v-data-table
         
@@ -101,6 +104,23 @@ export default {
     },
     stateToReject:function(){
       this.$store.dispatch('changeState',3) // 승인대기 -> 반려
+    },
+    moveToUpdate:function(){
+      this.$router.push({name:'OutcomeUpdate', params:{id:this.$route.params.id}})
+    },
+    deleteOutcome:function(){
+      axios({
+        method: 'delete',
+        url: `http://127.0.0.1:8000/books/outcome/${this.$route.params.id}/`,
+        headers: this.$store.state.setToken,
+      })
+        .then(res => {
+          console.log(res)
+          this.$router.push({name:'Outcome'})
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     createOutcomeComment:function(){
       

@@ -58,7 +58,6 @@ export default new Vuex.Store({
       }
     },
     CHANGE_STATE:function(state,data){
-      console.log('store-CHANGE_STATE'+data.state)
       state.selectOutcome = data
       if(data.state == 1){
         state.selectOutcome_state_str = '승인대기'
@@ -67,11 +66,9 @@ export default new Vuex.Store({
       }else{
         state.selectOutcome_state_str = '반려'
       }
-      console.log(state.selectOutcome_state_str)
     },
     GETOUTCOME_COMMENT:function(state,data){
       state.outcome_comments = data
-      // console.log('state의 outcome_comments ',state.outcome_comments)
     },
 
   },
@@ -98,7 +95,6 @@ export default new Vuex.Store({
         headers: this.state.setToken
       })
         .then(res => {
-          // console.log(res.data)
           commit('SELECT_OUTCOME',res.data) 
         })
         .catch(err => {
@@ -118,7 +114,6 @@ export default new Vuex.Store({
         data:data
       })
         .then(res => {
-          console.log(res.data)
           commit('CHANGE_STATE',res.data) 
         })
         .catch(err => {
@@ -133,7 +128,6 @@ export default new Vuex.Store({
         headers: this.state.setToken
       })
         .then(res => {
-          console.log(res.data)
           commit('GETOUTCOME_COMMENT',res.data) 
         })
         .catch(err => {

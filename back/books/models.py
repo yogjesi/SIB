@@ -21,7 +21,7 @@ class Outcome(models.Model):
     state = models.IntegerField(default=1)
     money = models.DecimalField(max_digits=10,decimal_places=0)
     alarm = models.BooleanField()
-    receipt = models.ImageField(upload_to='outcome/')
+    receipt = models.ImageField(upload_to='outcome/',null=True)
 
 class Outcomecomment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)

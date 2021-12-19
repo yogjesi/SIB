@@ -26,20 +26,28 @@ def outcome(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
-@api_view(['GET','PUT'])
+@api_view(['GET','PUT','DELETE'])
 def outcome_detail(request,pk):
-    outcome = get_object_or_404(Outcome,pk=pk)
+    # outcome = get_object_or_404(Outcome,pk=pk)
+    outcome = Outcome.objects.get(pk=pk)
+
     # 요금청구 상세 조회
     if request.method == 'GET':
         serializer = OutcomeDetailSerializer(outcome)
         return Response(serializer.data)
 
     # 요금청구 수정
-    # elif request.method == 'PUT':
-    #     serializer = OutcomeDetailSerializer(outcome, data=request.data)
-    #     if serializer.is_valid(raise_exception=True):
-    #         serializer.save()
-    #         return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = OutcomeDetailSerializer(outcome, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+            
+    # 요금 청구 삭제
+    elif request.method == 'DELETE':
+        outcome.delete()
+        return Response({ 'delete': f'요금청구 글 {pk}번이 삭제되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['PUT'])
 def change_state(request,pk):

@@ -5,8 +5,8 @@
         <form @submit.prevent="formSubmit" method="post">
           <br>
           <div class="m-2">
-            <select id="form-select" class="form-select" aria-label="Default select example">
-              <option selected value="사업행사비">사업행사비</option>
+            <select v-model="outcome.category" id="form-select" class="form-select" aria-label="Default select example">
+              <option value="사업행사비">사업행사비</option>
               <option value="활동비">활동비</option>
               <option value="경조비">경조비</option>
               <option value="교통비">교통비</option>
@@ -20,8 +20,7 @@
           <div>지출 내역</div>
               <input type="text"  class="border m-2"
                 placeholder="김밥"
-                required
-                v-model.trim="inputTitle"
+                v-model.trim="outcome.title"
               >
         </div>
         <br>
@@ -29,8 +28,7 @@
           <div>지출 금액</div>
               <input type="text"  class="border m-2"
                 placeholder="금액"
-                required
-                v-model.trim="inputMoney"
+                v-model.trim="outcome.money"
               >
         </div>
         
@@ -40,7 +38,7 @@
               <input type="date"  class="border m-2"
                 pattern="\d{4}-\d{2}-\d{2}"
                 required
-                v-model.trim="inputDatetime"
+                v-model.trim="outcome.datetime"
               >
         </div>
         <br>
@@ -49,24 +47,25 @@
           <div>지출 상세 내역 </div>
               <input type="text"  class="border m-2"
                 placeholder="상세 내역을 입력해주세요 ex)언제, 어디서, 누구와"
-                v-model.trim="inputContent"
-                required
+                v-model.trim="outcome.content"
               >
         </div>
         <br>
         <div class="m-2">
           <div>알림 여부</div>
-          <label><input type="radio" name="true" value="true" v-model.trim="isAlarm" checked> Yes</label>
-          <label class="m-5"><input type="radio" name="false" value="false" v-model.trim="isAlarm"> No</label>
+          <label><input type="radio" name="true" value="true" v-model.trim="outcome.alarm"> Yes</label>
+          <label class="m-5"><input type="radio" name="false" value="false" v-model.trim="outcome.alarm" checked> No</label>
           <br>
         </div>
 
         <div class="m-2"> 
         <br>
           <div>영수증 첨부</div>
-          <input required type="file" ref="selectFile" @change="previewFile" />
-          
-          <img v-if="previewImgUrl" :src="previewImgUrl" />
+          <!-- <input type="file" ref="selectFile" @change="previewFile" /> -->
+          <!-- <img v-if="previewImgUrl" :src="previewImgUrl" /> -->
+
+          <img v-if="previewImgUrl" :src="previewImgUrl" style="width:50%"/>
+          <input class="form-control" type="file" ref="selectFile" @change="previewFile" />
         </div>
 
           <v-btn color="deep-purple white--text" class="m-2" outlined type="submit" :disabled="isUploading">Upload</v-btn>
@@ -90,29 +89,33 @@
 
 <script>
 import http from "@/http"
+import {mapState} from 'vuex'
 
 export default {
-  name:'OutcomeCreate',
+  name:'OutcomeUpdate',
   data:function(){
     return{
-      inputTitle:null,
-      inputContent:null,
-      inputMoney:null,
-      inputDatetime:null,
-      isAlarm:true,
-      // options:[
-      // 'event',
-      // 'activity',
-      // 'celebrity',
-      // 'transportation',
-      // 'fixtures',
-      // 'etc'
-      // ],
+      outcome:Object,
+      // inputTitle:null,
+      // inputContent:null,
+      // inputMoney:null,
+      // inputDatetime:null,
+      // isAlarm:null,
       selectFile: null, // 파일 객체
       previewImgUrl: null, // 미리보기 이미지 URL
       isUploading: false, // 파일 업로드 체크
       response: null, // 파일 업로드후 응답값
     }
+  },
+  computed:{
+    ...mapState([
+      'selectOutcome'
+    ])
+  },
+  created: function(){
+    this.outcome = this.selectOutcome
+    this.previewImgUrl = this.outcome.receipt
+    // this.selectFile = this.outcome.receipt
   },
   methods:{
     outcomeCreate:function(){
@@ -148,56 +151,58 @@ export default {
           } else {
             alert("파일을 다시 선택해 주세요.")
             this.selectFile = null
-            this.previewImgUrl = null
+            // this.previewImgUrl = null
           }
         } else {
           // 파일을 선택하지 않았을때
           this.selectFile = null
-          this.previewImgUrl = null
+          // this.previewImgUrl = null
         }
         console.log(this.selectFile)
       },
 
     async formSubmit() {
+      let form = new FormData()
       if (this.selectFile) {
-        let form = new FormData()
         // Form 필드 생성
-        form.append("receipt", this.selectFile) // api file name
-       
+        form.append("receipt", this.selectFile) // api file name        
+      } 
+      //else {
+        // alert("파일을 선택해 주세요.")
+      //   form.append("receipt", this.previewImgUrl) 
+      // }
       var selectCategory = document.querySelector('#form-select').value
       if (selectCategory){
         form.append("category",selectCategory)
       }else{
         alert("카테고리를 선택해 주세요.")
       }
-      if (this.inputTitle){
-        form.append("title",this.inputTitle)
+      if (this.outcome.title){
+        form.append("title",this.outcome.title)
       }else{
         alert("지출내역을 입력해 주세요.")
       }
-      if (this.inputContent){
-        form.append("content",this.inputContent)
+      if (this.outcome.content){
+        form.append("content",this.outcome.content)
       }else{
         alert("지출상세내역을 입력해 주세요.")
       }
-      if (this.inputMoney){
-        form.append("money",this.inputMoney)
+      if (this.outcome.money){
+        form.append("money",this.outcome.money)
       }else{
         alert("지출금액을 입력해 주세요.")
       }
-      if (this.inputDatetime){
-        form.append("datetime",this.inputDatetime)
+      if (this.outcome.datetime){
+        form.append("datetime",this.outcome.datetime)
       }else{
-        alert("지출일시를 골라주세요.")
+        alert("지출일시을 골라주세요.")
       }
-      if (this.isAlarm){
-        form.append("alarm",this.isAlarm)
-      }else{
-        alert("알림여부를 선택해 주세요.")
-      }
+      
+      form.append("alarm",this.outcome.alarm)
+      
       const token = localStorage.getItem('jwt')
       http
-        .post("http://127.0.0.1:8000/books/outcome/", form, {
+        .put(`http://127.0.0.1:8000/books/outcome/${this.$route.params.id}/`, form, {
           headers: {
             "Content-Type": "multipart/form-data",
             "Authorization":`JWT ${token}`
@@ -213,9 +218,6 @@ export default {
           this.response = error
           this.isUploading = false
         })
-      }else {
-          alert("파일을 선택해 주세요.")
-      }  
 
       return true
       },

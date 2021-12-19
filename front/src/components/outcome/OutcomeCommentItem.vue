@@ -10,7 +10,7 @@
       data-bs-toggle="modal" :data-bs-target="`#updatecomment-${outcome_comment.id}`"
       class="m-3"
     >
-    수정하기
+    수정
     </v-btn>
    
   <!-- 댓글 수정 모달 -->

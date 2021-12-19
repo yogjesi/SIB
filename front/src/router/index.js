@@ -6,7 +6,7 @@ import Income from '@/views/Income.vue'
 import Outcome from '@/views/outcome/Outcome.vue'
 import OutcomeDetail from '@/views/outcome/OutcomeDetail.vue'
 import OutcomeCreate from '@/views/outcome/OutcomeCreate.vue'
-
+import OutcomeUpdate from '@/views/outcome/OutcomeUpdate.vue'
 
 import Board from '@/views/boards/Board.vue'
 import Book from '@/views/Book.vue'
@@ -33,7 +33,7 @@ const routes = [
     component: Outcome
   },
   {
-    path: '/outcomeDetail/:id',
+    path: '/outcomedetail/:id',
     name: 'OutcomeDetail',
     component: OutcomeDetail
   },
@@ -41,6 +41,11 @@ const routes = [
     path: '/outcomecreate',
     name: 'OutcomeCreate',
     component: OutcomeCreate
+  },
+  {
+    path: '/outcomeupdate/:id',
+    name: 'OutcomeUpdate',
+    component: OutcomeUpdate
   },
   {
     path: '/board',
