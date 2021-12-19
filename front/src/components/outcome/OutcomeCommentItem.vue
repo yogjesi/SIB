@@ -1,0 +1,146 @@
+<template>
+  <div>
+    <div>작성자 : {{outcome_comment.user.username }}</div>
+    <div> {{outcome_comment.content}}</div>
+    
+
+  <!-- 댓글 수정 -->
+  <v-btn
+      v-if="isMycomment"
+      data-bs-toggle="modal" :data-bs-target="`#updatecomment-${outcome_comment.id}`"
+      class="m-3"
+    >
+    수정하기
+    </v-btn>
+   
+  <!-- 댓글 수정 모달 -->
+  <div class="modal fade" :id="`updatecomment-${outcome_comment.id}`" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Comment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">댓글 내용 </label>
+                <input type="text" class="form-control" id="message-text" v-model="inputContent">
+                <!-- <ㅑ class="form-control" id="message-text" v-model="inputContent"></ㅑ> -->
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <v-btn color="deep-purple darken3 white--text" data-bs-dismiss="modal" @click="updateComment">Submit</v-btn>
+            <v-btn color="deep-purple darken3 white--text" outlined data-bs-dismiss="modal">Close</v-btn>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ### 댓글 삭제 ###  -->
+  <div class="m-3">
+      <v-btn
+           v-if="isMycomment"
+          color="deep-purple darken3 white--text"
+          data-bs-toggle="modal" :data-bs-target="`#deleteComment-${outcome_comment.id}`"
+        >
+        삭제
+        </v-btn>
+    </div>
+
+  <!-- 댓글 삭제 모달 -->
+  <div class="modal fade" :id="`deleteComment-${outcome_comment.id}`" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">댓글 삭제</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <p> 삭제하시겠습니까? </p>
+        </div>
+        <div class="modal-footer">
+          <v-btn color="deep-purple darken3 white--text" data-bs-dismiss="modal" @click="deleteComment">Yes</v-btn>
+          <v-btn color="deep-purple darken3 white--text" outlined data-bs-dismiss="modal">No</v-btn>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+  
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name:'OutcomeCommentItem',
+  props:{
+    outcome_comment:{
+      type:Object
+    }
+  },
+  data:function(){
+    return{
+      inputContent:this.outcome_comment.content,
+      isMycomment:null,
+    }
+  },
+  methods:{
+    isMine:function(){
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
+        headers: this.$store.state.setToken,
+      })
+        .then(res => {
+          console.log(res.data)
+          this.isMycomment = res.data.isMine
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    updateComment:function(){
+      axios({
+        method: 'put',
+        url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
+        headers: this.$store.state.setToken,
+        data:{content:this.inputContent}
+      })
+        .then(res => {
+          console.log(res.data)
+          this.$emit('updateComment')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    deleteComment:function(){
+      axios({
+        method: 'delete',
+        url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
+        headers: this.$store.state.setToken,
+      })
+        .then(res => {
+          console.log(res.data)
+          this.$emit('updateComment')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+  },
+  created:function(){
+    this.isMine()
+  }
+}
+</script>
+
+<style>
+
+</style>

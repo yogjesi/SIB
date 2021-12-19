@@ -15,6 +15,7 @@ export default new Vuex.Store({
     outcomes:[],
     selectOutcome : null,
     selectOutcome_state_str :'',
+    outcome_comments:null,
   },
   mutations: {
     LOGIN: function(state,data){
@@ -39,7 +40,7 @@ export default new Vuex.Store({
         const outcome = {
           id: data.id,
           created_at: data.created_at,
-          content: data.content,
+          title: data.title,
           user: data.user.username,
           state: data.state,
         } 
@@ -47,7 +48,6 @@ export default new Vuex.Store({
       });
     },
     SELECT_OUTCOME:function(state,data){
-      console.log('store-SELECT_OUTCOME'+data.state)
       state.selectOutcome = data
       if(data.state == 1){
         state.selectOutcome_state_str = '승인대기'
@@ -56,7 +56,6 @@ export default new Vuex.Store({
       }else{
         state.selectOutcome_state_str = '반려'
       }
-      console.log(state.selectOutcome_state_str)
     },
     CHANGE_STATE:function(state,data){
       console.log('store-CHANGE_STATE'+data.state)
@@ -69,6 +68,10 @@ export default new Vuex.Store({
         state.selectOutcome_state_str = '반려'
       }
       console.log(state.selectOutcome_state_str)
+    },
+    GETOUTCOME_COMMENT:function(state,data){
+      state.outcome_comments = data
+      // console.log('state의 outcome_comments ',state.outcome_comments)
     },
 
   },
@@ -91,7 +94,7 @@ export default new Vuex.Store({
     selectOutcome: function ({commit},outcome_id) {
       axios({
         method: 'get',
-        url: `${BACK_URL}/books/outcome/${outcome_id}`,
+        url: `${BACK_URL}/books/outcome/${outcome_id}/`,
         headers: this.state.setToken
       })
         .then(res => {
@@ -110,13 +113,28 @@ export default new Vuex.Store({
       }
       axios({
         method: 'put',
-        url: `${BACK_URL}/books/outcome/change_state/${this.state.selectOutcome.id}`,
+        url: `${BACK_URL}/books/outcome/change_state/${this.state.selectOutcome.id}/`,
         headers: this.state.setToken,
         data:data
       })
         .then(res => {
           console.log(res.data)
           commit('CHANGE_STATE',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 4. 요금 청구 댓글 전체 조회
+    getOutcomeComment:function ({commit},outcome_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/${outcome_id}/outcome_comment/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          console.log(res.data)
+          commit('GETOUTCOME_COMMENT',res.data) 
         })
         .catch(err => {
           console.log(err)

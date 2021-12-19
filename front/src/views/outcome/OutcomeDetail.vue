@@ -42,21 +42,38 @@
         <!-- 승인대기 -> 반려 -->
         <v-btn v-if="selectOutcome_state_str=='승인대기'" @click="stateToReject">반려</v-btn>
       </div>
+    <hr>  
+    
+    <!-- 댓글창 -->
+    <input @keyup.enter="createOutcomeComment" v-model="inputComment" type="text" class="border">
+    <v-btn @click="createOutcomeComment">댓글 작성</v-btn>
 
-
+    <!-- 댓글 목록 -->
+    <outcome-comment-item
+      v-for="outcome_comment in outcome_comments"
+      :key="outcome_comment.id"
+      :outcome_comment="outcome_comment"
+      @updateComment="updateComment"
+    >
+    </outcome-comment-item>
 
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
-
+import axios from 'axios'
+import OutcomeCommentItem from '@/components/outcome/OutcomeCommentItem'
 export default {
   name:'OutcomeDetail',
+  components:{
+    OutcomeCommentItem
+  },
   data: function(){
     return{
       isClickImage:false, // 이미지 확인
       state_str:'',
+      inputComment:'',  // 댓글 입력
       headers:[
         {
           text: '카테고리',
@@ -77,20 +94,35 @@ export default {
       this.isClickImage = ! this.isClickImage
     },
     stateToReady:function(){
-      this.$store.dispatch('changeState',1)
-      // this.$store.dispatch('selectOutcome',this.$route.params.id)
-      
+      this.$store.dispatch('changeState',1) // 승인 -> 승인대기
     },
     stateToAccept:function(){
-      this.$store.dispatch('changeState',2)
-      // this.$store.dispatch('selectOutcome',this.$route.params.id)
-    
+      this.$store.dispatch('changeState',2) // 승인대기 -> 승인
     },
     stateToReject:function(){
-      this.$store.dispatch('changeState',3)
-      // this.$store.dispatch('selectOutcome',this.$route.params.id)
-      
+      this.$store.dispatch('changeState',3) // 승인대기 -> 반려
     },
+    createOutcomeComment:function(){
+      
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:8000/books/outcome/${this.$route.params.id}/outcome_comment/`,
+        headers: this.$store.state.setToken,
+        data:{content:this.inputComment}
+      })
+        .then(res => {
+          console.log(res)
+          this.$store.dispatch('getOutcomeComment',this.$route.params.id) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.inputComment = ''
+    },
+    // 댓글 수정 이벤트 발생 >> 다시 댓글 목록 가져오기 
+    updateComment:function(){
+      this.$store.dispatch('getOutcomeComment',this.$route.params.id) 
+    }
   },
 
   
@@ -98,6 +130,7 @@ export default {
     ...mapState([
       'selectOutcome',
       'selectOutcome_state_str',
+      'outcome_comments',
       // 'currentuser', // 현재 유저가 권한있으면 버튼 보이게끔
     ]),   
   },

@@ -30,7 +30,7 @@
           >
             <td>{{ item.id }}</td>
             <td>{{ item.created_at }}</td>
-            <td>{{ item.content }}</td>
+            <td>{{ item.title }}</td>
             <td>{{ item.user }}</td>
             <td>{{ item.state }}</td>
           </tr>
@@ -60,7 +60,7 @@ export default {
           value: 'id',
         },
           { text: '글 쓴 날짜', value: 'created_at' },
-          { text: '제목', value: 'content' },
+          { text: '제목', value: 'title' },
           { text: '작성자', value: 'user' },
           { text: '승인여부', value: 'state' },
      ],
@@ -70,6 +70,8 @@ export default {
     moveToDetail:function(outcome_id){
       console.log(outcome_id)
       this.$store.dispatch('selectOutcome',outcome_id)
+      this.$store.dispatch('getOutcomeComment',outcome_id)
+
       this.$router.push({name:'OutcomeDetail', params:{id:outcome_id}})
     },
     moveToCreate:function(){
