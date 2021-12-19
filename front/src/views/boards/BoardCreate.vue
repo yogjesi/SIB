@@ -101,7 +101,7 @@ export default {
           form.append("video",this.video)
           this.isUploading = true
           http
-            .put(`/boards/${this.board.id}`, form, {
+            .post(`/boards/`, form, {
               headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: `JWT ${localStorage.getItem('jwt')}`
