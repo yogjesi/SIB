@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Board
+from .models import Board,Comment
 
 
 class BoardAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class BoardAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Board,BoardAdmin)
+admin.site.register(Comment)
