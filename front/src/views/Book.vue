@@ -1,52 +1,34 @@
 <template>
-    <v-card>
-      <v-card-title>
-      회계장부
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="transactions"
-        :search="search"
-        class="elevation-1"
-      ></v-data-table>
-    </v-card>
+  <div id="Book">
+
+    <hr>
+    <doughnut-chart></doughnut-chart>
+    <hr>
+    <h1>날짜 설정</h1>
+    <Calculator />
+    <check-box></check-box>
+    <hr>
+    <h1>엑셀다운로드</h1>
+    <ExcelDownloadDemo />
+
+  </div>
 </template>
 <script>
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap-vue/dist/bootstrap-vue.css"
+import ExcelDownloadDemo from '@/components/books/ExcelDownloadDemo.vue'
+import CheckBox from '@/components/books/CheckBox.vue'
+import Calculator from "@/components/books/Calculator.vue";
+import DoughnutChart from '@/components/books/DoughnutChart.vue'
+
+
 export default {
   name: 'Book',
-  data: function() {
-      return {
-        search: '', 
-        headers: [
-        {
-          text: 'id',
-          align: 'start',
-          sortable: false,
-          value: 'id',
-        },
-        { text: '날짜', value: 'day' },
-        { text: '분류', value: 'category' },
-        { text: '내용', value: 'content' },
-        { text: '수입액', value: 'income' },
-        { text: '지출액', value: 'outcome' },
-        { text: '잔액', value: 'balance' },
-        ],
-      }
-    },
-  computed: {
-    transactions: function() {
-      return this.$store.state.transactions
-    }
+  components: {
+    Calculator,
+    CheckBox,
+    ExcelDownloadDemo,
+    DoughnutChart,
   },
 }
 </script>
-<style>
-</style>
