@@ -13,7 +13,8 @@ export default new Vuex.Store({
     setToken:Object,
     boardList:[],
     outcomes:[],
-    selectOutcome : null, 
+    selectOutcome : null,
+    selectOutcome_state_str :'',
   },
   mutations: {
     LOGIN: function(state,data){
@@ -46,8 +47,30 @@ export default new Vuex.Store({
       });
     },
     SELECT_OUTCOME:function(state,data){
+      console.log('store-SELECT_OUTCOME'+data.state)
       state.selectOutcome = data
-    }
+      if(data.state == 1){
+        state.selectOutcome_state_str = '승인대기'
+      }else if(data.state == 2){
+        state.selectOutcome_state_str = '승인'
+      }else{
+        state.selectOutcome_state_str = '반려'
+      }
+      console.log(state.selectOutcome_state_str)
+    },
+    CHANGE_STATE:function(state,data){
+      console.log('store-CHANGE_STATE'+data.state)
+      state.selectOutcome = data
+      if(data.state == 1){
+        state.selectOutcome_state_str = '승인대기'
+      }else if(data.state == 2){
+        state.selectOutcome_state_str = '승인'
+      }else{
+        state.selectOutcome_state_str = '반려'
+      }
+      console.log(state.selectOutcome_state_str)
+    },
+
   },
   actions: {
     // 1. 요금 청구 목록 조회
@@ -72,8 +95,28 @@ export default new Vuex.Store({
         headers: this.state.setToken
       })
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           commit('SELECT_OUTCOME',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 3. 요금 청구 Detail - 승인 상태 변경
+    changeState:function({commit},statenum){
+      const data = {
+        ...this.state.selectOutcome,
+        state:statenum
+      }
+      axios({
+        method: 'put',
+        url: `${BACK_URL}/books/outcome/change_state/${this.state.selectOutcome.id}`,
+        headers: this.state.setToken,
+        data:data
+      })
+        .then(res => {
+          console.log(res.data)
+          commit('CHANGE_STATE',res.data) 
         })
         .catch(err => {
           console.log(err)

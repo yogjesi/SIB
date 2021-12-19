@@ -4,9 +4,6 @@
     <div>
       {{selectOutcome.user.username}} | {{selectOutcome.created_at}}
     </div>
-    <img v-if="isClickImage" :src="`http://127.0.0.1:8000${selectOutcome.receipt}`" alt="">
-    <v-btn v-if="isClickImage" @click="clickImage">영수증 확인 완료</v-btn>
-    <v-btn v-if="!isClickImage" @click="clickImage">영수증 확인</v-btn>
 
     <v-data-table
         
@@ -25,11 +22,29 @@
             <td>{{ item.content }}</td>
             <td>{{ item.datetime }}</td>
             <td>{{ item.money }}</td>
-            <td>{{ item.state }}</td>
+            <td>{{ selectOutcome_state_str }}</td>
           </tr>
         </tbody>
       </template>
       </v-data-table>
+      
+    <img v-if="isClickImage" :src="`http://127.0.0.1:8000${selectOutcome.receipt}`" alt="">
+    <v-btn v-if="isClickImage" @click="clickImage">영수증 확인 완료</v-btn>
+    <v-btn v-if="!isClickImage" @click="clickImage">영수증 확인</v-btn>
+    <br><br>
+
+      <div>
+
+        <!-- 승인 -> 승인대기 -->
+        <v-btn v-if="selectOutcome_state_str=='승인'" @click="stateToReady">승인 취소</v-btn>
+        <!-- 승인대기 -> 승인 -->
+        <v-btn v-if="selectOutcome_state_str=='승인대기'" @click="stateToAccept">승인</v-btn>
+        <!-- 승인대기 -> 반려 -->
+        <v-btn v-if="selectOutcome_state_str=='승인대기'" @click="stateToReject">반려</v-btn>
+      </div>
+
+
+
   </div>
 </template>
 
@@ -41,6 +56,7 @@ export default {
   data: function(){
     return{
       isClickImage:false, // 이미지 확인
+      state_str:'',
       headers:[
         {
           text: '카테고리',
@@ -59,12 +75,31 @@ export default {
   methods:{
     clickImage:function(){
       this.isClickImage = ! this.isClickImage
-    }
+    },
+    stateToReady:function(){
+      this.$store.dispatch('changeState',1)
+      // this.$store.dispatch('selectOutcome',this.$route.params.id)
+      
+    },
+    stateToAccept:function(){
+      this.$store.dispatch('changeState',2)
+      // this.$store.dispatch('selectOutcome',this.$route.params.id)
+    
+    },
+    stateToReject:function(){
+      this.$store.dispatch('changeState',3)
+      // this.$store.dispatch('selectOutcome',this.$route.params.id)
+      
+    },
   },
+
+  
   computed:{
     ...mapState([
-      'selectOutcome'
-    ])
+      'selectOutcome',
+      'selectOutcome_state_str',
+      // 'currentuser', // 현재 유저가 권한있으면 버튼 보이게끔
+    ]),   
   },
 }
 </script>

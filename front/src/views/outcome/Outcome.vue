@@ -39,6 +39,8 @@
       </v-data-table>
 
     </v-card>
+    <br>
+    <v-btn @click="moveToCreate">글 작성</v-btn>
     </div>
 </template>
 
@@ -69,6 +71,9 @@ export default {
       console.log(outcome_id)
       this.$store.dispatch('selectOutcome',outcome_id)
       this.$router.push({name:'OutcomeDetail', params:{id:outcome_id}})
+    },
+    moveToCreate:function(){
+      this.$router.push({name:'OutcomeCreate'})
     }
   },
   computed:{
