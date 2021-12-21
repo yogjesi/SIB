@@ -22,35 +22,35 @@ export default new Vuex.Store({
     userWaitList:[],
     commentList:[],
     //book 더미 데이터
-    transactions: [
-      {
-        id: 1,
-        day:'121',
-        category: '활동비',
-        content: '샌드위치',
-        income: '',
-        outcome: '10,000',
-        balance: '30,000',
-      },
-      {
-        id: 2,
-        day:'122',
-        category: '헌금',
-        content: '일요미사',
-        income: '100,000',
-        outcome: '',
-        balance: '130,000',
-      },
-      {
-        id: 3,
-        day:'123',
-        category: '행사비',
-        content: '치킨',
-        income: '',
-        outcome: '100,000',
-        balance: '30,000',
-      },
-    ]
+    // transactions: [
+    //   {
+    //     id: 1,
+    //     day:'121',
+    //     category: '활동비',
+    //     content: '샌드위치',
+    //     income: '',
+    //     outcome: '10,000',
+    //     balance: '30,000',
+    //   },
+    //   {
+    //     id: 2,
+    //     day:'122',
+    //     category: '헌금',
+    //     content: '일요미사',
+    //     income: '100,000',
+    //     outcome: '',
+    //     balance: '130,000',
+    //   },
+    //   {
+    //     id: 3,
+    //     day:'123',
+    //     category: '행사비',
+    //     content: '치킨',
+    //     income: '',
+    //     outcome: '100,000',
+    //     balance: '30,000',
+    //   },
+    // ]
   },
   mutations: {
     LOGIN: function(state,data){
@@ -99,7 +99,11 @@ export default new Vuex.Store({
     },
     USERWAITLIST: function(state,data){
       state.userWaitList = data
-    }
+    },
+    FILTER_DATE: function(state, myArray){
+      console.log(myArray)
+      state.boardList = myArray
+    },
   },
   actions: {
     // 1. 로그인을 위한 actions
@@ -493,8 +497,29 @@ export default new Vuex.Store({
       .catch(err =>{
         console.log(err)
       })
-    }
-  },
+    },
+    //actions : 
+    filterDate:function ( {commit}, dateItem){
+      axios({
+        method: 'GET',
+        url: `${BACK_URL}/boards/`,
+        headers: this.state.setToken
+      })
+      .then(res =>{
+        let myArray = ['와우']
+        for(let i = 0; i < res.data.length; i++) {
+          const yes = res.data[i].created_at
+          console.log(yes)
+          if ( dateItem[0] <= yes && yes <= dateItem[1] ){
+            myArray.push(res.data[i])
+          }
+        }
+
+        console.log(myArray)
+        commit('FILTER_DATE', myArray)
+      })
+      },
+    },  
   modules: {
   }
 })

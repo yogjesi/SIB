@@ -8,9 +8,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
-Vue.use(ElementUI);
 import vueMoment from 'vue-moment' 
+Vue.use(ElementUI);
+
 
 Vue.use(vueMoment)
 

@@ -1,6 +1,6 @@
 <template>
     <div class="result-table">
-      <b-table striped hover bordered :items="transactions"></b-table>
+      <b-table striped hover bordered :items="boardList"></b-table>
       <button type="button" class="download-btn" v-on:click="download">Download</button>
     </div>
 </template>
@@ -28,6 +28,7 @@
 <script>
 import { BTable } from 'bootstrap-vue';
 import XLSX from 'xlsx';
+import {mapState} from 'vuex'
 export default {
     name: 'ExcelDownloadDemo',
     components: {
@@ -35,16 +36,21 @@ export default {
     },
     methods: {
       download : function() {
-        const data = XLSX.utils.json_to_sheet(this.transactions)
+        const data = XLSX.utils.json_to_sheet(this.boardList)
         const wb = XLSX.utils.book_new()
         XLSX.utils.book_append_sheet(wb, data, 'data')
         XLSX.writeFile(wb,'demo.xlsx')
       }
     },
-  computed: {
-    transactions: function() {
-      return this.$store.state.transactions
-    }
+  computed:{
+    ...mapState([
+      'boardList'
+    ])
   },
+  // computed: {
+  //   transactions: function() {
+  //     return this.$store.state.transactions
+  //   },
+  // },
 }
 </script>

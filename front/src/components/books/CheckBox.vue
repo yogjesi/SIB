@@ -1,21 +1,25 @@
 <template>
  <div>
-    <h4>User</h4>
-        <div>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Select <input type="checkbox" @click="selectAll" v-model="allSelected"></th>
-                </tr>
-                <tr v-for="user in users"
-                    :key="user.id">
-                    <td>{{ user.name }}</td>
-                    <td><input type="checkbox" v-model="userIds" :value="user.id"></td>
-                </tr>
-            </table>
+    <h4>카테고리</h4>
+        전체 <input type="checkbox" @click="selectAll" v-model="allSelected">
+        <br>
+        <div style="background-color: red; float:left;">
+          <h4>수입</h4>
+          <div v-for="user in users"
+              :key="user.id">
+              {{ user.name }}
+              <input type="checkbox" v-model="userIds" :value="user.name">
+          </div>
         </div>
-
-        <span>Selected Ids: {{ userIds }}</span>
+        <div style="background-color: blue; float:left;">
+          <h4>지출</h4>
+          <div v-for="outcome in outcomes"
+              :key="outcome.id">
+              <td>{{ outcome.name }}</td>
+              <td><input type="checkbox" v-model="userIds" :value="outcome.name"></td>
+         </div>
+        </div>
+        <div>Selected Ids: {{ userIds }}</div>
 </div>
 
 </template>
@@ -26,16 +30,22 @@ export default {
     data: function() {
       return {
         users: [ 
-            { "id": "1", "name": "Shad Jast", "email": "pfeffer.matt@yahoo.com"}, 
-            { "id": "2", "name": "Duane Metz", "email": "mohammad.ferry@yahoo.com"}, 
-            { "id": "3", "name": "Myah Kris", "email": "evolkman@hotmail.com"}, 
-            { "id": "4", "name": "Dr. Kamron Wunsch", "email": "lenora95@leannon.com"}, 
-            { "id": "5", "name": "Brendon Rogahn", "email": "verlie.buckridge@yahoo.com"}
+            { "id": "1", "name": "재정부"},
+            { "id": "2", "name": "헌금"},
+            { "id": "3", "name": "찬조금"},
+            { "id": "4", "name": "기타수입"},
+        ],
+        outcomes: [ 
+            { "id": "5", "name": "사업행사비"},
+            { "id": "6", "name": "활동비"}, 
+            { "id": "7", "name": "경조비"}, 
+            { "id": "8", "name": "소모품비"}, 
+            { "id": "9", "name": "기타지출"}, 
+
         ],
         selected: [],
         allSelected: false,
         userIds: []
-        // userIds: new set()
       }
     },
     methods: {
@@ -43,14 +53,17 @@ export default {
           var userIds = this.userIds
             if (!this.allSelected) {
               this.users.forEach(function (user) {
-                if (userIds.indexOf(user.id)==-1)
-                  userIds.push(user.id)
-                // userIds.add(user.id) 
+                if (userIds.indexOf(user.name)==-1)
+                  userIds.push(user.name)
+              })
+              this.outcomes.forEach(function (outcome) {
+                if (userIds.indexOf(outcome.name)==-1)
+                  userIds.push(outcome.name)
               })
             this.allSelected = true 
-            }else {
+            }
+            else {
                 this.userIds = []
-                // userIds.clear()
               this.allSelected = false
             }
 

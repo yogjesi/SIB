@@ -1,7 +1,8 @@
 <template>
   <div id="main">
     <div class="container">
-      {{ startDate.toLocaleDateString() }}
+      <!-- {{ startDate.toLocaleDateString() }} -->
+      {{ boardList }}
       <div>
         <h2>Start Date</h2>
         <date-picker
@@ -19,6 +20,7 @@
           :shortcuts="dateShortcuts"
         ></date-picker>
       </div>
+      <button @click="filterDate">조회</button>
     </div>
   </div>
 </template>
@@ -26,7 +28,8 @@
 <script>
 import DatePicker from 'vue2-datepicker'
 import 'vue2-datepicker/index.css'
-
+import {mapState} from 'vuex'
+    
 export default {
   name: "Calculator",
   components: {
@@ -34,7 +37,7 @@ export default {
   },
   data() {
     let startDate = new Date();
-    startDate.setFullYear(startDate.getFullYear() - 1);
+    startDate.setFullYear(startDate.getFullYear());
     startDate.setHours(0, 0, 0, 0);
     
     let endDate = new Date();
@@ -54,6 +57,21 @@ export default {
   },
 
   methods: {
+    filterDate: function() {
+      const new1 = this.startDate.toISOString()
+      const new2 = this.endDate.toISOString()
+      console.log(new1)
+      const dateItem = [
+        {
+        startDate: new1
+        },
+        {
+        endDate: new2
+        }
+      ]
+      // console.log(dateItem)
+      this.$store.dispatch('filterDate', dateItem)
+     },
     startDisable: function (date) {
       return date > this.endDate;
     },
@@ -82,6 +100,11 @@ export default {
         ),
       };
     },
+  },
+  computed:{
+    ...mapState([
+      'boardList'
+    ])
   },
 };
 </script>
