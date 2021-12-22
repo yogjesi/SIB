@@ -7,7 +7,8 @@
         <router-link to="/income">수입입력</router-link> |
         <router-link to="/book">장부확인</router-link> |
         <router-link to="/board">자유게시판</router-link> |
-        <router-link to="/manager">관리자용</router-link> |
+        <router-link v-if="currentUser.authority==3 | this.currentUser.authority==5 | currentUser.is_superuser" to="/manager">관리자용</router-link> 
+        <span v-if="currentUser.authority==3 | this.currentUser.authority==5 | currentUser.is_superuser"> | </span>
         <router-link @click.native="logout" to="#">Logout</router-link>
       </span>
       <span v-else>
@@ -15,7 +16,7 @@
         <router-link to="/signup">회원가입</router-link>
       </span>
     </div>
-    <router-view @login="isLogin=true"/>
+    <router-view @login="isLogin=true"/>  
   </div>
 </template>
 
@@ -39,7 +40,7 @@ export default {
   },
   computed:{
     ...mapState([
-      'setToken',
+      'setToken','currentUser',
     ]),
   },
   created: function() {
@@ -50,8 +51,9 @@ export default {
       // 3. True 로 변경하고 없으면 유지.
       this.isLogin = true
       this.$store.dispatch('setToken',token)
+      this.$store.dispatch('userInformation')
     }else{
-      this.$router.push({name:'Login'})
+      if(this.$route.path!=='/Login') this.$router.push('/Login')
     }
   }
 }

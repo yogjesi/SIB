@@ -2,6 +2,8 @@ from django.db import models
 from rest_framework import serializers
 from .models import Income, Outcome, Outcomecomment
 from django.contrib.auth import get_user_model
+from django.db.models import fields
+
 
 
 # book을 사용하는 페이지 : 
@@ -79,4 +81,38 @@ class IncomeSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Outcome
 #         fields = ('income',)
+
+# 수진님 코드
+class OutcomeSerializer(serializers.ModelSerializer):
+    class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('id','fullname','username',)
+            
+    user= UserSerializer(read_only=True)
+    class Meta:
+        model = Outcome
+        fields = ('id','title','created_at','user','state',)
+
+class OutcomeDetailSerializer(serializers.ModelSerializer):
+    class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('id','fullname','username',)
+            
+    user= UserSerializer(read_only=True)
+    class Meta:
+        model = Outcome
+        fields = '__all__'
+
+class OutcomeCommentSerializer(serializers.ModelSerializer):
+    class UserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('id','fullname','username',)
+            
+    user= UserSerializer(read_only=True)
+    class Meta:
+        model = Outcomecomment
+        fields = '__all__'
 
