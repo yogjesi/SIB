@@ -35,7 +35,7 @@
     <br><br>
 
       <!-- <div v-if="this.$store.state.currentUser == 2"> -->
-      <div>
+      <div v-if="this.$store.state.currentUser == 2">
       
         <!-- 승인 -> 승인대기 -->
         <v-btn v-if="selectOutcome_state_str=='승인'" @click="stateToReady">승인 취소</v-btn>
