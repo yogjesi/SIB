@@ -31,12 +31,10 @@
       </template>
       </v-data-table>
       
-    <img v-if="isClickImage" :src="`http://127.0.0.1:8000${selectOutcome.receipt}`" alt="">
-    <v-btn v-if="isClickImage" @click="clickImage">영수증 확인 완료</v-btn>
-    <v-btn v-if="!isClickImage" @click="clickImage">영수증 확인</v-btn>
+    <img :src="`http://127.0.0.1:8000${selectOutcome.receipt}`" alt="">
     <br><br>
 
-      <div>
+      <div v-if="this.$store.state.currentUser == 2">
 
         <!-- 승인 -> 승인대기 -->
         <v-btn v-if="selectOutcome_state_str=='승인'" @click="stateToReady">승인 취소</v-btn>
@@ -74,7 +72,6 @@ export default {
   },
   data: function(){
     return{
-      isClickImage:false, // 이미지 확인
       state_str:'',
       inputComment:'',  // 댓글 입력
       headers:[
@@ -123,21 +120,25 @@ export default {
         })
     },
     createOutcomeComment:function(){
+      if (this.inputComment){
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:8000/books/outcome/${this.$route.params.id}/outcome_comment/`,
+          headers: this.$store.state.setToken,
+          data:{content:this.inputComment}
+        })
+          .then(res => {
+            console.log(res)
+            this.$store.dispatch('getOutcomeComment',this.$route.params.id) 
+            this.inputComment = ''
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }else{
+        alert("댓글 내용을 작성하세요")
+      }
       
-      axios({
-        method: 'post',
-        url: `http://127.0.0.1:8000/books/outcome/${this.$route.params.id}/outcome_comment/`,
-        headers: this.$store.state.setToken,
-        data:{content:this.inputComment}
-      })
-        .then(res => {
-          console.log(res)
-          this.$store.dispatch('getOutcomeComment',this.$route.params.id) 
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      this.inputComment = ''
     },
     // 댓글 수정 이벤트 발생 >> 다시 댓글 목록 가져오기 
     updateComment:function(){
@@ -145,13 +146,15 @@ export default {
     }
   },
 
-  
+  // created:function(){
+  //   console.log('현재 유저의 정보는 ',this.$store.state.currentUser.authority)
+  // },
   computed:{
     ...mapState([
       'selectOutcome',
       'selectOutcome_state_str',
       'outcome_comments',
-      // 'currentuser', // 현재 유저가 권한있으면 버튼 보이게끔
+      'currentuser', // 현재 유저가 권한있으면 버튼 보이게끔
     ]),   
   },
 }
