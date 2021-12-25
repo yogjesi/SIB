@@ -34,8 +34,9 @@
     <img :src="`http://127.0.0.1:8000${selectOutcome.receipt}`" alt="">
     <br><br>
 
-      <div v-if="this.$store.state.currentUser == 2">
-
+      <!-- <div v-if="this.$store.state.currentUser == 2"> -->
+      <div>
+      
         <!-- 승인 -> 승인대기 -->
         <v-btn v-if="selectOutcome_state_str=='승인'" @click="stateToReady">승인 취소</v-btn>
         <!-- 승인대기 -> 승인 -->
