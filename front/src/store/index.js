@@ -22,6 +22,10 @@ export default new Vuex.Store({
     userWaitList:[],
     commentList:[],
     bookList:[],
+    outcomes:[],
+    selectOutcome : null,
+    selectOutcome_state_str :'',
+    outcome_comments:null,
   },
   mutations: {
     LOGIN: function(state,data){
@@ -74,8 +78,107 @@ export default new Vuex.Store({
     FILTER_DATE: function(state, myArray){
       state.bookList = myArray
     },
+    GETOUTCOMES:function(state,data){
+      state.outcomes = []
+      data.forEach(data => {
+        const outcome = {
+          id: data.id,
+          created_at: data.created_at,
+          title: data.title,
+          user: data.user.username,
+          state: data.state,
+        } 
+        state.outcomes.push(outcome)  
+      });
+    },
+    SELECT_OUTCOME:function(state,data){
+      state.selectOutcome = data
+      if(data.state == 1){
+        state.selectOutcome_state_str = '승인대기'
+      }else if(data.state == 2){
+        state.selectOutcome_state_str = '승인'
+      }else{
+        state.selectOutcome_state_str = '반려'
+      }
+    },
+    CHANGE_STATE:function(state,data){
+      state.selectOutcome = data
+      if(data.state == 1){
+        state.selectOutcome_state_str = '승인대기'
+      }else if(data.state == 2){
+        state.selectOutcome_state_str = '승인'
+      }else{
+        state.selectOutcome_state_str = '반려'
+      }
+    },
+    GETOUTCOME_COMMENT:function(state,data){
+      state.outcome_comments = data
+    },
+
   },
   actions: {
+    // 1. 요금 청구 목록 조회
+    getOutcomes: function ({commit}) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GETOUTCOMES',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 2. 요금 청구 Detail 조회
+    selectOutcome: function ({commit},outcome_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/${outcome_id}/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('SELECT_OUTCOME',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 3. 요금 청구 Detail - 승인 상태 변경
+    changeState:function({commit},statenum){
+      const data = {
+        ...this.state.selectOutcome,
+        state:statenum
+      }
+      axios({
+        method: 'put',
+        url: `${BACK_URL}/books/outcome/change_state/${this.state.selectOutcome.id}/`,
+        headers: this.state.setToken,
+        data:data
+      })
+        .then(res => {
+          commit('CHANGE_STATE',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 4. 요금 청구 댓글 전체 조회
+    getOutcomeComment:function ({commit},outcome_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/${outcome_id}/outcome_comment/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GETOUTCOME_COMMENT',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
     // 1. 로그인을 위한 actions
     login : function(context,credentials){
       axios({

@@ -31,8 +31,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <v-btn color="deep-purple darken3 white--text" data-bs-dismiss="modal" @click="updateComment">Submit</v-btn>
-            <v-btn color="deep-purple darken3 white--text" outlined data-bs-dismiss="modal">Close</v-btn>
+            <v-btn data-bs-dismiss="modal" @click="updateComment">Submit</v-btn>
+            <v-btn data-bs-dismiss="modal">Close</v-btn>
           </div>
         </div>
       </div>
@@ -42,7 +42,6 @@
   <div class="m-3">
       <v-btn
            v-if="isMycomment"
-          color="deep-purple darken3 white--text"
           data-bs-toggle="modal" :data-bs-target="`#deleteComment-${outcome_comment.id}`"
         >
         삭제
@@ -106,19 +105,23 @@ export default {
         })
     },
     updateComment:function(){
-      axios({
-        method: 'put',
-        url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
-        headers: this.$store.state.setToken,
-        data:{content:this.inputContent}
-      })
-        .then(res => {
-          console.log(res.data)
-          this.$emit('updateComment')
+      if (this.inputContent){
+        axios({
+          method: 'put',
+          url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
+          headers: this.$store.state.setToken,
+          data:{content:this.inputContent}
         })
-        .catch(err => {
-          console.log(err)
-        })
+          .then(res => {
+            console.log(res.data)
+            this.$emit('updateComment')
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }else{
+        alert("댓글내용을 입력하세요")
+      }
     },
     deleteComment:function(){
       axios({

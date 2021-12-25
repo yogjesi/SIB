@@ -7,7 +7,7 @@ from .models import Income, Outcome, Outcomecomment
 from .serializers import (
     IncomeListSerializer, 
     IncomeSerializer,
-    BookSerializer, OutcomeSerializer,OutcomeDetailSerializer,OutcomeCommentSerializer
+    OutcomeSerializer,OutcomeDetailSerializer,OutcomeCommentSerializer
     )
 
 # Create your views here.
@@ -136,7 +136,7 @@ def change_state(request,pk):
 def outcome_comment(request,pk):
     # 요금청구 댓글 전체 조회
     if request.method == 'GET':
-        outcome_comments = Outcomecomment.objects.filter(outcome=pk)
+        outcome_comments = Outcomecomment.objects.filter(outcome=pk).order_by('-pk')
         serializer = OutcomeCommentSerializer(outcome_comments, many=True)
         return Response(serializer.data)
 
