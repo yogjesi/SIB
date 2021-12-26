@@ -21,40 +21,11 @@ export default new Vuex.Store({
     userList:[],
     userWaitList:[],
     commentList:[],
+    bookList:[],
     outcomes:[],
     selectOutcome : null,
     selectOutcome_state_str :'',
     outcome_comments:null,
-    //book 더미 데이터
-    transactions: [
-      {
-        id: 1,
-        day:'121',
-        category: '활동비',
-        content: '샌드위치',
-        income: '',
-        outcome: '10,000',
-        balance: '30,000',
-      },
-      {
-        id: 2,
-        day:'122',
-        category: '헌금',
-        content: '일요미사',
-        income: '100,000',
-        outcome: '',
-        balance: '130,000',
-      },
-      {
-        id: 3,
-        day:'123',
-        category: '행사비',
-        content: '치킨',
-        income: '',
-        outcome: '100,000',
-        balance: '30,000',
-      },
-    ]
   },
   mutations: {
     LOGIN: function(state,data){
@@ -104,6 +75,9 @@ export default new Vuex.Store({
     USERWAITLIST: function(state,data){
       state.userWaitList = data
     },
+    FILTER_DATE: function(state, myArray){
+      state.bookList = myArray
+    },
     GETOUTCOMES:function(state,data){
       state.outcomes = []
       data.forEach(data => {
@@ -140,6 +114,7 @@ export default new Vuex.Store({
     GETOUTCOME_COMMENT:function(state,data){
       state.outcome_comments = data
     },
+
   },
   actions: {
     // 1. 요금 청구 목록 조회
@@ -203,6 +178,7 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
+
     // 1. 로그인을 위한 actions
     login : function(context,credentials){
       axios({
@@ -594,8 +570,36 @@ export default new Vuex.Store({
       .catch(err =>{
         console.log(err)
       })
-    }
-  },
+    },
+    //actions : 
+    filterDate:function ( {commit}, filterItems){
+      axios({
+        method: 'GET',
+        url: `${BACK_URL}/boards/`,
+        headers: this.state.setToken
+      })
+      .then(res =>{
+        let myArray = []
+        let startDate = JSON.stringify(filterItems[0].startDate).slice(1,11)
+        let endDate = JSON.stringify(filterItems[1].endDate).slice(1,11)
+        
+
+        // let category = Object.values(filterItems[2])
+        
+        
+        for(let i = 0; i < res.data.length; i++) {
+          const created_at = res.data[i].created_at.substr(0,10)
+          // const title = res.data[i].title
+          if ( startDate <= created_at && created_at <= endDate
+            // && Object.values(category).include(title)
+            ){
+            myArray.push(res.data[i])
+          }
+        }
+        commit('FILTER_DATE', myArray)
+      })
+      },
+    },  
   modules: {
   }
 })
