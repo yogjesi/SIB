@@ -175,19 +175,19 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # DRF의 각 view 함수에 대한 default 권한 및 인증 설정
 # 회원 인증 여부와 JWT 토큰 인증에 관한 설정
-# REST_FRAMEWORK = {
-#     # 함수 시작 시 확인되는 기본 권한을 결정하는 권한 클래스의 목록
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         # 인증되지 않은 사용자에 대한 권한 거부, 인증되면 권한 허용
-#         # 등록된 사용자만 API에 엑세스할 수 있도록 하는 경우에 적합함.
-#         'rest_framework.permissions.IsAuthenticated',
-#     ),
-#     # request.user 속성에 엑세스할 때 사용되는 기본 인증 사용자 집합을 결정
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         # 토큰 기반 중 JWT 를 활용하여 JWT 자체를 검증, JWT 유효 여부만 파악한다.
-#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-#     ),
-# }
+REST_FRAMEWORK = {
+    # 함수 시작 시 확인되는 기본 권한을 결정하는 권한 클래스의 목록
+    'DEFAULT_PERMISSION_CLASSES': (
+        # 인증되지 않은 사용자에 대한 권한 거부, 인증되면 권한 허용
+        # 등록된 사용자만 API에 엑세스할 수 있도록 하는 경우에 적합함.
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    # request.user 속성에 엑세스할 때 사용되는 기본 인증 사용자 집합을 결정
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 토큰 기반 중 JWT 를 활용하여 JWT 자체를 검증, JWT 유효 여부만 파악한다.
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
 
 # 토큰 만료기간 변경
 JWT_AUTH ={
