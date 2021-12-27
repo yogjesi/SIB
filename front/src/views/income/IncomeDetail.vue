@@ -1,13 +1,11 @@
 <template>
   <div>
-    <h1>수입{{this.$route.params.id}} 디테일</h1>
+    <h1>{{this.$route.params.id}}번 상세보기</h1>
     <div>
-      {{selectIncome.created_at}}
+      <h6>작성 일자 : {{selectIncome.created_at}}</h6>
     </div>
     <v-btn @click="moveToUpdate">수정</v-btn>
     <v-btn @click="deleteIncome">삭제</v-btn>
-
-
     <v-data-table
         
         :headers="headers"
@@ -50,7 +48,7 @@ export default {
           { text: '내용', value: 'content' },
           { text: '사용일시', value: 'datetime' },
           { text: '금액', value: 'money' },
-      ]
+      ],
     }
   },
   methods:{
