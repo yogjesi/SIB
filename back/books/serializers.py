@@ -73,13 +73,13 @@ class OutcomeCommentSerializer(serializers.ModelSerializer):
 class BookIncomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
-        fields = ('id', 'category', 'title', 'money', 'datetime',)
+        fields = ('datetime', 'category', 'title', 'in_money',)
 
 # 3-2. 장부 확인 페이지용 지출
 class BookOutcomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Outcome
-        fields = ('id', 'category', 'title', 'money', 'datetime',)
+        fields = ('datetime', 'category', 'title', 'out_money',)
 
 
 # 시도하고 실패한 것들...ㅠㅠ
