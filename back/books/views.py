@@ -21,11 +21,13 @@ def income(request):
         incomes = Income.objects.all()
         serializer = IncomeListSerializer(incomes, many=True)
         return Response(serializer.data)
+
     elif request.method == 'POST':
         serializer = IncomeSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 # 1-2
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -62,7 +64,7 @@ def outcome(request):
         if serializer.is_valid(raise_exception=True):
             outcome = serializer.save(user=request.user)       
             outcome.save()
-
+            print(outcome)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 

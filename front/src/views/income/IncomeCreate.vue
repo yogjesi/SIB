@@ -1,38 +1,39 @@
 <template>
   <div>
-    <div>
-      <form @submit.prevent="formSubmit" method="post">
-        <div>
-          <select id="form-select" class="form-select" aria-label="Default select example">
-            <option selected value="재정부">재정부</option>
-            <option value="헌금">헌금</option>
-            <option value="찬조금">찬조금</option>
-            <option value="기타">기타수입</option>
-          </select>
-        </div>
-          <h1>수입 작성 양식</h1>
-          <br>
-          <h2>수입 내역</h2>
-          <input type="text" placeholder="수입 타이틀" 
-          required
-          v-model.trim="inputTitle">
-          <h2>금액</h2>
-          <input type="Number" placeholder="금액" 
-          required
-          v-model.trim="inputMoney">
-          <h2>수입 일시</h2>
-          <input type="date" pattern="\d{4}-\d{2}-\d{2}" 
-          required
-          v-model.trim="inputDatetime">
-          <h2>수입 상세 내역</h2>
-          <input type="text" placeholder="수입에 관한 상세 내역을 입력해주세요." 
-          required
-          v-model.trim="inputContent">
-          <br>
-          <v-btn color="deep-purple white--text" class="m-2" outlined type="submit">작성 완료</v-btn>
-      </form>
-    </div>
-
+    <v-card>
+      <div>
+        <form @submit.prevent="formSubmit" method="post">
+          <div>
+            <select id="form-select" class="form-select" aria-label="Default select example">
+              <option selected value="재정부">재정부</option>
+              <option value="헌금">헌금</option>
+              <option value="찬조금">찬조금</option>
+              <option value="기타">기타 수입</option>
+            </select>
+          </div>
+            <h1>수입 작성 양식</h1>
+            <br>
+            <h2>수입 내역</h2>
+            <input type="text" placeholder="수입 타이틀" 
+            required
+            v-model.trim="inputTitle">
+            <h2>금액</h2>
+            <input type="Number" placeholder="금액" 
+            required
+            v-model.trim="inputMoney">
+            <h2>수입 일시</h2>
+            <input type="date" pattern="\d{4}-\d{2}-\d{2}" 
+            required
+            v-model.trim="inputDatetime">
+            <h2>수입 상세 내역</h2>
+            <input type="text" placeholder="수입에 관한 상세 내역을 입력해주세요." 
+            required
+            v-model.trim="inputContent">
+            <br>
+            <v-btn color="deep-purple white--text" class="m-2" outlined type="submit">작성 완료</v-btn>
+        </form>
+      </div>
+    </v-card>
   </div>
 </template>
 
@@ -57,6 +58,7 @@ export default {
     },
     async formSubmit() {
       let form = new FormData()
+
       var selectCategory = document.querySelector('#form-select').value
       if (selectCategory){
         form.append("category",selectCategory)
@@ -79,7 +81,8 @@ export default {
         alert("수입 금액을 입력하세요.")
       }
       if (this.inputDatetime){
-        form.append("datetime", this.inputDatetime)
+        form.append("datetime", this.inputDatetime);
+        console.log('success')
       }else{
         alert("수입일자를 기입하세요.")
       }

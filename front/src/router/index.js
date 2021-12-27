@@ -26,26 +26,6 @@ const routes = [
     component: Home
   },
   {
-    path: '/income',
-    name: 'Income',
-    component: Income
-  },
-  {
-    path: '/income/:incomePk',
-    name: 'IncomeDetail',
-    component: IncomeDetail
-  },
-  {
-    path: '/income/create',
-    name: 'IncomeCreate',
-    component: IncomeCreate
-  },
-  {
-    path: '/income/update',
-    name: 'IncomeUpdate',
-    component: IncomeUpdate
-  },
-  {
     path: '/board',
     name: 'Board',
     component: Board

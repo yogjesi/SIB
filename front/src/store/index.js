@@ -27,8 +27,8 @@ export default new Vuex.Store({
     selectOutcome_state_str :'',
     outcome_comments:null,
     incomes:[],
-    selectIncome: null,
-  },
+    selectIncome:  {id: "", category: "", title: "", content: "", money: "", created_at:"", datetime: ""}
+ },
   mutations: {
     LOGIN: function(state,data){
       const config ={
@@ -116,14 +116,15 @@ export default new Vuex.Store({
     GETOUTCOME_COMMENT:function(state,data){
       state.outcome_comments = data
     },
-    GETINCOMES:function(state,data){
+    GET_INCOMES:function(state,data){
       state.incomes = []
       data.forEach(data => {
         const income = {
           id: data.id,
           money: data.money,
           title: data.title,
-          datetime:data.datetime
+          datetime:data.datetime,
+          created_at: data.created_at
         } 
         state.incomes.push(income)  
       });
@@ -204,7 +205,7 @@ export default new Vuex.Store({
         headers: this.state.setToken
       })
         .then(res => {
-          commit('GETINCOMES',res.data) 
+          commit('GET_INCOMES',res.data) 
         })
         .catch(err => {
           console.log(err)
