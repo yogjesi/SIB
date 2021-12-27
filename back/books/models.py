@@ -9,7 +9,7 @@ class Income(models.Model):
     content = models.TextField()
     money = models.DecimalField(max_digits=10,decimal_places=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    datetime = models.DateTimeField()
+    datetime = models.DateField()
 
 class Outcome(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
