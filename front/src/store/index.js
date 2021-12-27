@@ -26,6 +26,8 @@ export default new Vuex.Store({
     selectOutcome : null,
     selectOutcome_state_str :'',
     outcome_comments:null,
+    incomes:[],
+    selectIncome: null,
   },
   mutations: {
     LOGIN: function(state,data){
@@ -114,7 +116,21 @@ export default new Vuex.Store({
     GETOUTCOME_COMMENT:function(state,data){
       state.outcome_comments = data
     },
-
+    GETINCOMES:function(state,data){
+      state.incomes = []
+      data.forEach(data => {
+        const income = {
+          id: data.id,
+          money: data.money,
+          title: data.title,
+          datetime:data.datetime
+        } 
+        state.incomes.push(income)  
+      });
+    },
+    SELECT_INCOME:function(state,data){
+      state.selectIncome = data
+    },
   },
   actions: {
     // 1. 요금 청구 목록 조회
@@ -179,6 +195,37 @@ export default new Vuex.Store({
         })
     },
 
+    // 수입 입력
+    // 1. 수입 목록 조회
+    getIncomes: function ({commit}) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/income/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GETINCOMES',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 2. 수입 Detail 조회
+    selectIncome: function ({commit},income_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/income/${income_id}/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('SELECT_INCOME',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    // 계정관리
     // 1. 로그인을 위한 actions
     login : function(context,credentials){
       axios({

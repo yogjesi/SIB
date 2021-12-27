@@ -24,7 +24,7 @@ def income(request):
     elif request.method == 'POST':
         serializer = IncomeSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # 1-2
@@ -41,7 +41,7 @@ def income_detail(request, income_pk):
             return Response(serializer.data)
     elif request.method == 'DELETE':
         income.delete()
-        return Response({'id': income_pk}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'delete': f'수입 청구 글 {income_pk}번이 삭제되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
 
 
 # 2-1

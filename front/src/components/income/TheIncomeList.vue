@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <table>
+  <div class="container">
+    <!-- <table>
       <thead>
         <tr>
           <th>글번호</th>
@@ -21,26 +21,33 @@
     :total-rows="rows"
     :per-page="perPage"
     aria-controls="my-table"
-    ></b-pagination>
+    ></b-pagination> -->
   </div>
 </template>
 
 <script>
-import TheIncomeListItem from '@/components/Income/TheIncomeListItem'
-export default {
-  name:'TheIncomeList',
-  data: function() {
-    return {
-      perPage: 10,
-      currentPage:1,
-      pageNum:0
-    }
-  },
-  components: {
-    TheIncomeListItem,
-  }
+// import TheIncomeListItem from '@/components/income/TheIncomeListItem'
+// export default {
+//   name:'TheIncomeList',
+//   data: function() {
+//     return {
+//       perPage: 10,
+//       currentPage:1,
+//       pageNum:0
+//     }
+//   },
+//   components: {
+//     TheIncomeListItem,
+//   },
+//   computed: {
+//     rows() {
+//       const start = (this.currentPage-1)*this.perPage,
+//       end = start + this.perPage;
+//       return this.incomeList.slice(start, end);
+//     },
+//   }
 
-}
+// }
 </script>
 
 <style>
