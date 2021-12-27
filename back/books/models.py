@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.deletion import CASCADE
 
 # Create your models here.
 class Income(models.Model):
@@ -28,3 +29,8 @@ class Outcomecomment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     content = models.TextField()
     outcome = models.ForeignKey(Outcome,on_delete=models.CASCADE)
+
+# # 장부용
+# class IncomeOutcome(models.Model):
+#     income = models.ForeignKey(Income, on_delete=models.CASCADE, null=True)
+#     outcome = models.ForeignKey(Outcome, on_delete=models.CASCADE, null=True)

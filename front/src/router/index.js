@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
-import Income from '@/views/Income.vue'
+import Income from '@/views/income/Income.vue'
+import IncomeCreate from '@/views/income/IncomeCreate.vue'
+import IncomeDetail from '@/views/income/IncomeDetail.vue'
+import IncomeUpdate from '@/views/income/IncomeUpdate.vue'
 import Board from '@/views/boards/Board.vue'
 import BoardDetail from '@/views/boards/BoardDetail.vue'
 import BoardCreate from '@/views/boards/BoardCreate.vue'
@@ -26,6 +29,21 @@ const routes = [
     path: '/income',
     name: 'Income',
     component: Income
+  },
+  {
+    path: '/income/:incomePk',
+    name: 'IncomeDetail',
+    component: IncomeDetail
+  },
+  {
+    path: '/income/create',
+    name: 'IncomeCreate',
+    component: IncomeCreate
+  },
+  {
+    path: '/income/update',
+    name: 'IncomeUpdate',
+    component: IncomeUpdate
   },
   {
     path: '/board',

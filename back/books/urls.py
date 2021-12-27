@@ -25,7 +25,8 @@ urlpatterns = [
 
     # 3. 장부 확인에 관하여
     # 3-1. 장부 페이지 보여주기
-    # path('show/', views.show),
+    path('show/income/', views.show_income),
+    path('show/outcome/', views.show_outcome),
 
     # 요금청구 글 전체 조회
     path('outcome/',views.outcome),
