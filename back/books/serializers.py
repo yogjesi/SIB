@@ -18,7 +18,7 @@ from django.contrib.auth import get_user_model
 class IncomeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
-        fields = ('id', 'category', 'title', 'money', 'datetime',)
+        fields = ('id', 'category', 'title', 'in_money', 'datetime',)
 
 
 # 1-2. 수입 디테일 페이지에서 쓰면 되는 거!
@@ -82,29 +82,4 @@ class BookOutcomeSerializer(serializers.ModelSerializer):
         fields = ('datetime', 'category', 'title', 'out_money',)
 
 
-# 시도하고 실패한 것들...ㅠㅠ
-# class BookSerializer(serializers.ModelSerializer):
-#     class BookIncomeSerializer(serializers.ModelSerializer):
-#         class Meta:
-#             model = Income
-#             fields = ('id', 'category', 'title', 'money', 'datetime',)
-#     income = BookIncomeSerializer(read_only=True)
-#     class BookOutcomeSerializer(serializers.ModelSerializer):
-#         class Meta:
-#             model = Outcome
-#             fields = ('id', 'category', 'title', 'money', 'datetime',)
-#     outcome = BookOutcomeSerializer(read_only=True)
-#     class Meta:
-#         model = Income, Outcome
-#         fields = ('income','outcome',)
-
-# 테스트용
-# class BookListSerializer(serializers.ModelSerializer):
-#     title = serializers.CharField(max_length=100)
-#     category = serializers.CharField(max_length=100)
-#     money = serializers.DecimalField(max_digits=10, decimal_places=0)
-#     datetime = serializers.DateTimeField()
-#     class Meta:
-#         model = Income, Outcome
-#         fields = ('title','category','money','datetime')
 

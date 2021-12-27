@@ -29,6 +29,7 @@
             @click="moveToDetail(item.id)"
           >
             <td>{{ item.id }}</td>
+            <td>{{ item.category }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.datetime }}</td>
             <td>{{ item.money }}</td>
@@ -60,6 +61,7 @@ export default {
           value: 'id',
         },
           // { text: '글 쓴 날짜', value: 'created_at' },
+          { text: '분류', value: 'category' },
           { text: '제목', value: 'title' },
           { text: '수입일', value:'datetime'},
           { text: '금액', value: 'money'},
