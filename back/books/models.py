@@ -7,7 +7,7 @@ class Income(models.Model):
     category = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     content = models.TextField()
-    money = models.DecimalField(max_digits=10,decimal_places=0)
+    in_money = models.DecimalField(max_digits=10,decimal_places=0)
     created_at = models.DateTimeField(auto_now_add=True)
     datetime = models.DateField()
 
@@ -21,7 +21,7 @@ class Outcome(models.Model):
     datetime = models.DateField()
     # 1 : 승인대기, 2 : 승인, 3 : 반려
     state = models.IntegerField(default=1)
-    money = models.DecimalField(max_digits=10,decimal_places=0)
+    out_money = models.DecimalField(max_digits=10,decimal_places=0)
     alarm = models.BooleanField()
     receipt = models.ImageField(upload_to='outcome/',null=True)
 

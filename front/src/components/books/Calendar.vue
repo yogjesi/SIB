@@ -15,7 +15,6 @@
         required
         v-model.trim="endDate"
       >
-    <hr>
     <h4>카테고리</h4>
         <div>
           전체 <input type="checkbox" @click="selectAll" v-model="allSelected">
@@ -31,7 +30,7 @@
           </div>
           <hr>
           
-          <div>지출
+          <div>
             <div 
               v-for="outcome in outcomes"
               :key="outcome.id">
@@ -43,67 +42,100 @@
         </div>
       </div>
     <br>
-  <div>Selected Ids: {{ categoryIds }}</div>
-    <button style="background-color:red;" @click="filterDate">조회</button>
+    <button class="btn" @click="filterDate">조회</button>
+      </div>
     <hr>
-    <h4>장부</h4>
-    <div class="result-table">
-      <b-table striped hover bordered :items="this.bookList"></b-table>
-      <button type="button" v-on:click="onexport">Excel download</button>
-    </div>
+  <button type="button" v-on:click="onexport">Excel download</button>
+  <div id="app">
+    <v-app class="container">
+        <h2 class="font-weight-light py-4">장부</h2>
+        <v-card>
+          <!-- 잔액 : {{  sumField('in_money') - sumField('out_money')}} -->
+            <v-data-table 
+                :headers="headers" 
+                :items="this.bookList" item-key="datetime">
+                <template v-slot:item="{ item }">
+                    <tr>
+                        <td></td>
+                        <td>{{item.datetime}}</td>
+                        <td>{{item.category}}</td>
+                        <td>{{item.title}}</td>
+                        <td>{{item.in_money}}</td>
+                        <td>{{item.out_money}}</td>
+                        <td>{{ sumField('in_money') - sumField('out_money') }}</td>
+                    </tr>
+                </template>
+                <template slot="body.append">
+                    <tr>
+                        <th class="title">Totals</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>{{ sumField('in_money') }}</th>
+                        <th>{{ sumField('out_money') }}</th>
+                    </tr>
+                </template>
+            </v-data-table>
+        </v-card>
+    </v-app>
+</div>
   </div>
-  </div>
+
+  
 </template>
 
 <script>
-import { BTable } from 'bootstrap-vue'
 import {mapState} from 'vuex'
 import XLSX from 'xlsx'
 
 export default {
   name: 'Calendar',
-  components: {
-    BTable
-  },
   data: function(){
     return{
+      headers: [
+        {
+          text: "",
+          align: "start",
+          sortable: false,
+          value: "name"
+        },
+        { text: '날짜', value: 'datetime' },
+        { text: '카테고리', value: 'category' },
+        { text: '내용', value: 'title' },
+        { text: '수입', value: 'in_money' },
+        { text: '지출', value: 'out_money' },
+        { text: '잔액', value: '' },
+      ],
       startDate:null,
       endDate:null,
       incomes: [ 
         { "id": "1", "name": "재정부"},
         { "id": "2", "name": "헌금"},
         { "id": "3", "name": "찬조금"},
-        { "id": "4", "name": "수입기타"},
-        { "id": "10", "name": "제목1"},
-        { "id": "11", "name": "글 제목2"},
-        { "id": "12", "name": "글 제목"}, 
+        { "id": "4", "name": "기타수입"},
         ],
         outcomes: [ 
           { "id": "5", "name": "사업행사비"},
           { "id": "6", "name": "활동비"}, 
           { "id": "7", "name": "경조비"}, 
           { "id": "8", "name": "소모품비"}, 
-          { "id": "9", "name": "지출기타"}, 
+          { "id": "9", "name": "기타지출"}, 
         ],
         selected: [],
         allSelected: false,
         categoryIds: [],
-        
     }
   },
   methods: {
+    sumField(key) {
+      return this.bookList.reduce((a, b) => Number(a) + Number(b[key] || 0), 0)
+    },
     filterDate: function() {
-      const filterItems = [
-        {
-          startDate : this.startDate
-        },
-        {
-        endDate: this.endDate
-        },
-        {
+      const filterItems = {
+        startDate: this.startDate,
+        endDate: this.endDate,
         categoryIds: this.categoryIds
-        }
-      ]
+      }
       this.$store.dispatch('filterDate', filterItems)
     },
 

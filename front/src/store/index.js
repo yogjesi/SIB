@@ -619,35 +619,53 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    //actions : 
+
+    //1. 장부 날짜 필터링
     filterDate:function ( {commit}, filterItems){
       axios({
         method: 'GET',
-        url: `${BACK_URL}/boards/`,
+        url: `${BACK_URL}/books/show/income`, 
         headers: this.state.setToken
       })
       .then(res =>{
         let myArray = []
-        let startDate = JSON.stringify(filterItems[0].startDate).slice(1,11)
-        let endDate = JSON.stringify(filterItems[1].endDate).slice(1,11)
-        
+        let startDate = JSON.stringify(filterItems.startDate).slice(1,11)
+        let endDate = JSON.stringify(filterItems.endDate).slice(1,11)
+        let category = filterItems.categoryIds
 
-        // let category = Object.values(filterItems[2])
-        
-        
         for(let i = 0; i < res.data.length; i++) {
-          const created_at = res.data[i].created_at.substr(0,10)
-          // const title = res.data[i].title
-          if ( startDate <= created_at && created_at <= endDate
-            // && Object.values(category).include(title)
-            ){
-            myArray.push(res.data[i])
+          const datetime = res.data[i].datetime
+          const out_cate = res.data[i].category
+          for (let j = 0; j < Object.values(category).length; j++){
+            if ( startDate <= datetime && datetime <= endDate
+              && Object.values(category)[j] == out_cate
+              ){
+              myArray.push(res.data[i])
+              }
           }
         }
-        commit('FILTER_DATE', myArray)
-      })
-      },
-    },  
+        axios({
+          method: 'GET',
+          url: `${BACK_URL}/books/show/outcome`, 
+          headers: this.state.setToken
+        })
+        .then(res =>{
+          for(let i = 0; i < res.data.length; i++) {
+            const datetime = res.data[i].datetime
+            const out_cate = res.data[i].category
+            for (let j = 0; j < Object.values(category).length; j++){
+              if ( startDate <= datetime && datetime <= endDate
+                && Object.values(category)[j] == out_cate
+                ){
+                myArray.push(res.data[i])
+                }
+            }
+          }
+        })
+      commit('FILTER_DATE', myArray)
+    })
+    },
+  },
   modules: {
   }
 })
