@@ -105,6 +105,26 @@ const routes = [
     name: 'OutcomeUpdate',
     component: OutcomeUpdate
   },
+  {
+    path: '/income',
+    name: 'Income',
+    component: Income
+  },
+  {
+    path: '/incomedetail/:id',
+    name: 'IncomeDetail',
+    component: IncomeDetail
+  },
+  {
+    path: '/incomecreate',
+    name: 'IncomeCreate',
+    component: IncomeCreate
+  },
+  {
+    path: '/incomeupdate/:id',
+    name: 'IncomeUpdate',
+    component: IncomeUpdate
+  },
 
 ]
 

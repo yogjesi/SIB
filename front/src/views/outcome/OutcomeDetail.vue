@@ -29,7 +29,7 @@
           </tr>
         </tbody>
       </template>
-      </v-data-table>
+    </v-data-table>
       
     <img :src="`http://127.0.0.1:8000${selectOutcome.receipt}`" alt="">
     <br><br>
