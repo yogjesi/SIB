@@ -27,7 +27,7 @@ export default new Vuex.Store({
     selectOutcome_state_str :'',
     outcome_comments:null,
     incomes:[],
-    selectIncome:  {id: "", category: "", title: "", content: "", money: "", created_at:"", datetime: ""}
+    selectIncome:  {id: "", category: "", title: "", content: "", in_money: "", created_at:"", datetime: ""}
  },
   mutations: {
     LOGIN: function(state,data){
@@ -121,7 +121,8 @@ export default new Vuex.Store({
       data.forEach(data => {
         const income = {
           id: data.id,
-          money: data.money,
+          in_money: data.in_money,
+          category: data.category,
           title: data.title,
           datetime:data.datetime,
           created_at: data.created_at

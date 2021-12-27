@@ -76,7 +76,7 @@ export default {
         alert("상세수입경로를 입력하세요.")
       }
       if (this.inputMoney){
-        form.append("money", this.inputMoney)
+        form.append("in_money", this.inputMoney)
       }else{
         alert("수입 금액을 입력하세요.")
       }

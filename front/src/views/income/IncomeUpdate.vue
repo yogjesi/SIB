@@ -19,7 +19,7 @@
         <h2>금액</h2>
         <input type="text" placeholder="금액" 
         required
-        v-model.trim="income.money">
+        v-model.trim="income.in_money">
         <h2>수입 일시</h2>
         <input type="date" pattern="\d{4}-\d{2}-\d{2}" 
         required
@@ -32,6 +32,7 @@
         <v-btn color="deep-purple white--text" class="m-2" outlined type="submit">작성 완료</v-btn>
       </form>
     </div>
+    {{income}}
 
   </div>
 </template>
@@ -79,8 +80,8 @@ export default {
       }else{
         alert("상세수입경로를 입력하세요.")
       }
-      if (this.income.money){
-        form.append("money", this.income.money)
+      if (this.income.in_money){
+        form.append("in_money", this.income.in_money)
       }else{
         alert("수입 금액을 입력하세요.")
       }

@@ -24,6 +24,7 @@ def income(request):
 
     elif request.method == 'POST':
         serializer = IncomeSerializer(data=request.data)
+        print(serializer)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
