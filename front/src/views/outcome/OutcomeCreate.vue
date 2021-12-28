@@ -11,7 +11,7 @@
               <option value="경조비">경조비</option>
               <option value="교통비">교통비</option>
               <option value="소모품비">소모품비</option>
-              <option value="기타">기타</option>
+              <option value="기타">기타지출</option>
             </select>
           </div>
           <br>
@@ -27,7 +27,7 @@
         <br>
         <div class="m-2">
           <div>지출 금액</div>
-              <input type="text"  class="border m-2"
+              <input type="Number"  class="border m-2"
                 placeholder="금액"
                 required
                 v-model.trim="inputMoney"

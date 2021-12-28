@@ -29,6 +29,9 @@ export default new Vuex.Store({
     outcome_comments:null,
     bibleList:Object
   },
+    incomes:[],
+    selectIncome:  {id: "", category: "", title: "", content: "", in_money: "", created_at:"", datetime: ""}
+ },
   mutations: {
     LOGIN: function(state,data){
       const config ={
@@ -131,6 +134,131 @@ export default new Vuex.Store({
   actions: {
     // 0. 회원가입을 위한 actions
     signUp : function(context,contrial){
+      axios({
+        method: 'POST',
+        url: `${BACK_URL}/accounts/signup/`,
+        data: contrial,
+      })
+      .then(() =>{
+      })
+      .catch(err =>{
+        console.log(err)
+      })      
+    },
+    GET_INCOMES:function(state,data){
+      state.incomes = []
+      data.forEach(data => {
+        const income = {
+          id: data.id,
+          in_money: data.in_money,
+          category: data.category,
+          title: data.title,
+          datetime:data.datetime,
+          created_at: data.created_at
+        } 
+        state.incomes.push(income)  
+      });
+    },
+    SELECT_INCOME:function(state,data){
+      state.selectIncome = data
+    },
+  },
+  actions: {
+    // 1. 요금 청구 목록 조회
+    getOutcomes: function ({commit}) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GETOUTCOMES',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 2. 요금 청구 Detail 조회
+    selectOutcome: function ({commit},outcome_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/${outcome_id}/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('SELECT_OUTCOME',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 3. 요금 청구 Detail - 승인 상태 변경
+    changeState:function({commit},statenum){
+      const data = {
+        ...this.state.selectOutcome,
+        state:statenum
+      }
+      axios({
+        method: 'put',
+        url: `${BACK_URL}/books/outcome/change_state/${this.state.selectOutcome.id}/`,
+        headers: this.state.setToken,
+        data:data
+      })
+        .then(res => {
+          commit('CHANGE_STATE',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 4. 요금 청구 댓글 전체 조회
+    getOutcomeComment:function ({commit},outcome_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/${outcome_id}/outcome_comment/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GETOUTCOME_COMMENT',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    // 수입 입력
+    // 1. 수입 목록 조회
+    getIncomes: function ({commit}) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/income/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GET_INCOMES',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 2. 수입 Detail 조회
+    selectIncome: function ({commit},income_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/income/${income_id}/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('SELECT_INCOME',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    // 계정관리
+    // 1. 로그인을 위한 actions
+    login : function(context,credentials){
       axios({
         method: 'POST',
         url: `${BACK_URL}/accounts/signup/`,
@@ -580,7 +708,8 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    //actions : 
+
+    //1. 장부 날짜 필터링
     filterDate:function ( {commit}, filterItems){
       console.log(1)
       axios({

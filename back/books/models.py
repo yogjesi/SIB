@@ -1,14 +1,15 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.deletion import CASCADE
 
 # Create your models here.
 class Income(models.Model):
     category = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     content = models.TextField()
-    money = models.DecimalField(max_digits=10,decimal_places=0)
+    in_money = models.DecimalField(max_digits=10,decimal_places=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    datetime = models.DateTimeField()
+    datetime = models.DateField()
 
 class Outcome(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
@@ -20,7 +21,7 @@ class Outcome(models.Model):
     datetime = models.DateField()
     # 1 : 승인대기, 2 : 승인, 3 : 반려
     state = models.IntegerField(default=1)
-    money = models.DecimalField(max_digits=10,decimal_places=0)
+    out_money = models.DecimalField(max_digits=10,decimal_places=0)
     alarm = models.BooleanField()
     receipt = models.ImageField(upload_to='outcome/',null=True)
 
@@ -28,3 +29,8 @@ class Outcomecomment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     content = models.TextField()
     outcome = models.ForeignKey(Outcome,on_delete=models.CASCADE)
+
+# # 장부용
+# class IncomeOutcome(models.Model):
+#     income = models.ForeignKey(Income, on_delete=models.CASCADE, null=True)
+#     outcome = models.ForeignKey(Outcome, on_delete=models.CASCADE, null=True)

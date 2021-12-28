@@ -1,17 +1,20 @@
 <template>
   <div>
     <div>작성자 : {{outcome_comment.user.username }}</div>
-    <div> {{outcome_comment.content}}</div>
+    <div v-if="!isUpdate"> {{outcome_comment.content}}</div>
     
 
   <!-- 댓글 수정 -->
-  <v-btn
-      v-if="isMycomment"
-      data-bs-toggle="modal" :data-bs-target="`#updatecomment-${outcome_comment.id}`"
-      class="m-3"
-    >
-    수정
-    </v-btn>
+  <div v-if="!isUpdate">
+    <v-btn
+        v-if="isMycomment"
+        data-bs-toggle="modal" :data-bs-target="`#updatecomment-${outcome_comment.id}`"
+        class="m-3"
+        @click="clickUpdate"
+      >
+      수정
+      </v-btn>
+  </div>
    
   <!-- 댓글 수정 모달 -->
   <div class="modal fade" :id="`updatecomment-${outcome_comment.id}`" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -37,12 +40,19 @@
         </div>
       </div>
     </div>
+  <div v-if="isUpdate">
+    <input type="text"
+      v-model="inputContent"
+      @keyup.enter="updateComment"
+    >
+    <v-btn @click="updateComment">완료</v-btn>
+    <v-btn @click="cancleUpdate">취소</v-btn>
+  </div>
 
     <!-- ### 댓글 삭제 ###  -->
   <div class="m-3">
       <v-btn
            v-if="isMycomment"
-          color="deep-purple darken3 white--text"
           data-bs-toggle="modal" :data-bs-target="`#deleteComment-${outcome_comment.id}`"
         >
         삭제
@@ -88,6 +98,7 @@ export default {
     return{
       inputContent:this.outcome_comment.content,
       isMycomment:null,
+      isUpdate:false,
     }
   },
   methods:{
@@ -105,20 +116,33 @@ export default {
           console.log(err)
         })
     },
+    clickUpdate:function(){
+      this.isUpdate = !this.isUpdate
+    },
+
     updateComment:function(){
-      axios({
-        method: 'put',
-        url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
-        headers: this.$store.state.setToken,
-        data:{content:this.inputContent}
-      })
-        .then(res => {
-          console.log(res.data)
-          this.$emit('updateComment')
+      if (this.inputContent){
+        axios({
+          method: 'put',
+          url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
+          headers: this.$store.state.setToken,
+          data:{content:this.inputContent}
         })
-        .catch(err => {
-          console.log(err)
-        })
+          .then(res => {
+            console.log(res.data)
+            this.isUpdate = false
+            this.$emit('updateComment')
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }else{
+        alert("댓글내용을 입력하세요")
+      }
+    },
+    cancleUpdate:function(){
+      this.inputContent = this.outcome_comment.content
+      this.isUpdate = false
     },
     deleteComment:function(){
       axios({

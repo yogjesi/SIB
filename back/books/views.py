@@ -1,6 +1,7 @@
 from http.client import ImproperConnectionState
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from rest_framework.response import Response
+from django.http.response import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework import serializers, status
 from .models import Income, Outcome, Outcomecomment
@@ -8,8 +9,9 @@ from .serializers import (
     IncomeListSerializer, 
     IncomeSerializer,
     OutcomeSerializer,OutcomeDetailSerializer,OutcomeCommentSerializer
+    BookIncomeSerializer, BookOutcomeSerializer, IncomeListSerializer, IncomeSerializer,
     )
-
+# BookIncomeSerializer, BookOutcomeSerializer, 
 # Create your views here.
 
 # 이거 어떻게 데이터를 가져와야 할 지 그림 좀 그려봐야겠다.
@@ -20,11 +22,14 @@ def income(request):
         incomes = Income.objects.all()
         serializer = IncomeListSerializer(incomes, many=True)
         return Response(serializer.data)
+
     elif request.method == 'POST':
         serializer = IncomeSerializer(data=request.data)
+        print(serializer)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 # 1-2
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -40,42 +45,10 @@ def income_detail(request, income_pk):
             return Response(serializer.data)
     elif request.method == 'DELETE':
         income.delete()
-        return Response({'id': income_pk}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'delete': f'수입 청구 글 {income_pk}번이 삭제되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
 
 
 # 2-1
-# @api_view(['GET', 'POST'])
-# def outcome(request):
-#     pass
-
-
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def outcome_detail(request, outcome_pk):
-#     pass
-
-
-# def outcome_state(request, outcome_pk):
-#     pass
-
-
-# def outcome_comment(request, outcome_pk):
-#     pass
-
-
-# def outcome_comment_update(request, outcome_pk, comment_pk):
-    # pass
-
-
-# # 3. 장부 확인 페이지 조회
-# @api_view(['GET', 'POST'])
-# def show(request):
-#     incomes = Income.objects.all()
-#     income_serializer = BookSerializer(incomes, many=True)
-#     # outcomes = Outcome.objects.all()
-#     # outcome_serializer = BookSerializer(outcomes, many=True)
-#     return Response(income_serializer, status=status.HTTP_200_OK)
-
-
 # 수진님 코드
 # Create your views here.
 @api_view(['GET','POST'])
@@ -93,7 +66,7 @@ def outcome(request):
         if serializer.is_valid(raise_exception=True):
             outcome = serializer.save(user=request.user)       
             outcome.save()
-
+            print(outcome)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
@@ -136,7 +109,7 @@ def change_state(request,pk):
 def outcome_comment(request,pk):
     # 요금청구 댓글 전체 조회
     if request.method == 'GET':
-        outcome_comments = Outcomecomment.objects.filter(outcome=pk)
+        outcome_comments = Outcomecomment.objects.filter(outcome=pk).order_by('-pk')
         serializer = OutcomeCommentSerializer(outcome_comments, many=True)
         return Response(serializer.data)
 
@@ -173,4 +146,57 @@ def outcome_comment_update_delete(request,comment_pk):
         return Response({ 'delete': f'댓글 {comment_pk}번이 삭제되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
 
         # return Response({ 'delete': f'댓글 {comment_pk}번이 삭제되었습니다.'},status=status.HTTP_204_NO_CONTENT)
+
+
+# 3. 장부용 수입, 지출
+@api_view(['GET'])
+def show_income(request):
+    incomes = Income.objects.all()
+    serializer = BookIncomeSerializer(incomes, many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def show_outcome(request):
+    outcomes = Outcome.objects.all()
+    serializer = BookOutcomeSerializer(outcomes, many=True)
+    return Response(serializer.data)
+
+
+# # 3. 장부 확인 페이지 조회
+# @api_view(['GET', 'POST'])
+# def show(request):
+#     incomes = Income.objects.all()
+#     income_serializer = BookIncomeSerializer(incomes, many=True)
+#     outcomes = Outcome.objects.all()
+#     outcome_serializer = BookOutcomeSerializer(outcomes, many=True)
+#     return HttpResponse(income_serializer, outcome_serializer)
+
+# @api_view(['GET', 'POST'])
+# def show(request):
+#     books = IncomeOutcome.objects.all()
+#     serializer = BookSerializer(books, many=True)
+#     print(serializer)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+
+# @api_view(['GET', 'POST'])
+# def show(request):
+#     incomes = Income.objects.all()
+#     outcomes = Outcome.objects.all()
+#     income_serializer = BookIncomeSerializer(incomes, many=True)
+#     outcome_serializer = BookOutcomeSerializer(outcomes, many=True)
+#     serializer = [income_serializer, outcome_serializer]
+#     print(serializer)
+#     return Response(income_serializer.data, outcome_serializer.data, status=status.HTTP_200_OK)
+
+# @api_view(['GET','POST'])
+# def show(request):
+#     incomes = Income.objects.all()
+#     outcomes = Outcome.objects.all()
+#     serializer = BookSerializer(incomes, outcomes, many=True)
+#     print(serializer)
+#     if serializer.is_valid():
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
