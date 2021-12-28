@@ -4,7 +4,7 @@
       <span v-if="isLogin">
         <router-link to="/">Home</router-link> |
         <router-link to="/outcome">요금청구</router-link> |
-        <router-link to="/income">수입입력</router-link> |
+        <router-link v-if="currentUser.authority==2 | this.currentUser.authority==4 | currentUser.is_superuser" to="/income">수입입력</router-link> |
         <router-link to="/book">장부확인</router-link> |
         <router-link to="/board">자유게시판</router-link> |
         <router-link v-if="currentUser.authority==3 | this.currentUser.authority==5 | currentUser.is_superuser" to="/manager">관리자용</router-link> 

@@ -24,11 +24,10 @@ export default new Vuex.Store({
     commentList:[],
     bookList:[],
     outcomes:[],
-    selectOutcome : { "id":'', "user":Object, "category": "", "title": "", "content": "", "created_at": "", "datetime": '', "state": '', "money": '', "alarm": '', "receipt": ''},
+    selectOutcome : { "id":'', "user":Object, "category": "", "title": "", "content": "", "created_at": "", "datetime": '', "state": '', "out_money": '', "alarm": '', "receipt": ''},
     selectOutcome_state_str :'',
     outcome_comments:null,
-    bibleList:Object
-  },
+    bibleList:Object,
     incomes:[],
     selectIncome:  {id: "", category: "", title: "", content: "", in_money: "", created_at:"", datetime: ""}
  },
@@ -127,6 +126,23 @@ export default new Vuex.Store({
     GETOUTCOME_COMMENT:function(state,data){
       state.outcome_comments = data
     },
+    GET_INCOMES:function(state,data){
+      state.incomes = []
+      data.forEach(data => {
+        const income = {
+          id: data.id,
+          in_money: data.in_money,
+          category: data.category,
+          title: data.title,
+          datetime:data.datetime,
+          created_at: data.created_at
+        } 
+        state.incomes.push(income)  
+      });
+    },
+    SELECT_INCOME:function(state,data){
+      state.selectIncome = data
+    },
     BIBLELIST:function(state,data){
       state.bibleList = data
     }
@@ -145,87 +161,6 @@ export default new Vuex.Store({
         console.log(err)
       })      
     },
-    GET_INCOMES:function(state,data){
-      state.incomes = []
-      data.forEach(data => {
-        const income = {
-          id: data.id,
-          in_money: data.in_money,
-          category: data.category,
-          title: data.title,
-          datetime:data.datetime,
-          created_at: data.created_at
-        } 
-        state.incomes.push(income)  
-      });
-    },
-    SELECT_INCOME:function(state,data){
-      state.selectIncome = data
-    },
-  },
-  actions: {
-    // 1. 요금 청구 목록 조회
-    getOutcomes: function ({commit}) {
-      axios({
-        method: 'get',
-        url: `${BACK_URL}/books/outcome/`,
-        headers: this.state.setToken
-      })
-        .then(res => {
-          commit('GETOUTCOMES',res.data) 
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    // 2. 요금 청구 Detail 조회
-    selectOutcome: function ({commit},outcome_id) {
-      axios({
-        method: 'get',
-        url: `${BACK_URL}/books/outcome/${outcome_id}/`,
-        headers: this.state.setToken
-      })
-        .then(res => {
-          commit('SELECT_OUTCOME',res.data) 
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    // 3. 요금 청구 Detail - 승인 상태 변경
-    changeState:function({commit},statenum){
-      const data = {
-        ...this.state.selectOutcome,
-        state:statenum
-      }
-      axios({
-        method: 'put',
-        url: `${BACK_URL}/books/outcome/change_state/${this.state.selectOutcome.id}/`,
-        headers: this.state.setToken,
-        data:data
-      })
-        .then(res => {
-          commit('CHANGE_STATE',res.data) 
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    // 4. 요금 청구 댓글 전체 조회
-    getOutcomeComment:function ({commit},outcome_id) {
-      axios({
-        method: 'get',
-        url: `${BACK_URL}/books/outcome/${outcome_id}/outcome_comment/`,
-        headers: this.state.setToken
-      })
-        .then(res => {
-          commit('GETOUTCOME_COMMENT',res.data) 
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-
     // 수입 입력
     // 1. 수입 목록 조회
     getIncomes: function ({commit}) {
@@ -257,19 +192,6 @@ export default new Vuex.Store({
     },
 
     // 계정관리
-    // 1. 로그인을 위한 actions
-    login : function(context,credentials){
-      axios({
-        method: 'POST',
-        url: `${BACK_URL}/accounts/signup/`,
-        data: contrial,
-      })
-      .then(() =>{
-      })
-      .catch(err =>{
-        console.log(err)
-      })      
-    },
     // 1. 로그인을 위한 actions
     login: function(context,credentials) {
       axios({
@@ -711,10 +633,9 @@ export default new Vuex.Store({
 
     //1. 장부 날짜 필터링
     filterDate:function ( {commit}, filterItems){
-      console.log(1)
       axios({
         method: 'GET',
-        url: `${BACK_URL}/books/outcome/`,
+        url: `${BACK_URL}/books/show/income`, 
         headers: this.state.setToken
       })
       .then(res =>{
@@ -722,16 +643,38 @@ export default new Vuex.Store({
         let startDate = JSON.stringify(filterItems.startDate).slice(1,11)
         let endDate = JSON.stringify(filterItems.endDate).slice(1,11)
         let category = filterItems.categoryIds
+
         for(let i = 0; i < res.data.length; i++) {
-          const created_at = res.data[i].created_at.substr(0,10)
-          const title = res.data[i].category
-          if ( startDate <= created_at && created_at <= endDate
-              && category.includes(title) ){
+          const datetime = res.data[i].datetime
+          const out_cate = res.data[i].category
+          for (let j = 0; j < Object.values(category).length; j++){
+            if ( startDate <= datetime && datetime <= endDate
+              && Object.values(category)[j] == out_cate
+              ){
               myArray.push(res.data[i])
               }
+          }
         }
-        commit('FILTER_DATE', myArray)
-      })
+        axios({
+          method: 'GET',
+          url: `${BACK_URL}/books/show/outcome`, 
+          headers: this.state.setToken
+        })
+        .then(res =>{
+          for(let i = 0; i < res.data.length; i++) {
+            const datetime = res.data[i].datetime
+            const out_cate = res.data[i].category
+            for (let j = 0; j < Object.values(category).length; j++){
+              if ( startDate <= datetime && datetime <= endDate
+                && Object.values(category)[j] == out_cate
+                ){
+                myArray.push(res.data[i])
+                }
+            }
+          }
+        })
+      commit('FILTER_DATE', myArray)
+    })
     },
     // 1. 요금 청구 목록 조회
     getOutcomes: function ({commit}) {
