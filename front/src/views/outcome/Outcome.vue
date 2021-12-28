@@ -12,7 +12,7 @@
           hide-details
         ></v-text-field>
       </v-card-title>
-
+      <h2>크게</h2>
       <v-data-table
         
         :headers="headers"
@@ -68,7 +68,6 @@ export default {
   },
   methods:{
     moveToDetail:function(outcome_id){
-      console.log(outcome_id)
       this.$store.dispatch('selectOutcome',outcome_id)
       this.$store.dispatch('getOutcomeComment',outcome_id)
 

@@ -70,7 +70,6 @@ export default {
     boardDelete:function(pk){
       this.$store.dispatch('boardDelete',pk)
       this.$router.push({name:'Board'})
-      console.log(pk)
     }
   },
   components:{

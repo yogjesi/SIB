@@ -3,6 +3,7 @@
     <td>{{userWait.username}}</td>
     <td>{{userWait.fullname}}</td>
     <td>{{userWait.email}}</td>
+    <td>{{userWait.introduce}}</td>
     <td>
       <b-button @click="$bvModal.show(`modal-approve-${userWait.id}`)">가입 승인</b-button>
       <b-modal :id="'modal-approve-'+userWait.id">

@@ -40,7 +40,7 @@ class OutcomeSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = Outcome
-        fields = ('id','title','created_at','user','state',)
+        fields = ('id','title','created_at','user','state','category')
 
 
 # 2-2. 요금 청구 디테일 페이지

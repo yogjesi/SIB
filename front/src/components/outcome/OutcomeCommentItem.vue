@@ -17,6 +17,29 @@
   </div>
    
   <!-- 댓글 수정 모달 -->
+  <div class="modal fade" :id="`updatecomment-${outcome_comment.id}`" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Comment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">댓글 내용 </label>
+                <input type="text" class="form-control" id="message-text" v-model="inputContent" @keyup.enter="updateComment">
+                <!-- <ㅑ class="form-control" id="message-text" v-model="inputContent"></ㅑ> -->
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <v-btn color="deep-purple darken3 white--text" data-bs-dismiss="modal" @click="updateComment">Submit</v-btn>
+            <v-btn color="deep-purple darken3 white--text" outlined data-bs-dismiss="modal">Close</v-btn>
+          </div>
+        </div>
+      </div>
+    </div>
   <div v-if="isUpdate">
     <input type="text"
       v-model="inputContent"

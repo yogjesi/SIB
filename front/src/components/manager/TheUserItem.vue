@@ -5,6 +5,46 @@
     <td>{{userItem.email}}</td>
     <td>{{authority}}</td>
     <td>
+      <b-button v-if="userItem.authority==1" @click="$bvModal.show(`modal-delete-${userItem.id}`)">회원 강퇴</b-button>
+        <b-modal :id="'modal-delete-'+userItem.id">
+          <template #modal-header>
+            <h5>회원 강퇴하기</h5>
+          </template>
+          <template #default>
+            <p>현재 지정한 회원은 {{userItem.fullname}}({{userItem.username}})을 강퇴하시겠습니까?. </p>
+            <p>진행하시려면 현재 회장의 아이디 및 비밀번호를 입력해주세요.</p>
+            <form action="#">
+              <div>
+                <label for="username">아이디: </label>
+                <input 
+                  type="text"
+                  id="username"
+                  v-model="managerInfo.username"
+                >
+              </div>
+              <div>
+                <label for="password">비밀번호: </label>
+                <input 
+                  type="password"
+                  id="password"
+                  autoComplete="on"
+                  v-model="managerInfo.password"
+                >
+              </div>
+            </form>
+          </template>
+
+          <template #modal-footer="{ ok, cancel }">
+            <b-button size="sm" variant="danger" @click="[ok(),deleteUser([managerInfo,userItem.id])]">
+              예
+            </b-button>
+            <b-button size="sm" variant="secondary" @click="cancel()">
+              아니요
+            </b-button>
+          </template>
+        </b-modal>     
+    </td>
+    <td>
       <b-button v-if="!tmpAccountant & userItem.authority==1" @click="$bvModal.show(`modal-${userItem.id}`)">회계 지정</b-button>
       <b-modal :id="'modal-'+userItem.id">
         <template #modal-header>
@@ -197,11 +237,13 @@ export default {
         this.authority='회원'
       }
     },
+    deleteUser:function(data){
+      this.$store.dispatch('deleteUser',data)
+    },
     changeAccountant:function(data){
       this.$store.dispatch('changeAccountant',data)
       this.managerInfo.username=''
       this.managerInfo.password=''
-
     },
     cancelAccountant:function(data){
       this.$store.dispatch('cancelAccountant',data)
