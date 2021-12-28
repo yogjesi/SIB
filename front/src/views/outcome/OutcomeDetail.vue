@@ -6,8 +6,6 @@
     </div>
     <v-btn @click="moveToUpdate">수정</v-btn>
     <v-btn @click="deleteOutcome">삭제</v-btn>
-
-
     <v-data-table
         
         :headers="headers"

@@ -25,7 +25,7 @@
             <form>
               <div class="mb-3">
                 <label for="message-text" class="col-form-label">댓글 내용 </label>
-                <input type="text" class="form-control" id="message-text" v-model="inputContent">
+                <input type="text" class="form-control" id="message-text" v-model="inputContent" @keyup.enter="updateComment">
                 <!-- <ㅑ class="form-control" id="message-text" v-model="inputContent"></ㅑ> -->
               </div>
             </form>

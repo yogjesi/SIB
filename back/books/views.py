@@ -7,7 +7,7 @@ from .models import Income, Outcome, Outcomecomment
 from .serializers import (
     IncomeListSerializer, 
     IncomeSerializer,
-    BookSerializer, OutcomeSerializer,OutcomeDetailSerializer,OutcomeCommentSerializer
+    OutcomeSerializer,OutcomeDetailSerializer,OutcomeCommentSerializer
     )
 
 # Create your views here.

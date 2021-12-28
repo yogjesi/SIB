@@ -53,7 +53,6 @@ export default {
       this.updateState=!this.updateState
     },
     commentUpdate:function(data){
-      console.log(1)
       this.$store.dispatch('commentUpdate',data)
       this.updateState=!this.updateState
       this.tmp = ""

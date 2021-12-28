@@ -93,17 +93,11 @@ export default {
   },
   methods: {
     filterDate: function() {
-      const filterItems = [
-        {
-          startDate : this.startDate
-        },
-        {
-        endDate: this.endDate
-        },
-        {
-        categoryIds: this.categoryIds
+      const filterItems = {
+          startDate : this.startDate,
+          endDate: this.endDate,
+          categoryIds: this.categoryIds
         }
-      ]
       this.$store.dispatch('filterDate', filterItems)
     },
 

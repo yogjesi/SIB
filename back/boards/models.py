@@ -23,5 +23,8 @@ class Comment(models.Model):
     boards = models.ForeignKey(Board,on_delete=models.CASCADE,related_name='comments')
     
 
-
+class Bible(models.Model):
+    index = models.CharField(max_length=10)
+    content = models.TextField()
+    
 

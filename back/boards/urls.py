@@ -11,4 +11,6 @@ urlpatterns = [
     path('comments/<int:comment_pk>/',views.comment_update_delete),
     # Freeboard 검색
     path('search/', views.search),
+    # 성경 구절 전송
+    path('bibles/',views.bibles),
 ]

@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const BACK_URL = 'http://127.0.0.1:8000'
 
 import axios from 'axios'
-
+import _ from 'lodash'
 export default new Vuex.Store({
   state: {
     currentUser:Object,
@@ -14,22 +14,30 @@ export default new Vuex.Store({
     tmpManager:false,
     accountant:Object,
     tmpAccountant:false,
-    token:'',
     setToken:Object,
     boardList:[],
     boardDetail:{id:'',user:Object,title:'',content:'',created_at:'',updated_at:'',image:'',video:'',hits:''},
     userList:[],
+    idList:[],
+    emailList:[],
     userWaitList:[],
     commentList:[],
     bookList:[],
+    outcomes:[],
+    selectOutcome : { "id":'', "user":Object, "category": "", "title": "", "content": "", "created_at": "", "datetime": '', "state": '', "money": '', "alarm": '', "receipt": ''},
+    selectOutcome_state_str :'',
+    outcome_comments:null,
+    bibleList:Object
   },
   mutations: {
     LOGIN: function(state,data){
       const config ={
         Authorization: `JWT ${data}`
       }
-      state.token = data
       state.setToken = config
+    },
+    ISLOGIN: function(state){
+      state.isLogin= true
     },
     USERINFORMATION: function(state,data){
       state.currentUser=data
@@ -56,6 +64,12 @@ export default new Vuex.Store({
     USERLIST: function(state,data){
       state.userList=data
     },
+    IDLIST :function(state,data){
+      state.idList = data
+    },
+    EMAILLIST : function(state,data){
+      state.emailList = data
+    },
     MANAGER: function(state,data){
       state.manager= data
     },
@@ -74,22 +88,90 @@ export default new Vuex.Store({
     FILTER_DATE: function(state, myArray){
       state.bookList = myArray
     },
+    GETOUTCOMES:function(state,data){
+      state.outcomes = []
+      data.forEach(data => {
+        const outcome = {
+          id: data.id,
+          created_at: data.created_at,
+          title: data.title,
+          user: data.user.username,
+          state: data.state,
+        } 
+        state.outcomes.push(outcome)  
+      });
+    },
+    SELECT_OUTCOME:function(state,data){
+      state.selectOutcome = data
+      if(data.state == 1){
+        state.selectOutcome_state_str = '승인대기'
+      }else if(data.state == 2){
+        state.selectOutcome_state_str = '승인'
+      }else{
+        state.selectOutcome_state_str = '반려'
+      }
+    },
+    CHANGE_STATE:function(state,data){
+      state.selectOutcome = data
+      if(data.state == 1){
+        state.selectOutcome_state_str = '승인대기'
+      }else if(data.state == 2){
+        state.selectOutcome_state_str = '승인'
+      }else{
+        state.selectOutcome_state_str = '반려'
+      }
+    },
+    GETOUTCOME_COMMENT:function(state,data){
+      state.outcome_comments = data
+    },
+    BIBLELIST:function(state,data){
+      state.bibleList = data
+    }
   },
   actions: {
-    // 1. 로그인을 위한 actions
-    login : function(context,credentials){
+    // 0. 회원가입을 위한 actions
+    signUp : function(context,contrial){
       axios({
         method: 'POST',
-        url: `${BACK_URL}/accounts/api-token-auth/`,
-        data: credentials,
+        url: `${BACK_URL}/accounts/signup/`,
+        data: contrial,
       })
-      .then(res =>{
-        localStorage.setItem('jwt',res.data.token)
-        context.commit('LOGIN',res.data.token)
-        context.dispatch('userInformation')
+      .then(() =>{
       })
       .catch(err =>{
         console.log(err)
+      })      
+    },
+    // 1. 로그인을 위한 actions
+    login: function(context,credentials) {
+      axios({
+        method: 'post',
+        url: `${BACK_URL}/accounts/login/`,
+        data: credentials
+      })
+      .then(res =>{
+        console.log(res.data)
+        if(res.data.Success){
+          if(res.data.is_active){
+            axios({
+              method: 'POST',
+              url: `${BACK_URL}/accounts/api-token-auth/`,
+              data: credentials,
+            })
+            .then(res =>{
+              localStorage.setItem('jwt',res.data.token)
+              context.commit('LOGIN',res.data.token)
+              context.dispatch('userInformation')
+            })
+          }else{
+            alert('관리자의 승인을 기다려주세요.')
+          }
+        }else{
+          alert(res.data.error)
+        }
+      })
+      .catch(err =>{
+        alert(err.response.data)
       })
     },
     // 1-1. 유저정보를 얻기위한 actions
@@ -112,7 +194,7 @@ export default new Vuex.Store({
       const config ={
         Authorization: `JWT ${token}`
       }
-
+      commit('ISLOGIN')
       commit('SETTOKEN',config)
     },
     // 3. logout 
@@ -276,11 +358,14 @@ export default new Vuex.Store({
       axios({
         method: 'GET',
         url: `${BACK_URL}/accounts/userlist/`,
-        headers: this.state.setToken
       })
       .then(res =>{
         const userLength = res.data.length
+        let idList = []
+        let emailList = []
         for (let i = 0; i<userLength; i++){
+          idList.push(res.data[i].username)
+          emailList.push(res.data[i].email)
           if(res.data[i].authority == 3){
             commit('MANAGER',res.data[i])
           }else if(res.data[i].authority == 2){
@@ -292,6 +377,8 @@ export default new Vuex.Store({
           }
         }
         commit('USERLIST',res.data)
+        commit('IDLIST',idList)
+        commit('EMAILLIST',emailList)
       })
       .catch(err =>{
         console.log(err)
@@ -308,6 +395,31 @@ export default new Vuex.Store({
       .then(res =>{
         commit('USERLIST',res.data)
         
+      })
+      .catch(err =>{
+        alert(err.response.data)
+      })
+    },
+    // 14-2. 유저 강퇴
+    deleteUser: function(context,data){
+      axios({
+        method: 'POST',
+        url: `${BACK_URL}/accounts/confirm/`,
+        data: data[0],
+        headers: this.state.setToken
+      })
+      .then(() =>{
+        axios({
+          method: 'DELETE',
+          url: `${BACK_URL}/accounts/userdelete/${data[1]}`,
+          headers: this.state.setToken
+        })
+        .then(() =>{
+          context.dispatch('userList')
+        })
+        .catch(err =>{
+          console.log(err)
+        })
       })
       .catch(err =>{
         alert(err.response.data)
@@ -470,33 +582,104 @@ export default new Vuex.Store({
     },
     //actions : 
     filterDate:function ( {commit}, filterItems){
+      console.log(1)
       axios({
         method: 'GET',
-        url: `${BACK_URL}/boards/`,
+        url: `${BACK_URL}/books/outcome/`,
         headers: this.state.setToken
       })
       .then(res =>{
         let myArray = []
-        let startDate = JSON.stringify(filterItems[0].startDate).slice(1,11)
-        let endDate = JSON.stringify(filterItems[1].endDate).slice(1,11)
-        
-
-        // let category = Object.values(filterItems[2])
-        
-        
+        let startDate = JSON.stringify(filterItems.startDate).slice(1,11)
+        let endDate = JSON.stringify(filterItems.endDate).slice(1,11)
+        let category = filterItems.categoryIds
         for(let i = 0; i < res.data.length; i++) {
           const created_at = res.data[i].created_at.substr(0,10)
-          // const title = res.data[i].title
+          const title = res.data[i].category
           if ( startDate <= created_at && created_at <= endDate
-            // && Object.values(category).include(title)
-            ){
-            myArray.push(res.data[i])
-          }
+              && category.includes(title) ){
+              myArray.push(res.data[i])
+              }
         }
         commit('FILTER_DATE', myArray)
       })
-      },
-    },  
+    },
+    // 1. 요금 청구 목록 조회
+    getOutcomes: function ({commit}) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GETOUTCOMES',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 2. 요금 청구 Detail 조회
+    selectOutcome: function ({commit},outcome_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/${outcome_id}/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('SELECT_OUTCOME',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 3. 요금 청구 Detail - 승인 상태 변경
+    changeState:function({commit},statenum){
+      const data = {
+        ...this.state.selectOutcome,
+        state:statenum
+      }
+      axios({
+        method: 'put',
+        url: `${BACK_URL}/books/outcome/change_state/${this.state.selectOutcome.id}/`,
+        headers: this.state.setToken,
+        data:data
+      })
+        .then(res => {
+          commit('CHANGE_STATE',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 4. 요금 청구 댓글 전체 조회
+    getOutcomeComment:function ({commit},outcome_id) {
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/books/outcome/${outcome_id}/outcome_comment/`,
+        headers: this.state.setToken
+      })
+        .then(res => {
+          commit('GETOUTCOME_COMMENT',res.data) 
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 5. 성경 구절 API
+    bibleList: function({commit}){
+      axios({
+        method: 'get',
+        url: `${BACK_URL}/boards/bibles/`,
+        headers: this.state.setToken
+      })
+      .then(res =>{
+        commit('BIBLELIST',_.sampleSize(res.data,1)[0])
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }  
+  },
   modules: {
   }
 })

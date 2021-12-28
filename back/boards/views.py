@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Board,Comment
-from .serializers import BoardListSerializer,BoardSerializer,CommentSerializer
+from .models import Board,Comment,Bible
+from .serializers import BoardListSerializer,BoardSerializer,CommentSerializer,BibleSerializer
 
 
 @api_view(['GET','POST'])
@@ -103,3 +103,11 @@ def search(request):
                 return Response('검색한 아이디는 존재하지 않습니다.',status=status.HTTP_400_BAD_REQUEST)
         serializers = BoardListSerializer(boards, many=True)
         return Response(serializers.data)
+
+# 성경 랜덤 데이터 발송
+@api_view(['GET'])
+def bibles(request):
+    if request.method =='GET':
+        bible = Bible.objects.order_by("?")[:5]
+        serializer = BibleSerializer( bible, many = True)
+        return Response(serializer.data)

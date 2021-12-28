@@ -7,5 +7,4 @@ class User(AbstractUser):
     email = models.EmailField()
     # 회원: 0, 승인회원:1, 회계: 2, 회장: 3    	
     authority = models.IntegerField(default=0)
-    def __str__(self):
-        return self.fullname
+    introduce = models.TextField()

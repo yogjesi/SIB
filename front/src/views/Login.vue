@@ -1,53 +1,83 @@
 <template>
   <div>
     <h1>Login</h1>
-    <form action="#">
-      <div>
-        <label for="username">아이디: </label>
-        <input 
-          type="text"
-          id="username"
-          v-model="credentials.username"
-        >
-      </div>
-      <div>
-        <label for="password">비밀번호: </label>
-        <input 
-          type="password"
-          id="password"
-          autoComplete="on"
-          v-model="credentials.password"
-          @keyup.enter="login"
-        >
-      </div>
-      <button @click="login">로그인</button>
-    </form>
+    <v-form
+      class="container"
+      ref="form"
+      @submit.prevent="login">
+      <v-text-field
+        v-model="credentials.username"
+        label="아이디"
+        required
+        :rules="usernameRule"/>
+      <v-text-field
+        v-model="credentials.password"
+        label="비밀번호"
+        autocomplete="off"
+        required
+        type="password"
+        :rules="passwordRule"
+        @keyup.enter="login"/>
+      <v-btn
+        id="login_btn"
+        @click="login">
+        로그인
+      </v-btn>
+    </v-form>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import axios from 'axios'
 export default {
   name: 'Login',
   data: function() {
     return {
       credentials: {
-        username: null,
-        password: null,
-      }
+        username: '',
+        password: '',
+      },
+      usernameRule:[
+        v => ! !v || '아이디를 입력해주세요',
+      ],
+      passwordRule:[
+        v => ! !v || '비밀번호를 입력해주세요.',
+      ],
     }
   },
   methods: {
-    login: function (){
-      this.$store.dispatch('login',this.credentials)
-      this.$emit('login')
-      this.$router.push({name:'Home'})
-    }
+    login: function() {
+      // 유효성 검사를 위한 폼
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:8000/accounts/login/`,
+        data: this.credentials
+      })
+      .then(res =>{
+        if(res.data.Success){
+          if(res.data.is_active){
+              this.$store.dispatch('login',this.credentials)
+              this.$emit('login')
+              this.$router.push({name:'Home'})
+          }else{
+            alert('관리자의 승인을 기다려주세요.')
+          }
+        }else{
+          alert(res.data.error)
+        }
+
+      })
+      .catch(err =>{
+        alert(err.response.data)
+      })
+    },
   },
-  computed: {
-    ...mapState([
-    'token',
-   ]),
+  
+  created: function(){
+    const token = localStorage.getItem('jwt')
+    if(token){
+      if(this.$route.path!=='/Home') this.$router.push('/')
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board,Comment
+from .models import Bible, Board,Comment
 from django.contrib.auth import get_user_model
 
 
@@ -34,3 +34,8 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = '__all__'
         read_only_fields = ('boards',)
+
+class BibleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bible
+        fields = '__all__'

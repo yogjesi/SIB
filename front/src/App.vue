@@ -16,7 +16,7 @@
         <router-link to="/signup">회원가입</router-link>
       </span>
     </div>
-    <router-view @login="isLogin=true"/>  
+    <router-view @login="isLogin=true"/> 
   </div>
 </template>
 
@@ -26,15 +26,15 @@ export default {
   name: 'App',
   data: function() {
     return {
-      isLogin: false,
+      isLogin:false
     }
   },
   methods: {
-    // 로그아웃을 위한 메소드
     logout: function() {
       this.isLogin = false
       localStorage.removeItem('jwt')
       this.$store.dispatch('logout')
+      // location.reload()
       this.$router.push({name:'Login'})
     }
   },
@@ -49,11 +49,11 @@ export default {
     // 2. Token 이 있으면
     if(token){
       // 3. True 로 변경하고 없으면 유지.
-      this.isLogin = true
       this.$store.dispatch('setToken',token)
       this.$store.dispatch('userInformation')
+      this.isLogin = true
     }else{
-      if(this.$route.path!=='/Login') this.$router.push('/Login')
+      this.$router.push({name:'Login'}).catch(()=>{});
     }
   }
 }

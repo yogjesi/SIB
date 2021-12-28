@@ -92,7 +92,7 @@ class OutcomeSerializer(serializers.ModelSerializer):
     user= UserSerializer(read_only=True)
     class Meta:
         model = Outcome
-        fields = ('id','title','created_at','user','state',)
+        fields = ('id','title','created_at','user','state','category')
 
 class OutcomeDetailSerializer(serializers.ModelSerializer):
     class UserSerializer(serializers.ModelSerializer):
