@@ -7,7 +7,7 @@
             <option selected value="재정부">재정부</option>
             <option value="헌금">헌금</option>
             <option value="찬조금">찬조금</option>
-            <option value="기타">기타</option>
+            <option value="기타 수입">기타 수입</option>
           </select>
         </div>
         <h1>수입 작성 양식</h1>

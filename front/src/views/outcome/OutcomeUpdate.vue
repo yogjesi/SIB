@@ -11,7 +11,7 @@
               <option value="경조비">경조비</option>
               <option value="교통비">교통비</option>
               <option value="소모품비">소모품비</option>
-              <option value="기타">기타</option>
+              <option value="기타 지출">기타 지출</option>
             </select>
           </div>
           <br>
@@ -28,7 +28,7 @@
           <div>지출 금액</div>
               <input type="text"  class="border m-2"
                 placeholder="금액"
-                v-model.trim="outcome.money"
+                v-model.trim="outcome.out_money"
               >
         </div>
         
@@ -187,8 +187,8 @@ export default {
       }else{
         alert("지출상세내역을 입력해 주세요.")
       }
-      if (this.outcome.money){
-        form.append("money",this.outcome.money)
+      if (this.outcome.out_money){
+        form.append("out_money",this.outcome.out_money)
       }else{
         alert("지출금액을 입력해 주세요.")
       }

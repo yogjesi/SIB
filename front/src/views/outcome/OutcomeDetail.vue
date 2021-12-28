@@ -4,8 +4,11 @@
     <div>
       {{selectOutcome.user.username}} | {{selectOutcome.created_at}}
     </div>
-    <v-btn @click="moveToUpdate">수정</v-btn>
-    <v-btn @click="deleteOutcome">삭제</v-btn>
+    <div v-if="currentUser.username==selectOutcome.user.username">
+      <v-btn @click="moveToUpdate">수정</v-btn>
+      <v-btn @click="deleteOutcome">삭제</v-btn>
+    </div>
+
     <v-data-table
         
         :headers="headers"
@@ -22,7 +25,7 @@
             <td>{{ item.category }}</td>
             <td>{{ item.content }}</td>
             <td>{{ item.datetime }}</td>
-            <td>{{ item.money }}</td>
+            <td>{{ item.out_money }}</td>
             <td>{{ selectOutcome_state_str }}</td>
           </tr>
         </tbody>
@@ -33,7 +36,7 @@
     <br><br>
 
       <!-- <div v-if="this.$store.state.currentUser == 2"> -->
-      <div v-if="this.$store.state.currentUser == 2">
+      <div v-if="this.$store.state.currentUser.authority == 2">
       
         <!-- 승인 -> 승인대기 -->
         <v-btn v-if="selectOutcome_state_str=='승인'" @click="stateToReady">승인 취소</v-btn>
@@ -82,7 +85,7 @@ export default {
         },
           { text: '내용', value: 'content' },
           { text: '사용일시', value: 'datetime' },
-          { text: '금액', value: 'money' },
+          { text: '금액', value: 'out_money' },
           { text: '승인/반려', value: 'state' },
      ],
 
@@ -153,7 +156,7 @@ export default {
       'selectOutcome',
       'selectOutcome_state_str',
       'outcome_comments',
-      'currentuser', // 현재 유저가 권한있으면 버튼 보이게끔
+      'currentUser', // 현재 유저가 권한있으면 버튼 보이게끔
     ]),   
   },
 }
