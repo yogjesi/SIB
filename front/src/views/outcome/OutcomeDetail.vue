@@ -2,7 +2,7 @@
   <div>
     <h2>상세{{this.$route.params.id}}</h2>
     <div>
-      {{selectOutcome.user.username}} | {{selectOutcome.created_at}}
+      {{selectOutcome.user.fullname}} | {{selectOutcome.created_at|moment(`YYYY년 MM월DD일 HH시mm분`)}}
     </div>
     <div v-if="selectOutcome.state==1">
       <div v-if="currentUser.username==selectOutcome.user.username">
@@ -76,13 +76,18 @@ export default {
   },
   data: function(){
     return{
-      state_str:'',
       inputComment:'',  // 댓글 입력
+      emailInput:{
+        email:'',
+        // link: '',
+        state:'',
+        article:''
+      },
+      
       headers:[
         {
           text: '카테고리',
           align: 'start',
-          // sortable: false,
           value: 'category',
         },
           { text: '내용', value: 'content' },
@@ -94,6 +99,18 @@ export default {
     }
   },
   methods:{
+    // 이메일 알림 (승인 버튼이 눌릴 때)
+    emailAlarm: function() {
+      this.emailInput.email= this.currentUser.email 
+      // this.emailInput.link = `http://localhost:8080/outcomedetail/${this.$route.params.id}`
+      this.emailInput.article = this.selectOutcome
+      // axios.post('https://bq7tb4g4lb.execute-api.ap-northeast-2.amazonaws.com/default/alarm', JSON.stringify(this.emailInput))
+      axios.post('https://pno7mi85q0.execute-api.us-east-1.amazonaws.com/default/sujintest', JSON.stringify(this.emailInput))
+        .then(() => {
+        })
+        .catch(() => {
+        })
+    },
     clickImage:function(){
       this.isClickImage = ! this.isClickImage
     },
@@ -102,9 +119,17 @@ export default {
     },
     stateToAccept:function(){
       this.$store.dispatch('changeState',2) // 승인대기 -> 승인
+      if (this.selectOutcome.alarm){ 
+        this.emailInput.state= '승인'
+        this.emailAlarm()    
+      }
     },
     stateToReject:function(){
       this.$store.dispatch('changeState',3) // 승인대기 -> 반려
+      if (this.selectOutcome.alarm){
+        this.emailInput.state= '반려'
+        this.emailAlarm()
+      }
     },
     moveToUpdate:function(){
       this.$router.push({name:'OutcomeUpdate', params:{id:this.$route.params.id}})

@@ -99,7 +99,7 @@ export default new Vuex.Store({
           id: data.id,
           created_at: data.created_at,
           title: data.title,
-          user: data.user.username,
+          user: data.user.fullname,
           state: data.state,
         } 
         state.outcomes.push(outcome)  
