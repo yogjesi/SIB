@@ -62,7 +62,7 @@
                         <td>{{item.title}}</td>
                         <td>{{item.in_money}}</td>
                         <td>{{item.out_money}}</td>
-                        <td>{{ sumField('in_money') - sumField('out_money') }}</td>
+                        <td>{{item.balance }}</td>
                     </tr>
                 </template>
                 <template slot="body.append">
@@ -73,6 +73,7 @@
                         <th></th>
                         <th>{{ sumField('in_money') }}</th>
                         <th>{{ sumField('out_money') }}</th>
+                        <th></th>
                     </tr>
                 </template>
             </v-data-table>
@@ -88,11 +89,12 @@
 import {mapState} from 'vuex'
 import XLSX from 'xlsx'
 
+
 export default {
   name: 'Calendar',
   data: function(){
     return{
-      headers: [
+      headers: [ 
         {
           text: "",
           align: "start",
@@ -104,7 +106,7 @@ export default {
         { text: '내용', value: 'title' },
         { text: '수입', value: 'in_money' },
         { text: '지출', value: 'out_money' },
-        { text: '잔액', value: '' },
+        { text: '잔액', value: 'balance' },
       ],
       startDate:null,
       endDate:null,
@@ -166,9 +168,16 @@ export default {
   },
   computed:{
     ...mapState([
-      'bookList'
+      'bookList','lastBalance'
     ])
   },
+  created:function(){
+    this.$store.dispatch('allBookList')
+    let date = new Date()
+    this.endDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+    date.setMonth(date.getMonth() -1)
+    this.startDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+  }
 }
 </script>
 

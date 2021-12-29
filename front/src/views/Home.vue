@@ -1,6 +1,8 @@
 <template>
   <div class="home">
+    <h2>현재 청년부 총 잔액은 <span class="display-3">{{lastBalance}}</span>원 입니다.</h2>
     <p>{{bibleList.index}} {{bibleList.content}}</p>
+    
   </div>
 </template>
 
@@ -12,11 +14,12 @@ export default {
   name: 'Home',
   computed:{
     ...mapState([
-      'bibleList',
+      'bibleList','lastBalance',
     ])
   },
   created: function(){
     this.$store.dispatch('bibleList')
+    this.$store.dispatch('allBookList')
   },
 }
 </script>
