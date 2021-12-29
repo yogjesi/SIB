@@ -204,30 +204,16 @@ export default new Vuex.Store({
     // 1. 로그인을 위한 actions
     login: function(context,credentials) {
       axios({
-        method: 'post',
-        url: `${BACK_URL}/accounts/login/`,
-        data: credentials
+        method: 'POST',
+        url: `${BACK_URL}/accounts/api-token-auth/`,
+        data: credentials,
       })
       .then(res =>{
-        console.log(res.data)
-        if(res.data.Success){
-          if(res.data.is_active){
-            axios({
-              method: 'POST',
-              url: `${BACK_URL}/accounts/api-token-auth/`,
-              data: credentials,
-            })
-            .then(res =>{
-              localStorage.setItem('jwt',res.data.token)
-              context.commit('LOGIN',res.data.token)
-              context.dispatch('userInformation')
-            })
-          }else{
-            alert('관리자의 승인을 기다려주세요.')
-          }
-        }else{
-          alert(res.data.error)
-        }
+        localStorage.setItem('jwt',res.data.token)
+        context.commit('LOGIN',res.data.token)
+        context.dispatch('bibleList')
+        context.dispatch('allBookList')
+        context.dispatch('userInformation')
       })
       .catch(err =>{
         alert(err.response.data)

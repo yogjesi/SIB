@@ -58,7 +58,7 @@ export default {
           if(res.data.is_active){
               this.$store.dispatch('login',this.credentials)
               this.$emit('login')
-              this.$router.push({name:'Home'})
+              if(this.$route.path!=='/Home') this.$router.push('/')
           }else{
             alert('관리자의 승인을 기다려주세요.')
           }
