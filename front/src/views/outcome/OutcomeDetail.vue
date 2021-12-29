@@ -4,9 +4,11 @@
     <div>
       {{selectOutcome.user.username}} | {{selectOutcome.created_at}}
     </div>
-    <div v-if="currentUser.username==selectOutcome.user.username">
-      <v-btn @click="moveToUpdate">수정</v-btn>
-      <v-btn @click="deleteOutcome">삭제</v-btn>
+    <div v-if="selectOutcome.state==1">
+      <div v-if="currentUser.username==selectOutcome.user.username">
+        <v-btn @click="moveToUpdate">수정</v-btn>
+        <v-btn @click="deleteOutcome">삭제</v-btn>
+      </div>
     </div>
 
     <v-data-table
