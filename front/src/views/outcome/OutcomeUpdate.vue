@@ -63,8 +63,8 @@
           <div>영수증 첨부</div>
           <!-- <input type="file" ref="selectFile" @change="previewFile" /> -->
           <!-- <img v-if="previewImgUrl" :src="previewImgUrl" /> -->
-
-          <img v-if="previewImgUrl" :src="previewImgUrl" style="width:50%"/>
+          
+          <img v-if="previewImgUrl" :src="`http://127.0.0.1:8000${previewImgUrl}`" style="width:50%"/>
           <input class="form-control" type="file" ref="selectFile" @change="previewFile" />
         </div>
 
