@@ -88,7 +88,7 @@ export default {
       }
       const token = localStorage.getItem('jwt')
       http
-        .post("http://127.0.0.1:8000/books/income/", form, {
+        .post("books/income/", form, {
           headers: {
             "Content-Type":"multipart/form-data",
             // 이부분 한 번 더 보기

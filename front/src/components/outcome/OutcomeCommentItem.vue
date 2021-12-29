@@ -105,7 +105,7 @@ export default {
     isMine:function(){
       axios({
         method: 'get',
-        url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
+        url: `https://ycjeil-youth.link/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
         headers: this.$store.state.setToken,
       })
         .then(res => {
@@ -124,7 +124,7 @@ export default {
       if (this.inputContent){
         axios({
           method: 'put',
-          url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
+          url: `https://ycjeil-youth.link/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
           headers: this.$store.state.setToken,
           data:{content:this.inputContent}
         })
@@ -147,7 +147,7 @@ export default {
     deleteComment:function(){
       axios({
         method: 'delete',
-        url: `http://127.0.0.1:8000/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
+        url: `https://ycjeil-youth.link/books/outcome/${this.outcome_comment.id}/outcome_comment_update_delete/`,
         headers: this.$store.state.setToken,
       })
         .then(res => {

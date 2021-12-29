@@ -50,7 +50,7 @@ export default {
       // 유효성 검사를 위한 폼
       axios({
         method: 'post',
-        url: `http://127.0.0.1:8000/accounts/login/`,
+        url: 'https://ycjeil-youth.link/accounts/login/',
         data: this.credentials
       })
       .then(res =>{

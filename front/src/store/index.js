@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const BACK_URL = 'http://127.0.0.1:8000'
+const BACK_URL = 'https://ycjeil-youth.link'
 
 import axios from 'axios'
 import _ from 'lodash'
