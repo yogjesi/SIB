@@ -22,6 +22,7 @@
       <template
         v-slot:body="{ items }"
       >
+      
         <tbody>
           <tr
             v-for="item in items"
@@ -29,10 +30,13 @@
             @click="moveToDetail(item.id)"
           >
             <td>{{ item.id }}</td>
-            <td>{{ item.created_at }}</td>
+            <td>{{ item.created_at|moment(`YYYY년 MM월DD일 HH시mm분`) }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.user }}</td>
-            <td>{{ item.state }}</td>
+
+            <td v-if="item.state==1">승인대기</td>
+            <td v-if="item.state==2">승인</td>
+            <td v-if="item.state==3">반려</td>
           </tr>
         </tbody>
       </template>
