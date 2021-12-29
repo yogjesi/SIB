@@ -34,7 +34,7 @@
       </template>
     </v-data-table>
       
-    <img :src="`http://127.0.0.1:8000${selectOutcome.receipt}`" alt="">
+    <img :src="`https://ycjeil-youth.link${selectOutcome.receipt}`" alt="">
     <br><br>
 
       <!-- <div v-if="this.$store.state.currentUser == 2"> -->
@@ -112,7 +112,7 @@ export default {
     deleteOutcome:function(){
       axios({
         method: 'delete',
-        url: `http://127.0.0.1:8000/books/outcome/${this.$route.params.id}/`,
+        url: `https://ycjeil-youth.link/books/outcome/${this.$route.params.id}/`,
         headers: this.$store.state.setToken,
       })
         .then(res => {
@@ -127,7 +127,7 @@ export default {
       if (this.inputComment){
         axios({
           method: 'post',
-          url: `http://127.0.0.1:8000/books/outcome/${this.$route.params.id}/outcome_comment/`,
+          url: `https://ycjeil-youth.link/books/outcome/${this.$route.params.id}/outcome_comment/`,
           headers: this.$store.state.setToken,
           data:{content:this.inputComment}
         })

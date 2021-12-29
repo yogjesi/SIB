@@ -32,7 +32,6 @@
         <v-btn color="deep-purple white--text" class="m-2" outlined type="submit">작성 완료</v-btn>
       </form>
     </div>
-    {{income}}
 
   </div>
 </template>
@@ -92,7 +91,7 @@ export default {
       }
       const token = localStorage.getItem('jwt')
       http
-        .put(`http://127.0.0.1:8000/books/income/${this.$route.params.id}/`, form, {
+        .put(`books/income/${this.$route.params.id}/`, form, {
           headers: {
             "Content-Type":"multipart/form-data",
             // 이부분 한 번 더 보기
