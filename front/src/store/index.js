@@ -24,12 +24,14 @@ export default new Vuex.Store({
     commentList:[],
     bookList:[],
     outcomes:[],
-    selectOutcome : { "id":'', "user":Object, "category": "", "title": "", "content": "", "created_at": "", "datetime": '', "state": '', "money": '', "alarm": '', "receipt": ''},
+    selectOutcome : { "id":'', "user":Object, "category": "", "title": "", "content": "", "created_at": "", "datetime": '', "state": '', "out_money": '', "alarm": '', "receipt": ''},
     selectOutcome_state_str :'',
     outcome_comments:null,
     bibleList:Object,
     incomes:[],
-    selectIncome:  {id: "", category: "", title: "", content: "", in_money: "", created_at:"", datetime: ""}
+    selectIncome:  {id: "", category: "", title: "", content: "", in_money: "", created_at:"", datetime: ""},
+    allBookList: [],
+    lastBalance: 0,
  },
   mutations: {
     LOGIN: function(state,data){
@@ -145,6 +147,13 @@ export default new Vuex.Store({
     },
     BIBLELIST:function(state,data){
       state.bibleList = data
+    },
+    ALLBOOKLIST: function(state,account){
+      state.allBookList = account
+      state.bookList = account
+    },
+    LASTBALANCE: function(state,data){
+      state.lastBalance = data
     }
   },
   actions: {
@@ -195,30 +204,16 @@ export default new Vuex.Store({
     // 1. 로그인을 위한 actions
     login: function(context,credentials) {
       axios({
-        method: 'post',
-        url: `${BACK_URL}/accounts/login/`,
-        data: credentials
+        method: 'POST',
+        url: `${BACK_URL}/accounts/api-token-auth/`,
+        data: credentials,
       })
       .then(res =>{
-        console.log(res.data)
-        if(res.data.Success){
-          if(res.data.is_active){
-            axios({
-              method: 'POST',
-              url: `${BACK_URL}/accounts/api-token-auth/`,
-              data: credentials,
-            })
-            .then(res =>{
-              localStorage.setItem('jwt',res.data.token)
-              context.commit('LOGIN',res.data.token)
-              context.dispatch('userInformation')
-            })
-          }else{
-            alert('관리자의 승인을 기다려주세요.')
-          }
-        }else{
-          alert(res.data.error)
-        }
+        localStorage.setItem('jwt',res.data.token)
+        context.commit('LOGIN',res.data.token)
+        context.dispatch('bibleList')
+        context.dispatch('allBookList')
+        context.dispatch('userInformation')
       })
       .catch(err =>{
         alert(err.response.data)
@@ -633,27 +628,94 @@ export default new Vuex.Store({
 
     //1. 장부 날짜 필터링
     filterDate:function ( {commit}, filterItems){
-      console.log(1)
-      axios({
-        method: 'GET',
-        url: `${BACK_URL}/books/outcome/`,
-        headers: this.state.setToken
-      })
-      .then(res =>{
-        let myArray = []
-        let startDate = JSON.stringify(filterItems.startDate).slice(1,11)
-        let endDate = JSON.stringify(filterItems.endDate).slice(1,11)
-        let category = filterItems.categoryIds
-        for(let i = 0; i < res.data.length; i++) {
-          const created_at = res.data[i].created_at.substr(0,10)
-          const title = res.data[i].category
-          if ( startDate <= created_at && created_at <= endDate
-              && category.includes(title) ){
-              myArray.push(res.data[i])
-              }
+      let myArray = []
+      let startDate = JSON.stringify(filterItems.startDate).slice(1,11)
+      let endDate = JSON.stringify(filterItems.endDate).slice(1,11)
+      let category = filterItems.categoryIds
+      let allData = this.state.allBookList
+      for(let i = 0; i < allData.length; i++) {
+        const datetime = allData[i].datetime
+        const out_cate = allData[i].category
+        if ( startDate <= datetime && datetime <= endDate
+          && category.includes(out_cate)
+          ){
+          myArray.push(allData[i])
+          }
         }
-        commit('FILTER_DATE', myArray)
-      })
+      commit('FILTER_DATE', myArray)
+    },
+    //1. 장부를 모두 가져오자.
+    allBookList:function ({commit}){
+      // push 할 총 데이터 리스트
+      let myAccount = []
+      // axios를 한번에 두개쓰자!
+      axios.all([
+        // income(수입 불러오기)
+        axios({
+          method: 'GET',
+          url: `${BACK_URL}/books/show/income`, 
+          headers: this.state.setToken
+        }),
+        // outcome(지출 불러오기)
+        axios({
+          method: 'GET',
+          url: `${BACK_URL}/books/show/outcome`, 
+          headers: this.state.setToken
+        })])
+        .then(
+          // 요청이 두개니까, 응답도 두개겠지? res1, res2 로 지정해서 사용하자.
+          axios.spread((res1,res2)=>{
+          const income = res1.data
+          const outcome = res2.data
+          // iindex : income index, oindex : outcome index
+          let iindex = 0
+          let oindex = 0
+          let balance = 0
+          // 퀵 정렬과 유사하다. datetime 이 더 빠른 친구를 앞으로 보내주자, 날짜 같을 경우 income 이 먼저
+          while(iindex<income.length&&oindex<outcome.length){
+            if(income[iindex].datetime<=outcome[oindex].datetime){
+              balance += Number(income[iindex].in_money)
+              const result = {
+                ...income[iindex],
+                balance: balance
+              }
+              myAccount.push(result)
+              iindex++
+            }else{
+              balance -= Number(outcome[oindex].out_money)
+              const result2 = {
+                ...outcome[oindex],
+                balance: balance
+              }
+              myAccount.push(result2)
+              oindex++
+            }
+          }
+          // 남아있는 친구를 다 털어내자. 어짜피 하나는 끝나겟지만, 둘중 뭐가 남을지 모르니까 둘 다 해주자. 
+          // 어짜피, 있더라도 index가 끝났으면 바로 끝날테니까.
+          for (;iindex<income.length;iindex++){
+            balance += Number(income[iindex].in_money)
+            const result = {
+              ...income[iindex],
+              balance: balance
+            }
+            myAccount.push(result)
+          }
+          for (;oindex<outcome.length;oindex++){
+            balance -= Number(outcome[oindex].out_money)
+            const result2 = {
+              ...outcome[oindex],
+              balance: balance
+            }
+            myAccount.push(result2)
+            oindex++
+          }
+          // 총 장부가 완성되었다. 이를 vuex 에 저장해주자
+          commit('ALLBOOKLIST',myAccount)
+          // 우리는 총 잔액도 궁금하다. 이 잔액 역시도 vuex 에 저장해주자.
+          commit('LASTBALANCE',myAccount[myAccount.length-1].balance)
+        })
+      ).catch((err)=>console.log(err))
     },
     // 1. 요금 청구 목록 조회
     getOutcomes: function ({commit}) {

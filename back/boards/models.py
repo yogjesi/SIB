@@ -1,10 +1,10 @@
 from django.db import models
 from django.conf import settings
-from datetime import date
+from datetime import datetime
 
 def boards_image_path(instance,filename):
-    d = date.fromordinal(730920)
-    return f'boards/images/{d.strftime("%yy%m%d")}/{instance.user.pk}/{filename}'
+    d = datetime.now()
+    return f'boards/images/{instance.user.pk}/{d.year}/{d.month}{d.day}_{filename}'
 
 class Board(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)

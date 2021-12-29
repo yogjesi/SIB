@@ -32,7 +32,7 @@
             <td>{{ item.category }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.datetime }}</td>
-            <td>{{ item.money }}</td>
+            <td>{{ item.in_money }}</td>
             
           </tr>
         </tbody>
@@ -64,7 +64,7 @@ export default {
           { text: '분류', value: 'category' },
           { text: '제목', value: 'title' },
           { text: '수입일', value:'datetime'},
-          { text: '금액', value: 'money'},
+          { text: '금액', value: 'in_money'},
       ]
     }
   },

@@ -145,8 +145,6 @@ def outcome_comment_update_delete(request,comment_pk):
         outcome_comment.delete()
         return Response({ 'delete': f'댓글 {comment_pk}번이 삭제되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
 
-        # return Response({ 'delete': f'댓글 {comment_pk}번이 삭제되었습니다.'},status=status.HTTP_204_NO_CONTENT)
-
 
 # 3. 장부용 수입, 지출
 @api_view(['GET'])
@@ -159,6 +157,12 @@ def show_income(request):
 
 @api_view(['GET'])
 def show_outcome(request):
-    outcomes = Outcome.objects.all()
+    outcomes = Outcome.objects.filter(state=2)  ## 승인된 요금 청구건만 불러오기 위해 filter 사용
     serializer = BookOutcomeSerializer(outcomes, many=True)
     return Response(serializer.data)
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 27eb2f68207674bea64d03f02063de9401b1183d
