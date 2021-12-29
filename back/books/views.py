@@ -8,7 +8,7 @@ from .models import Income, Outcome, Outcomecomment
 from .serializers import (
     IncomeListSerializer, 
     IncomeSerializer,
-    OutcomeSerializer,OutcomeDetailSerializer,OutcomeCommentSerializer
+    OutcomeSerializer,OutcomeDetailSerializer,OutcomeCommentSerializer,
     BookIncomeSerializer, BookOutcomeSerializer, IncomeListSerializer, IncomeSerializer,
     )
 # BookIncomeSerializer, BookOutcomeSerializer, 
@@ -162,41 +162,3 @@ def show_outcome(request):
     outcomes = Outcome.objects.all()
     serializer = BookOutcomeSerializer(outcomes, many=True)
     return Response(serializer.data)
-
-
-# # 3. 장부 확인 페이지 조회
-# @api_view(['GET', 'POST'])
-# def show(request):
-#     incomes = Income.objects.all()
-#     income_serializer = BookIncomeSerializer(incomes, many=True)
-#     outcomes = Outcome.objects.all()
-#     outcome_serializer = BookOutcomeSerializer(outcomes, many=True)
-#     return HttpResponse(income_serializer, outcome_serializer)
-
-# @api_view(['GET', 'POST'])
-# def show(request):
-#     books = IncomeOutcome.objects.all()
-#     serializer = BookSerializer(books, many=True)
-#     print(serializer)
-#     return Response(serializer.data, status=status.HTTP_200_OK)
-
-# @api_view(['GET', 'POST'])
-# def show(request):
-#     incomes = Income.objects.all()
-#     outcomes = Outcome.objects.all()
-#     income_serializer = BookIncomeSerializer(incomes, many=True)
-#     outcome_serializer = BookOutcomeSerializer(outcomes, many=True)
-#     serializer = [income_serializer, outcome_serializer]
-#     print(serializer)
-#     return Response(income_serializer.data, outcome_serializer.data, status=status.HTTP_200_OK)
-
-# @api_view(['GET','POST'])
-# def show(request):
-#     incomes = Income.objects.all()
-#     outcomes = Outcome.objects.all()
-#     serializer = BookSerializer(incomes, outcomes, many=True)
-#     print(serializer)
-#     if serializer.is_valid():
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
