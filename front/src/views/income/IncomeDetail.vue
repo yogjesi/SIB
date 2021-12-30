@@ -58,7 +58,7 @@ export default {
     deleteIncome:function(){
       axios({
         method: 'delete',
-        url: `http://127.0.0.1:8000/books/income/${this.$route.params.id}/`,
+        url: `https://ycjeil-youth.link/books/income/${this.$route.params.id}/`,
         headers: this.$store.state.setToken,
       })
         .then(res => {

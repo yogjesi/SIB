@@ -64,7 +64,7 @@
           <!-- <input type="file" ref="selectFile" @change="previewFile" /> -->
           <!-- <img v-if="previewImgUrl" :src="previewImgUrl" /> -->
           
-          <img v-if="previewImgUrl" :src="`http://127.0.0.1:8000${previewImgUrl}`" style="width:50%"/>
+          <img v-if="previewImgUrl" :src="`https:/jwsh.link${previewImgUrl}`" style="width:50%"/>
           <input class="form-control" type="file" ref="selectFile" @change="previewFile" />
         </div>
 
@@ -202,7 +202,7 @@ export default {
       
       const token = localStorage.getItem('jwt')
       http
-        .put(`http://127.0.0.1:8000/books/outcome/${this.$route.params.id}/`, form, {
+        .put(`books/outcome/${this.$route.params.id}/`, form, {
           headers: {
             "Content-Type": "multipart/form-data",
             "Authorization":`JWT ${token}`

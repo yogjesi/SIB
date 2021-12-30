@@ -197,7 +197,7 @@ export default {
       }
       const token = localStorage.getItem('jwt')
       http
-        .post("http://127.0.0.1:8000/books/outcome/", form, {
+        .post("books/outcome/", form, {
           headers: {
             "Content-Type": "multipart/form-data",
             "Authorization":`JWT ${token}`

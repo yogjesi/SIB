@@ -211,6 +211,7 @@ export default {
       this.emailTimerStart()
       this.emailCode = _.sampleSize(_.range(1000,9999))[0]
       this.emailInput.code = this.emailCode
+
       axios.post('https://8q1q1n9dyl.execute-api.us-east-1.amazonaws.com/default/projectmailsend', JSON.stringify(this.emailInput))
         .then(() => {
         })

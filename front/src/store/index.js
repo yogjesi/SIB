@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const BACK_URL = 'http://127.0.0.1:8000'
+const BACK_URL = 'https://ycjeil-youth.link'
 
 import axios from 'axios'
 import _ from 'lodash'
@@ -27,7 +27,7 @@ export default new Vuex.Store({
     selectOutcome : { "id":'', "user":Object, "category": "", "title": "", "content": "", "created_at": "", "datetime": '', "state": '', "out_money": '', "alarm": '', "receipt": ''},
     selectOutcome_state_str :'',
     outcome_comments:null,
-    bibleList:Object,
+    bibleList:'',
     incomes:[],
     selectIncome:  {id: "", category: "", title: "", content: "", in_money: "", created_at:"", datetime: ""},
     allBookList: [],
@@ -99,7 +99,7 @@ export default new Vuex.Store({
           id: data.id,
           created_at: data.created_at,
           title: data.title,
-          user: data.user.username,
+          user: data.user.fullname,
           state: data.state,
         } 
         state.outcomes.push(outcome)  
@@ -146,7 +146,7 @@ export default new Vuex.Store({
       state.selectIncome = data
     },
     BIBLELIST:function(state,data){
-      state.bibleList = data
+      state.bibleList = `${data.index} ${data.content}`
     },
     ALLBOOKLIST: function(state,account){
       state.allBookList = account
@@ -786,7 +786,7 @@ export default new Vuex.Store({
         headers: this.state.setToken
       })
       .then(res =>{
-        commit('BIBLELIST',_.sampleSize(res.data,1)[0])
+        commit('BIBLELIST',_.sampleSize(res.data)[0])
       })
       .catch(err => {
         console.log(err)

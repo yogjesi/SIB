@@ -51,6 +51,8 @@ export default {
       // 3. True 로 변경하고 없으면 유지.
       this.$store.dispatch('setToken',token)
       this.$store.dispatch('userInformation')
+      this.$store.dispatch('allBookList')
+      this.$store.dispatch('bibleList')
       this.isLogin = true
     }else{
       this.$router.push({name:'Login'}).catch(()=>{});
