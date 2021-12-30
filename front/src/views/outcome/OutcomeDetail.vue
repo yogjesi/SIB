@@ -116,6 +116,10 @@ export default {
     },
     stateToReady:function(){
       this.$store.dispatch('changeState',1) // 승인 -> 승인대기
+      if (this.selectOutcome.alarm){ 
+        this.emailInput.state= '취소'
+        this.emailAlarm()    
+      }
     },
     stateToAccept:function(){
       this.$store.dispatch('changeState',2) // 승인대기 -> 승인
