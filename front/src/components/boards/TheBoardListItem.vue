@@ -1,6 +1,5 @@
 <template>
   <tr @click="boardDetail">
-    <td>{{boardItem.id}}</td>
     <td>{{boardItem.title}}</td>
     <td>{{boardItem.user.fullname}}</td>
     <td>{{boardItem.created_at|moment(`YYYY년 MM월DD일 HH시mm분`)}}</td>

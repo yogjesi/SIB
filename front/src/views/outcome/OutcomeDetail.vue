@@ -27,14 +27,14 @@
             <td>{{ item.category }}</td>
             <td>{{ item.content }}</td>
             <td>{{ item.datetime }}</td>
-            <td>{{ item.out_money }}</td>
+            <td>{{ item.out_money | Comma }}</td>
             <td>{{ selectOutcome_state_str }}</td>
           </tr>
         </tbody>
       </template>
     </v-data-table>
       
-    <img :src="`https://ycjeil-youth.link${selectOutcome.receipt}`" alt="">
+    <img :src="`https://ycjeil-youth.link${selectOutcome.receipt}`" alt="" style="width:450px;">
     <br><br>
 
       <!-- <div v-if="this.$store.state.currentUser == 2"> -->

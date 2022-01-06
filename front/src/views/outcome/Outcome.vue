@@ -29,7 +29,6 @@
             :key="item.id"
             @click="moveToDetail(item.id)"
           >
-            <td>{{ item.id }}</td>
             <td>{{ item.created_at|moment(`YYYY년 MM월DD일 HH시mm분`) }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.user }}</td>
@@ -57,12 +56,6 @@ export default {
     return{
       search:'',
       headers:[
-        {
-          text: '글번호',
-          align: 'start',
-          sortable: false,
-          value: 'id',
-        },
           { text: '글 쓴 날짜', value: 'created_at' },
           { text: '제목', value: 'title' },
           { text: '작성자', value: 'user' },

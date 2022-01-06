@@ -21,6 +21,7 @@
             <input type="Number" placeholder="금액" 
             required
             v-model.trim="inputMoney">
+            <p>입력하신 금액은 {{ inputMoney | Comma }}원 입니다.</p>
             <h2>수입 일시</h2>
             <input type="date" pattern="\d{4}-\d{2}-\d{2}" 
             required

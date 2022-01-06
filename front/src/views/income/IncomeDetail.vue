@@ -22,7 +22,7 @@
             <td>{{ item.category }}</td>
             <td>{{ item.content }}</td>
             <td>{{ item.datetime }}</td>
-            <td>{{ item.in_money }}</td>
+            <td>{{ item.in_money | Comma }}</td>
           </tr>
         </tbody>
       </template>

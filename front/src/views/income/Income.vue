@@ -28,11 +28,10 @@
             :key="item.id"
             @click="moveToDetail(item.id)"
           >
-            <td>{{ item.id }}</td>
             <td>{{ item.category }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.datetime }}</td>
-            <td>{{ item.in_money }}</td>
+            <td>{{ item.in_money | Comma }}</td>
             
           </tr>
         </tbody>
@@ -54,12 +53,6 @@ export default {
     return{
       search:'',
       headers:[
-        {
-          text:'글번호',
-          align:'start',
-          sortable: false,
-          value: 'id',
-        },
           // { text: '글 쓴 날짜', value: 'created_at' },
           { text: '분류', value: 'category' },
           { text: '제목', value: 'title' },
