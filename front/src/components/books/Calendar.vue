@@ -60,9 +60,9 @@
                         <td>{{item.datetime}}</td>
                         <td>{{item.category}}</td>
                         <td>{{item.title}}</td>
-                        <td>{{item.in_money}}</td>
-                        <td>{{item.out_money}}</td>
-                        <td>{{item.balance }}</td>
+                        <td>{{item.in_money | Comma }}</td>
+                        <td>{{item.out_money | Comma }}</td>
+                        <td>{{item.balance | Comma}}</td>
                     </tr>
                 </template>
                 <template slot="body.append">
@@ -71,8 +71,8 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th>{{ sumField('in_money') }}</th>
-                        <th>{{ sumField('out_money') }}</th>
+                        <th>{{ sumField('in_money') |Comma }}</th>
+                        <th>{{ sumField('out_money') | Comma }}</th>
                         <th></th>
                     </tr>
                 </template>
@@ -174,9 +174,9 @@ export default {
   created:function(){
     this.$store.dispatch('allBookList')
     let date = new Date()
-    this.endDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+    this.endDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`
     date.setMonth(date.getMonth() -1)
-    this.startDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+    this.startDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`
   }
 }
 </script>

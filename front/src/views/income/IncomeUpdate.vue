@@ -20,6 +20,7 @@
         <input type="text" placeholder="금액" 
         required
         v-model.trim="income.in_money">
+        <p>입력하신 금액은 {{ income.in_money | Comma }}원 입니다.</p>
         <h2>수입 일시</h2>
         <input type="date" pattern="\d{4}-\d{2}-\d{2}" 
         required

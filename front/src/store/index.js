@@ -665,8 +665,14 @@ export default new Vuex.Store({
         .then(
           // 요청이 두개니까, 응답도 두개겠지? res1, res2 로 지정해서 사용하자.
           axios.spread((res1,res2)=>{
-          const income = res1.data
-          const outcome = res2.data
+            var income = res1.data
+            var outcome = res2.data
+            income.sort(function(a, b) { 
+              return a.datetime < b.datetime ? -1 : a.datetime > b.datetime ? 1 : 0
+            })
+            outcome.sort(function(a, b) { 
+              return a.datetime < b.datetime ? -1 : a.datetime > b.datetime ? 1 : 0
+            });
           // iindex : income index, oindex : outcome index
           let iindex = 0
           let oindex = 0
@@ -708,7 +714,6 @@ export default new Vuex.Store({
               balance: balance
             }
             myAccount.push(result2)
-            oindex++
           }
           // 총 장부가 완성되었다. 이를 vuex 에 저장해주자
           commit('ALLBOOKLIST',myAccount)
