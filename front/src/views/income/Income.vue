@@ -1,13 +1,17 @@
 <template>
     <div>
+      <div id="subtitle" class="mt-5 mb-3">
+        <h2>
+          수입 목록
+        </h2>
+      </div>
     <v-card>
       <v-card-title>
-        수입 목록
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
-          label="Search"
+          label="제목 검색"
           single-line
           hide-details
         ></v-text-field>
@@ -18,6 +22,11 @@
         :headers="headers"
         :items="incomes"
         :search="search"
+        :footer-props="{
+          showFirstLastPage: true,
+          prevIcon: 'mdi-minus',
+          nextIcon: 'mdi-plus'
+        }"
       >
       <template
         v-slot:body="{ items }"
@@ -40,7 +49,7 @@
 
     </v-card>
     <br>
-    <v-btn @click="moveToCreate">글 작성</v-btn>
+    <v-btn @click="moveToCreate">수입 작성</v-btn>
     </div>
 </template>
 

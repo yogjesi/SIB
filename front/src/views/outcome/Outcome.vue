@@ -1,49 +1,57 @@
 <template>
     <div>
-    <v-card>
-      <v-card-title>
-        요금청구
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-title>
-      <h2>크게</h2>
-      <v-data-table
+      <!-- 페이지 제목은 subtitle -->
+      <div id="subtitle" class="mt-5 mb-3">
+        <h2>요금 청구</h2>
+      </div>
+    
+      <v-card>
+        <v-card-title>
+          <v-spacer></v-spacer>
+          <!-- 검색어용 id는 inputtitle -->
+          <v-text-field id="inputtitle"
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="제목 검색"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table
+          :headers="headers"
+          :items="outcomes"
+          :search="search"
+          :footer-props="{
+            showFirstLastPage: true,
+            prevIcon: 'mdi-minus',
+            nextIcon: 'mdi-plus'
+          }"
+        >
+        <template
+          v-slot:body="{ items }"
+        >
         
-        :headers="headers"
-        :items="outcomes"
-        :search="search"
-      >
-      <template
-        v-slot:body="{ items }"
-      >
-      
-        <tbody>
-          <tr
-            v-for="item in items"
-            :key="item.id"
-            @click="moveToDetail(item.id)"
-          >
-            <td>{{ item.created_at|moment(`YYYY년 MM월DD일 HH시mm분`) }}</td>
-            <td>{{ item.title }}</td>
-            <td>{{ item.user }}</td>
+          <tbody>
+            <tr
+              v-for="item in items"
+              :key="item.id"
+              @click="moveToDetail(item.id)"
+            >
+              <td>{{ item.created_at|moment(`YYYY년 MM월DD일 HH시mm분`) }}</td>
+              <td>{{ item.title }}</td>
+              <td>{{ item.user }}</td>
 
-            <td v-if="item.state==1">승인대기</td>
-            <td v-if="item.state==2">승인</td>
-            <td v-if="item.state==3">반려</td>
-          </tr>
-        </tbody>
-      </template>
-      </v-data-table>
+              <td v-if="item.state==1">승인대기</td>
+              <td v-if="item.state==2">승인</td>
+              <td v-if="item.state==3">반려</td>
+            </tr>
+          </tbody>
+        </template>
+        </v-data-table>
 
-    </v-card>
-    <br>
-    <v-btn @click="moveToCreate">글 작성</v-btn>
+      </v-card>
+      <br>
+      <v-btn @click="moveToCreate">요금 청구</v-btn>
     </div>
 </template>
 
@@ -56,7 +64,7 @@ export default {
     return{
       search:'',
       headers:[
-          { text: '글 쓴 날짜', value: 'created_at' },
+          { text: '글 쓴 날짜', value: 'created_at'},
           { text: '제목', value: 'title' },
           { text: '작성자', value: 'user' },
           { text: '승인여부', value: 'state' },

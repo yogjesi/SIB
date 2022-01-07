@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <v-card>
         <div class="file-upload">
         <form @submit.prevent="formSubmit" method="post">
@@ -18,8 +18,8 @@
 
         <div class="m-2">
           <div>지출 내역</div>
-              <input type="text"  class="border m-2"
-                placeholder="김밥"
+              <input type="text"  class="form-control border"
+                placeholder="ex)김밥, 수련회 등"
                 required
                 v-model.trim="inputTitle"
               >
@@ -27,7 +27,7 @@
         <br>
         <div class="m-2">
           <div>지출 금액</div>
-              <input type="Number"  class="border m-2"
+              <input type="Number" class="form-control border"
                 placeholder="금액"
                 required
                 v-model.trim="inputMoney"
@@ -38,7 +38,7 @@
         <br>
         <div class="m-2">
           <div>지출 일시</div>
-              <input type="date"  class="border m-2"
+              <input type="date" class="form-control border"
                 pattern="\d{4}-\d{2}-\d{2}"
                 required
                 v-model.trim="inputDatetime"
@@ -48,8 +48,8 @@
         <br>
         <div class="m-2">
           <div>지출 상세 내역 </div>
-              <input type="text"  class="border m-2"
-                placeholder="상세 내역을 입력해주세요 ex)언제, 어디서, 누구와"
+              <input type="text" class="form-control border"
+                placeholder="ex)언제, 어디서, 누구와"
                 v-model.trim="inputContent"
                 required
               >
@@ -65,7 +65,7 @@
         <div class="m-2"> 
         <br>
           <div>영수증 첨부</div>
-          <input required type="file" ref="selectFile" @change="previewFile" />
+          <input required type="file" class="form-control border" ref="selectFile" @change="previewFile" />
           
           <img v-if="previewImgUrl" :src="previewImgUrl" />
         </div>

@@ -1,12 +1,12 @@
 <template>
-  <div class="container">
-    <table>
+  <div class="container-fluid">
+    <table class="table table-hover">
       <thead>
         <tr>
-          <th>제목</th>
-          <th>글 작성자</th>
-          <th>글 작성시간</th>
-          <th>조회수</th>
+          <th class="col-6" style="text-align:start;">제목</th>
+          <th class="col-2" style="text-align:start;">작성자</th>
+          <th class="col-3" style="text-align:start;">작성시간</th>
+          <th class="col-1" style="text-align:end;">조회수</th>
         </tr>
       </thead>
       <tbody v-if="boardList">
@@ -17,13 +17,16 @@
         </the-board-list-item>
       </tbody>
     </table>
+    <br>
+    <div style="display:flex; justify-content:center;">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+      ></b-pagination>
+    </div>
 
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="my-table"
-    ></b-pagination>
   </div>
 </template>
 
@@ -61,5 +64,9 @@ export default {
 </script>
 
 <style>
+
+th {
+  text-align: start;
+}
 
 </style>

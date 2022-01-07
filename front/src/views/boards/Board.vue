@@ -1,23 +1,41 @@
 <template>
-  <div>
-    <h2>자유게시판</h2>
-    <div>
-      <b-dropdown :text="search.searchType" class="m-md-2">
-        <b-dropdown-item @click="searchType('제목')">제목</b-dropdown-item>
-        <b-dropdown-item @click="searchType('내용')">내용</b-dropdown-item>
-        <b-dropdown-item @click="searchType('작성자')">작성자</b-dropdown-item>
-      </b-dropdown>
-      <input 
-        type="text"
-        id="keyword"
-        v-model="search.keyword"
-        @keyup.enter="searchBoard"
-      >
-      <b-button @click="searchBoard">검색</b-button>
-      <p v-if="boardList==false">검색 한 내용이 존재하지 않습니다.</p>
+  <div class="containter-fluid">
+    <div id="subtitle">
+      <h2>자유게시판</h2>
     </div>
-    <b-button @click="boardCreate">글 작성</b-button>
-    <the-board-list :board-list="boardList"></the-board-list>
+    <div class="col col-md-8 offset-md-2">
+      <b-input-group>
+        <template #prepend>
+          <b-dropdown :text="search.searchType" variant="success" style="width:6rem;">
+            <b-dropdown-item @click="searchType('제목')">제목</b-dropdown-item>
+            <b-dropdown-item @click="searchType('내용')">내용</b-dropdown-item>
+            <b-dropdown-item @click="searchType('작성자')">작성자</b-dropdown-item>
+          </b-dropdown>
+        </template>
+
+        <input 
+          type="text"
+          id="keyword"
+          v-model="search.keyword"
+          @keyup.enter="searchBoard"
+          class="form-control"
+        >
+        <template #append>
+          <b-button @click="searchBoard" variant="primary" style="width:5rem;">검색</b-button>
+        </template>
+        
+        <p v-if="boardList==false">검색 한 내용이 존재하지 않습니다.</p>
+      </b-input-group>
+      <!-- 글 작성 버튼은 오른쪽으로 보내버려야지 -->
+      <br>
+      <div style="display:flex; justify-content:flex-end"><b-button @click="boardCreate">글 작성</b-button></div>
+      
+      <!-- <b-table striped hover><the-board-list :board-list="boardList"></the-board-list></b-table> -->
+      
+      <the-board-list :board-list="boardList"></the-board-list>
+    </div>
+
+
   </div>
 </template>
 

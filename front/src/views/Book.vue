@@ -1,6 +1,10 @@
 <template>
   <div id="Book">
-    <calendar></calendar>
+    <div id="title"><h2>장부 확인</h2></div>
+    <div class="container-fluid">
+      <calendar></calendar>
+    </div>
+    
     <!-- <Calculator /> -->
     <!-- <check-box></check-box> -->
     <!-- <ExcelDownloadDemo /> -->

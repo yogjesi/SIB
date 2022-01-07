@@ -19,7 +19,7 @@
         <div class="m-2">
           <div>지출 내역</div>
               <input type="text"  class="border m-2"
-                placeholder="ex) 김밥, 보드 게임, 악보 등"
+                placeholder="ex) 김밥, 수련회 등"
                 v-model.trim="outcome.title"
               >
         </div>
@@ -47,7 +47,7 @@
         <div class="m-2">
           <div>지출 상세 내역 </div>
               <input type="text"  class="border m-2"
-                placeholder="상세 내역을 입력해주세요 ex)언제, 어디서, 누구와"
+                placeholder="ex)언제, 어디서, 누구와"
                 v-model.trim="outcome.content"
               >
         </div>
