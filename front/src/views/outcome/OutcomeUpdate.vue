@@ -19,7 +19,7 @@
         <div class="m-2">
           <div>지출 내역</div>
               <input type="text"  class="border m-2"
-                placeholder="김밥"
+                placeholder="ex) 김밥, 보드 게임, 악보 등"
                 v-model.trim="outcome.title"
               >
         </div>
@@ -30,6 +30,7 @@
                 placeholder="금액"
                 v-model.trim="outcome.out_money"
               >
+              <p>{{ outcome.out_money | Comma }}</p>
         </div>
         
         <br>

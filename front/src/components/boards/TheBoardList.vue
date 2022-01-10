@@ -3,7 +3,6 @@
     <table>
       <thead>
         <tr>
-          <th>글번호</th>
           <th>제목</th>
           <th>글 작성자</th>
           <th>글 작성시간</th>

@@ -32,6 +32,7 @@
                 required
                 v-model.trim="inputMoney"
               >
+              <p>입력하신 금액은 {{ inputMoney | Comma }}원 입니다.</p>
         </div>
         
         <br>
@@ -142,7 +143,7 @@ export default {
               this.previewImgUrl = e.target.result
             }
             reader.readAsDataURL(this.selectFile)
-          } else if (this.selectFile.size <= 1048576) {
+          } else if (this.selectFile.size <= 4048576) {
             // 이미지외 파일
             this.previewImgUrl = null
           } else {

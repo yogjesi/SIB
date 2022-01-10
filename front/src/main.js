@@ -19,7 +19,11 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-
+Vue.filter("Comma", val =>{
+  if (val){
+    return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }
+})
 
 new Vue({
   store,
