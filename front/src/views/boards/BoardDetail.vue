@@ -1,8 +1,20 @@
 <template>
   <div>
-    <h2>상세글</h2>
+    <div class="col col-md-8 offset-md-2">
+      <div class="card border-light mb-3">
+        <div class="card-header" style="text-align:start;">
+          <h5>제목 : {{boardDetail.title}}</h5>        
+          <span>작성자 : {{boardDetail.user.fullname}}({{boardDetail.user.username}})</span>
+        </div>
+        <div class="card-body">
+          <p class="card-text" style="text-align:start;">{{boardDetail.content}}</p>
+        </div>
+        <div style="text-align:end;">
+          <span>작성일 : {{boardDetail.created_at|moment(`YYYY년 MM월DD일 HH시mm분`)}}</span>
+        </div>
+      </div>      
+    </div>
     <div>
-      <span class="display-4">{{boardDetail.title}}</span>
       <div v-if="currentUser.id==boardDetail.user.id">
         <b-button @click="boardUpdate">수정</b-button>
         <b-button @click="$bvModal.show('modal-scoped')">삭제</b-button>
@@ -27,17 +39,19 @@
       </div>
 
     </div>
+
     <div>
-      <span>{{boardDetail.user.fullname}}({{boardDetail.user.username}})</span>
-      <span>{{boardDetail.created_at|moment(`YYYY년 MM월DD일 HH시mm분`)}}</span>
+      
+      
     </div>
-    <p>{{boardDetail.content}}</p>
     <iframe v-if="boardDetail.video" :src="videoSelect(boardDetail.video)" width="640" height="360" frameborder="0"></iframe>
     <img v-if="boardDetail.image"  width="640" height="360" :src="boardDetail.image" alt="">
-    <h1>num</h1>
     <hr>
     <!-- 댓글 창 -->
-    <the-comment-form></the-comment-form>
+    <div class="col col-md-8 offset-md-2">
+      <the-comment-form></the-comment-form>
+    </div>
+    
 
   </div>
 </template>

@@ -1,9 +1,12 @@
 <template>
-  <div>
+  <div class="container-fluid my-5 px-3">
     <v-card>
       <div>
         <form @submit.prevent="formSubmit" method="post">
           <div>
+            <div>
+              <h2>분류</h2>
+            </div>
             <select id="form-select" class="form-select" aria-label="Default select example">
               <option selected value="재정부">재정부</option>
               <option value="헌금">헌금</option>
@@ -11,23 +14,23 @@
               <option value="기타 수입">기타 수입</option>
             </select>
           </div>
-            <h1>수입 작성 양식</h1>
             <br>
             <h2>수입 내역</h2>
-            <input type="text" placeholder="수입 타이틀" 
+            <input type="text" placeholder="ex)0월 0째주 헌금" class="form-control border"
             required
             v-model.trim="inputTitle">
             <h2>금액</h2>
-            <input type="Number" placeholder="금액" 
+            <input type="Number" placeholder="금액" class="form-control border"
             required
             v-model.trim="inputMoney">
             <p>입력하신 금액은 {{ inputMoney | Comma }}원 입니다.</p>
             <h2>수입 일시</h2>
-            <input type="date" pattern="\d{4}-\d{2}-\d{2}" 
+            <input type="date" pattern="\d{4}-\d{2}-\d{2}" class="form-control border"
             required
             v-model.trim="inputDatetime">
             <h2>수입 상세 내역</h2>
-            <input type="text" placeholder="수입에 관한 상세 내역을 입력해주세요." 
+            <input type="text" placeholder="ex) 감사헌금 00원, 십일조 00원" 
+            class="form-control border"
             required
             v-model.trim="inputContent">
             <br>

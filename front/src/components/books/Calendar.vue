@@ -1,56 +1,72 @@
 <template>
   <div>
-    <div style="float:left;">
-      <h4>시작 날짜</h4>
-      <input type="date"  class="border m-2"
-        pattern="\d{4}-\d{2}-\d{2}"
-        required
-        v-model.trim="startDate"
-      >
+    <div class="row">
+      <div id="subtitle" class="col-6">
+        <h4>시작 날짜</h4>
+        <input type="date"  class="border m-2"
+          pattern="\d{4}-\d{2}-\d{2}"
+          required
+          v-model.trim="startDate"
+        >
+      </div>
+      <div id="subtitle" class="col-6">
+        <h4>종료 날짜</h4>
+        <input type="date"  class="border m-2"
+          pattern="\d{4}-\d{2}-\d{2}"
+          required
+          v-model.trim="endDate"
+        >
     </div>
-    <div>
-      <h4>종료 날짜</h4>
-      <input type="date"  class="border m-2"
-        pattern="\d{4}-\d{2}-\d{2}"
-        required
-        v-model.trim="endDate"
-      >
-    <h4>카테고리</h4>
-        <div>
-          전체 <input type="checkbox" @click="selectAll" v-model="allSelected">
-          <div >        
+
+    <div id="subtitle"><h3>카테고리</h3></div>
+      <div id="subtitle" class="col-12 col-md-6 offset-md-3">
+        <div class="input-group row">
+          <span class="input-group-text justify-content-center">
+            <div id="subtitle"><h4>전체 선택</h4></div>
+            <input type="checkbox"
+            @click="selectAll" 
+            v-model="allSelected">
+          </span>
+          <div class="form-control">
+            <div id="subtitle" style="font-weight:bold;"><h5>수입 분류</h5></div>    
             <div
               v-for="income in incomes"
               :key="income.id">
-              <div style="float:left;">
+              <div>
                 {{ income.name }}
                 <input type="checkbox" v-model="categoryIds" :value="income.name">
               </div>
             </div>
-          </div>
-          <hr>
-          
-          <div>
+          </div> 
+
+          <div class="form-control">
+            <div id="subtitle" style="font-weight:bold;"><h5>지출 분류</h5></div> 
             <div 
               v-for="outcome in outcomes"
               :key="outcome.id">
-              <div style="float:left;">
+              <div>
                 {{ outcome.name }}
                 <input type="checkbox" v-model="categoryIds" :value="outcome.name">
               </div>
             </div>
+          </div>
         </div>
+        <br>
+        <button id="btntext" class="btn btn-primary" @click="filterDate">조회</button>
       </div>
-    <br>
-    <button class="btn" @click="filterDate">조회</button>
-      </div>
+    </div>
+
     <hr>
-  <button type="button" v-on:click="onexport">Excel download</button>
-  <div id="app">
-    <v-app class="container">
-        <h2 class="font-weight-light py-4">장부</h2>
-        <v-card>
-          <!-- 잔액 : {{  sumField('in_money') - sumField('out_money')}} -->
+    <div id="inputtext">
+      <v-app class="container-fluid">
+        <div class="col">
+          <div id="subtitle" class="my-5"><h2>장부 확인</h2></div>
+          <div style="display:flex; justify-content:flex-end">
+            <button id="btntext" class="btn btn-success" type="button" v-on:click="onexport">Excel download</button>
+          </div>
+          
+          <v-card>
+            <!-- 잔액 : {{  sumField('in_money') - sumField('out_money')}} -->
             <v-data-table 
                 :headers="headers" 
                 :items="this.bookList" item-key="datetime">
@@ -77,9 +93,12 @@
                     </tr>
                 </template>
             </v-data-table>
-        </v-card>
-    </v-app>
-</div>
+          </v-card>
+
+        </div>
+        
+      </v-app>
+    </div>
   </div>
 
   

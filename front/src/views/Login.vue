@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>Login</h1>
+    <div id="title"><h1>Login</h1></div>
+    
     <v-form
       class="container"
       ref="form"
@@ -19,7 +20,7 @@
         :rules="passwordRule"
         @keyup.enter="login"/>
       <v-btn
-        id="login_btn"
+        id="btntext"
         @click="login">
         로그인
       </v-btn>
