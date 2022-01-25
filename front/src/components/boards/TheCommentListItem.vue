@@ -1,6 +1,6 @@
 <template>
   <b-card>
-    <div>
+    <div> 
       <div class="input-group" >
         <span>
           <div style="justify-content:start;">
