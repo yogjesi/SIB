@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar toggleable="md" type="dark" variant="info" style="height:70px;">
+      <b-navbar toggleable="md" type="dark" variant="dark" style="height:70px;">
         <div class="container-fluid">
           <!-- 브랜드 버튼 클릭해도 홈으로 가도록 설정 -->
           <b-navbar-brand><router-link to="/"><img src="@/assets/youth_logo.png" style="width:60px;" alt=""></router-link></b-navbar-brand>
@@ -129,12 +129,12 @@ td {
   font-family: 'Noto Serif KR', serif;
 }
 // inputtext
-#inputtext {
-  font-family: 'Gowun Batang', serif;
+// #inputtext {
+  // font-family: 'Gowun Batang', serif;
   // font-family: 'Jua', sans-serif;
   // font-family: 'Merriweather', serif;
   // font-family: 'Noto Serif KR', serif;
-}
+// }
 // btntext : 버튼용
 #btntext {
   // font-family: 'Gowun Batang', serif;
