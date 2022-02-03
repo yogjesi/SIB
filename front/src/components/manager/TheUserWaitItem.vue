@@ -1,12 +1,12 @@
 <template>
   <tr>
-    <td>{{userWait.username}}</td>
-    <td>{{userWait.fullname}}</td>
-    <td>{{userWait.email}}</td>
-    <td>{{userWait.introduce}}</td>
+    <td style="text-align:start;">{{userWait.username}}</td>
+    <td style="text-align:start;">{{userWait.fullname}}</td>
+    <td style="text-align:start;">{{userWait.email}}</td>
+    <td style="text-align:start;">{{userWait.introduce}}</td>
     <td>
-      <b-button @click="$bvModal.show(`modal-approve-${userWait.id}`)">가입 승인</b-button>
-      <b-modal :id="'modal-approve-'+userWait.id">
+      <b-button id="btntext" class="btn-sm btn-outline-success" variant="none" @click="$bvModal.show(`modal-approve-${userWait.id}`)">가입 승인</b-button>
+      <b-modal :id="'modal-approve-'+userWait.id" class="subtitle">
         <template #modal-header>
           <h5>가입 승인</h5>
         </template>
@@ -15,16 +15,16 @@
         </template>
 
         <template #modal-footer="{ ok, cancel }">
-          <b-button size="sm" variant="danger" @click="[ok(),approveUser(userWait.id)]">
+          <b-button id="btntext" size="sm" variant="danger" @click="[ok(),approveUser(userWait.id)]">
             예
           </b-button>
-          <b-button size="sm" variant="secondary" @click="cancel()">
+          <b-button id="btntext" size="sm" variant="secondary" @click="cancel()">
             아니요
           </b-button>
         </template>
       </b-modal>
-      <b-button @click="$bvModal.show(`modal-refuse-${userWait.id}`)">가입 거부</b-button>
-      <b-modal :id="'modal-refuse-'+userWait.id">
+      <b-button id="btntext" class="btn-sm btn-outline-danger" variant="none" @click="$bvModal.show(`modal-refuse-${userWait.id}`)">가입 거부</b-button>
+      <b-modal :id="'modal-refuse-'+userWait.id" class="subtitle">
         <template #modal-header>
           <h5>가입 거부</h5>
         </template>
@@ -33,10 +33,10 @@
         </template>
 
         <template #modal-footer="{ ok, cancel }">
-          <b-button size="sm" variant="danger" @click="[ok(),refuseUser(userWait.id)]">
+          <b-button id="btntext" size="sm" variant="danger" @click="[ok(),refuseUser(userWait.id)]">
             예
           </b-button>
-          <b-button size="sm" variant="secondary" @click="cancel()">
+          <b-button id="btntext" size="sm" variant="secondary" @click="cancel()">
             아니요
           </b-button>
         </template>

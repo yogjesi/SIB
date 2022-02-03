@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="title" class="col col-md-8 offset-md-2">
     <h2>글 작성하기</h2>
-    <form @submit.prevent="formSubmit" method="post">
+    <form id="inputtext" @submit.prevent="formSubmit" method="post">
       <input class="form-control"
         placeholder="제목"
         type="text"
@@ -62,11 +62,11 @@ export default {
           this.selectFile.name.lastIndexOf(".") + 1
         )
         // 소문자로 변환
-        fileExt = fileExt.toLowerCase()
-        // 이미지 확장자 체크, 1메가 바이트 이하 인지 체크
-        if (
-          ["jpeg","jpg", "png", "gif", "bmp"].includes(fileExt) &&
-          this.selectFile.size <= 1048576
+          fileExt = fileExt.toLowerCase()
+          // 이미지 확장자 체크, 1메가 바이트 이하 인지 체크
+          if (
+            ["jpeg", "jpg", "png", "gif", "bmp"].includes(fileExt) &&
+            this.selectFile.size <= 2048576
         ) {
           // FileReader 를 활용하여 파일을 읽는다
           var reader = new FileReader()
@@ -75,7 +75,7 @@ export default {
             this.previewImgUrl = e.target.result
           }
           reader.readAsDataURL(this.selectFile)
-        } else if (this.selectFile.size <= 1048576) {
+        } else if (this.selectFile.size <= 2048576) {
           // 이미지외 파일
           this.previewImgUrl = null
         } else {

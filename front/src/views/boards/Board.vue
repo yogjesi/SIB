@@ -1,9 +1,9 @@
 <template>
-  <div class="containter-fluid">
-    <div id="subtitle">
+  <div class="containter-fluid col col-md-8 offset-md-2">
+    <div id="title">
       <h2>자유게시판</h2>
     </div>
-    <div class="col col-md-8 offset-md-2">
+    <div id="btntext" >
       <b-input-group>
         <template #prepend>
           <b-dropdown :text="search.searchType" variant="success" style="width:6rem;">
@@ -32,7 +32,7 @@
       
       <!-- <b-table striped hover><the-board-list :board-list="boardList"></the-board-list></b-table> -->
       
-      <the-board-list :board-list="boardList"></the-board-list>
+      <the-board-list :board-list="boardList" id="board" ></the-board-list>
     </div>
 
 

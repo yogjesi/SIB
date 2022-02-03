@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid col col-md-4 offset-md-4">
     <div id="title"><h1>Login</h1></div>
     
     <v-form

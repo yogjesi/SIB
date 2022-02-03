@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <h2>회장은 지원님꺼</h2>
-    <table class="container">
+  <div class="col col-md-10 offset-md-1">
+    <div id="title">
+      <h2>관리자용</h2>
+    </div>
+    <table id="board" class="container-fluid table table-striped">
       <thead>
         <tr>
-          <th>아이디</th>
-          <th>이름</th>
-          <th>이메일주소</th>
-          <th>한줄소개</th>
-          <th>승인여부</th>
+          <th style="text-align:start;">아이디</th>
+          <th style="text-align:start;">이름</th>
+          <th style="text-align:start;">이메일주소</th>
+          <th style="text-align:start;">한줄소개</th>
+          <th style="text-align:start;">승인여부</th>
         </tr>
       </thead>
       <tbody v-if="userWaitList">
@@ -20,30 +22,47 @@
       </tbody>
     </table>
     <hr>
-    <b-dropdown :text="search.searchType" class="m-md-2">
-      <b-dropdown-item @click="searchType('아이디')">아이디</b-dropdown-item>
-      <b-dropdown-item @click="searchType('이름')">이름</b-dropdown-item>
-    </b-dropdown>
-    <input 
-      type="text"
-      id="keyword"
-      v-model="search.keyword"
-      @keyup.enter="searchUser"
-    >
-    <b-button @click="searchUser">검색</b-button>
-    <b-button @click="searchDefault">초기화</b-button>
-    <p>현재 회장은 {{manager.fullname}} 입니다.</p>
-    <p>현재 회계는 {{accountant.fullname}} 입니다.</p>
-    <table class="container">
+    <div class="d-flex justify-content-center">
+      <b-input-group class="col col-md-6 mt-5">
+        <template #prepend>
+          <b-dropdown id="btntext" style="width:6rem;" variant="info" :text="search.searchType" >
+            <b-dropdown-item @click="searchType('아이디')">아이디</b-dropdown-item>
+            <b-dropdown-item @click="searchType('이름')">이름</b-dropdown-item>
+          </b-dropdown>
+        </template>
+        <input 
+          type="text"
+          id="keyword"
+          class="form-control"
+          v-model="search.keyword"
+          @keyup.enter="searchUser"
+        >
+        <template #append>
+          <b-button id="btntext" style="width:5rem;" variant="primary" @click="searchUser">검색</b-button>
+        </template>
+      </b-input-group>
+    </div>
+    <div id="board" v-if="searchWord">
+      <h5>검색어 : {{ searchWord }}</h5>
+    </div>
+
+    <b-button id="btntext" class="btn-outline-success my-3" variant="none" @click="searchDefault">초기화</b-button>
+    
+    <div id="subtitle">
+      <h5>현재 <span>회장</span>은 <span>{{manager.fullname}}</span> 입니다.</h5>
+      <h5>현재 <span>회계</span>는 <span>{{accountant.fullname}}</span> 입니다.</h5>
+    </div>
+
+    <table id="board" class="container-fluid table table-hover">
       <thead>
         <tr>
-          <th>아이디</th>
-          <th>이름</th>
-          <th>이메일주소</th>
-          <th>직책</th>
-          <th>회원 강퇴</th>
-          <th>회계 지정</th>
-          <th>회장 위임</th>
+          <th style="text-align:start;">아이디</th>
+          <th style="text-align:start;">이름</th>
+          <th style="text-align:start;">이메일주소</th>
+          <th style="text-align:start;">직책</th>
+          <th style="text-align:start;">회원 강퇴</th>
+          <th style="text-align:start;">회계 지정</th>
+          <th style="text-align:start;">회장 위임</th>
         </tr>
       </thead>
       <tbody v-if="userList">
@@ -56,7 +75,7 @@
     </table>
 
     <b-pagination
-      class="container"
+      class="container-fluid d-flex justify-content-center my-5"
       v-model="currentPage"
       :total-rows="rows"
       :per-page="perPage"
@@ -79,7 +98,8 @@ export default {
       search:{
         searchType:'아이디',
         keyword:''
-      }
+      },
+      searchWord:null
     }
   },
   methods:{
@@ -89,6 +109,7 @@ export default {
     searchUser: function(){
       if (this.search.keyword){
         this.$store.dispatch('userSearch',this.search)
+        this.searchWord = this.search.keyword
         this.search.keyword = ''
       }else{
         alert('검색할 유저를 입력해주세요!')
@@ -96,6 +117,7 @@ export default {
     },
     searchDefault: function(){
       this.$store.dispatch('userList')
+      this.searchWord = ''
     }
   },
   computed: {
@@ -128,5 +150,9 @@ export default {
 </script>
 
 <style>
+
+span {
+  font-weight: bolder;
+}
 
 </style>

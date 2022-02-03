@@ -1,11 +1,11 @@
 <template>
-    <div>
-      <div id="subtitle" class="mt-5 mb-3">
+    <div class="col col-md-8 offset-md-2">
+      <div id="title" class="mt-5 mb-3">
         <h2>
           수입 목록
         </h2>
       </div>
-    <v-card>
+    <v-card id="board">
       <v-card-title>
         <v-spacer></v-spacer>
         <v-text-field
@@ -17,8 +17,7 @@
         ></v-text-field>
       </v-card-title>
 
-      <v-data-table
-        
+      <v-data-table        
         :headers="headers"
         :items="incomes"
         :search="search"
@@ -49,7 +48,7 @@
 
     </v-card>
     <br>
-    <v-btn @click="moveToCreate">수입 작성</v-btn>
+    <v-btn id="btntext" @click="moveToCreate">수입 작성</v-btn>
     </div>
 </template>
 
