@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="row">
-      <div id="subtitle" class="col-6">
+      <!-- 시작날짜 -->
+      <div id="subtitle" class="col-12 col-md-6">
         <h4>시작 날짜</h4>
         <input type="date"  class="border m-2"
           pattern="\d{4}-\d{2}-\d{2}"
@@ -9,17 +10,18 @@
           v-model.trim="startDate"
         >
       </div>
-      <div id="subtitle" class="col-6">
+      <!-- 종료 날짜 -->
+      <div id="subtitle" class="col-12 col-md-6">
         <h4>종료 날짜</h4>
         <input type="date"  class="border m-2"
           pattern="\d{4}-\d{2}-\d{2}"
           required
           v-model.trim="endDate"
         >
-    </div>
+      </div>
 
-    <div id="subtitle"><h3>카테고리</h3></div>
-      <div id="subtitle" class="col-12 col-md-6 offset-md-3">
+      <!-- 카테고리 -->
+      <div class="col-12 col-md-6 offset-md-3">
         <div class="input-group row">
           <span class="input-group-text justify-content-center">
             <div id="subtitle"><h4>전체 선택</h4></div>
@@ -32,7 +34,7 @@
             <div
               v-for="income in incomes"
               :key="income.id">
-              <div>
+              <div id="inputtext">
                 {{ income.name }}
                 <input type="checkbox" v-model="categoryIds" :value="income.name">
               </div>
@@ -44,28 +46,26 @@
             <div 
               v-for="outcome in outcomes"
               :key="outcome.id">
-              <div>
+              <div id="inputtext">
                 {{ outcome.name }}
                 <input type="checkbox" v-model="categoryIds" :value="outcome.name">
               </div>
             </div>
           </div>
+          </div>          
         </div>
-        <br>
-        <button id="btntext" class="btn btn-primary" @click="filterDate">조회</button>
       </div>
-    </div>
-
+      <br>
+    <button id="btntext" class="btn btn-primary" @click="filterDate">조회</button>
     <hr>
     <div id="inputtext">
       <v-app class="container-fluid">
         <div class="col">
-          <div id="subtitle" class="my-5"><h2>장부 확인</h2></div>
           <div style="display:flex; justify-content:flex-end">
             <button id="btntext" class="btn btn-success" type="button" v-on:click="onexport">Excel download</button>
           </div>
           
-          <v-card>
+          <v-card id="board">
             <!-- 잔액 : {{  sumField('in_money') - sumField('out_money')}} -->
             <v-data-table 
                 :headers="headers" 
@@ -94,14 +94,10 @@
                 </template>
             </v-data-table>
           </v-card>
-
         </div>
-        
       </v-app>
     </div>
   </div>
-
-  
 </template>
 
 <script>
@@ -133,14 +129,14 @@ export default {
         { "id": "1", "name": "재정부"},
         { "id": "2", "name": "헌금"},
         { "id": "3", "name": "찬조금"},
-        { "id": "4", "name": "기타수입"},
+        { "id": "4", "name": "기타 수입"},
         ],
         outcomes: [ 
           { "id": "5", "name": "사업행사비"},
           { "id": "6", "name": "활동비"}, 
           { "id": "7", "name": "경조비"}, 
           { "id": "8", "name": "소모품비"}, 
-          { "id": "9", "name": "기타지출"}, 
+          { "id": "9", "name": "기타 지출"}, 
         ],
         selected: [],
         allSelected: false,

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="subtitle" class="container-fluid my-5 px-3 col col-md-8 offset-md-2">
     <v-card>
-      <div>
+      <div id="subtitle" class="col col-md-10 offset-md-1">
         <form @submit.prevent="formSubmit" method="post">
           <div>
             <div>

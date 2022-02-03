@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <h2>댓글</h2>
-    <div class="row">
+  <div class="container-fluid">
+    <div id="subtitle">
+      <h2>댓글</h2>
+    </div>
+    <div id="comment">
       <div class="input-group">
         <textarea id="inputtext"
           class="form-control"
@@ -12,20 +14,21 @@
           @keyup.enter="commentCreate" 
         >
         </textarea>
-        <b-button @click="commentCreate">작성</b-button>     
+        <b-button id="btntext" @click="commentCreate">작성</b-button>     
       </div>      
       <the-comment-list-item v-for="(comment,index) in paginatedData" 
         :key="index"
         :comment-item="comment"
       >
       </the-comment-list-item>
-      <div class="container">
+      <div class="container-fluid">
         <b-pagination
           v-model="currentPage"
           :total-rows="rows"
           :per-page="perPage"
           aria-controls="my-table"
           style="justify-content:center;"      
+          class="my-5"
         ></b-pagination>
       </div>
     </div>
@@ -41,7 +44,7 @@ export default {
   data: function() {
     return {
       content:'',
-      perPage: 5,
+      perPage: 15,
       currentPage: 1,
       pageNum:0
     }

@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <h2>상세{{this.$route.params.id}}</h2>
-    <div>
+  <div class="col col-md-8 offset-md-2">
+    <div id="title">
+      <h2>제목 : {{ selectOutcome.title }}</h2>
+    </div>
+    <div id="subtitle">
       {{selectOutcome.user.fullname}} | {{selectOutcome.created_at|moment(`YYYY년 MM월DD일 HH시mm분`)}}
     </div>
     <div v-if="selectOutcome.state==1">
@@ -11,7 +13,7 @@
       </div>
     </div>
 
-    <v-data-table
+    <v-data-table id="board"
         
         :headers="headers"
         :items="[selectOutcome]"
@@ -34,7 +36,9 @@
       </template>
     </v-data-table>
       
-    <img :src="`https://ycjeil-youth.link${selectOutcome.receipt}`" alt="" style="width:450px;">
+      <!-- `https://ycjeil-youth.link${selectOutcome.receipt}` -->
+    <img :src="fixImage(selectOutcome.id)" alt="" style="width:450px;">
+
     <br><br>
 
       <!-- <div v-if="this.$store.state.currentUser == 2"> -->
@@ -47,11 +51,13 @@
         <!-- 승인대기 -> 반려 -->
         <v-btn v-if="selectOutcome_state_str=='승인대기'" @click="stateToReject">반려</v-btn>
       </div>
-    <hr>  
-    
     <!-- 댓글창 -->
-    <input @keyup.enter="createOutcomeComment" v-model="inputComment" type="text" class="border">
-    <v-btn @click="createOutcomeComment">댓글 작성</v-btn>
+    <b-input-group>
+      <input id="inputtext" @keyup.enter="createOutcomeComment" v-model="inputComment" type="text" class="form-control"
+      placeholder="댓글 작성">
+      <v-btn id="btntext" @click="createOutcomeComment">입력</v-btn>
+    </b-input-group>
+
 
     <!-- 댓글 목록 -->
     <outcome-comment-item
@@ -61,7 +67,6 @@
       @updateComment="updateComment"
     >
     </outcome-comment-item>
-
   </div>
 </template>
 
@@ -90,7 +95,7 @@ export default {
           align: 'start',
           value: 'category',
         },
-          { text: '내용', value: 'content' },
+          { text: '상세 내용', value: 'content' },
           { text: '사용일시', value: 'datetime' },
           { text: '금액', value: 'out_money' },
           { text: '승인/반려', value: 'state' },
@@ -176,6 +181,14 @@ export default {
     // 댓글 수정 이벤트 발생 >> 다시 댓글 목록 가져오기 
     updateComment:function(){
       this.$store.dispatch('getOutcomeComment',this.$route.params.id) 
+    },
+    fixImage:function(id) {
+      if (id < 46) {
+        let tmp = this.selectOutcome.receipt.length
+        return `https://ycjeil-youth.link/media/${this.selectOutcome.receipt.slice(62,tmp)}`
+      }else {
+        return `${this.selectOutcome.receipt}`
+      }
     }
   },
 

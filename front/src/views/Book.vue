@@ -1,13 +1,9 @@
 <template>
   <div id="Book">
     <div id="title"><h2>장부 확인</h2></div>
-    <div class="container-fluid">
+    <div class="container-fluid col col-md-10 offset-md-1">
       <calendar></calendar>
     </div>
-    
-    <!-- <Calculator /> -->
-    <!-- <check-box></check-box> -->
-    <!-- <ExcelDownloadDemo /> -->
   </div>
 </template>
 <script>

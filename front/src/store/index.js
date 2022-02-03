@@ -271,8 +271,9 @@ export default new Vuex.Store({
         if(res.data.image){
           const board = {
             ...res.data,
-            image:`${BACK_URL}${res.data.image}`
+            image:`${res.data.image}`
           }
+          console.log(res.data.image)
           commit('BOARDDETAIL',board)
         }else{
           commit('BOARDDETAIL',res.data)

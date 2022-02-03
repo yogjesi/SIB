@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="col col-md-8 offset-md-2">
       <!-- 페이지 제목은 subtitle -->
-      <div id="subtitle" class="mt-5 mb-3">
+      <div id="title" class="mt-5 mb-3">
         <h2>요금 청구</h2>
       </div>
     
-      <v-card>
+      <v-card id="board">
         <v-card-title>
           <v-spacer></v-spacer>
           <!-- 검색어용 id는 inputtitle -->
