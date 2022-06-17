@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="subtitle" class="container-fluid my-5 px-3 col col-md-8 offset-md-2">
     <v-card>
-        <div class="file-upload">
+        <div id="subtitle" class="file-upload col col-md-10 offset-md-1">
         <form @submit.prevent="formSubmit" method="post">
           <br>
           <div class="m-2">
@@ -18,8 +18,8 @@
 
         <div class="m-2">
           <div>지출 내역</div>
-              <input type="text"  class="border m-2"
-                placeholder="김밥"
+              <input type="text"  class="form-control border"
+                placeholder="ex)김밥, 수련회 등"
                 required
                 v-model.trim="inputTitle"
               >
@@ -27,7 +27,7 @@
         <br>
         <div class="m-2">
           <div>지출 금액</div>
-              <input type="Number"  class="border m-2"
+              <input type="Number" class="form-control border"
                 placeholder="금액"
                 required
                 v-model.trim="inputMoney"
@@ -38,7 +38,7 @@
         <br>
         <div class="m-2">
           <div>지출 일시</div>
-              <input type="date"  class="border m-2"
+              <input type="date" class="form-control border"
                 pattern="\d{4}-\d{2}-\d{2}"
                 required
                 v-model.trim="inputDatetime"
@@ -48,8 +48,8 @@
         <br>
         <div class="m-2">
           <div>지출 상세 내역 </div>
-              <input type="text"  class="border m-2"
-                placeholder="상세 내역을 입력해주세요 ex)언제, 어디서, 누구와"
+              <input type="text" class="form-control border"
+                placeholder="ex)언제, 어디서, 누구와"
                 v-model.trim="inputContent"
                 required
               >
@@ -65,7 +65,7 @@
         <div class="m-2"> 
         <br>
           <div>영수증 첨부</div>
-          <input required type="file" ref="selectFile" @change="previewFile" />
+          <input required type="file" class="form-control border" ref="selectFile" @change="previewFile" />
           
           <img v-if="previewImgUrl" :src="previewImgUrl" />
         </div>
@@ -133,8 +133,8 @@ export default {
           fileExt = fileExt.toLowerCase()
           // 이미지 확장자 체크, 1메가 바이트 이하 인지 체크
           if (
-            ["jpeg", "png", "gif", "bmp"].includes(fileExt) &&
-            this.selectFile.size <= 1048576
+            ["jpeg", "jpg", "png", "gif", "bmp"].includes(fileExt) &&
+            this.selectFile.size <= 2048576
           ) {
             // FileReader 를 활용하여 파일을 읽는다
             var reader = new FileReader()
@@ -143,7 +143,7 @@ export default {
               this.previewImgUrl = e.target.result
             }
             reader.readAsDataURL(this.selectFile)
-          } else if (this.selectFile.size <= 4048576) {
+          } else if (this.selectFile.size <= 2048576) {
             // 이미지외 파일
             this.previewImgUrl = null
           } else {

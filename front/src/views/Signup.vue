@@ -1,52 +1,53 @@
 <template>
-  <div>
+  <div class="container-fluid col col-md-4 offset-md-4">
+    <div id="title"><h1>회원가입</h1></div>
     <v-form
       class="container"
       ref="form"
       @submit.prevent="signup">
-      <v-text-field
+      <v-text-field id="inputtext"
         v-model="contrial.username"
         label="아이디"
         required
         :rules="usernameRule"/>
-      <v-text-field
+      <v-text-field id="inputtext"
         v-model="contrial.email"
         label="이메일"
         required
         :disabled="emailValidationStart || emailValidationClear"
         :rules="emailRule"/>
-      <b-button :disabled="emailAble || emailValidationStart || emailValidationClear" @click="emailValidation">이메일 인증</b-button>
-      <v-text-field
+      <b-button id="btntext" :disabled="emailAble || emailValidationStart || emailValidationClear" @click="emailValidation">이메일 인증</b-button>
+      <v-text-field id="inputtext"
         v-show="emailValidationStart"
         v-model="emailValidContent"
         label="인증코드"
         required
         :disabled="emailValidationClear"
         :rules="emailCodeRule"/>
-      <b-button v-show="emailValidationStart" :disabled="emailConfirm || emailValidationClear" @click="emailComplete">{{emailState}}</b-button>
-      <b-button v-show="emailValidationStart && !emailValidationClear" @click="emailTimerReset">리셋</b-button>
-      <b-button v-show="emailValidationStart && !emailValidationClear" @click="emailCancel">취소</b-button>
+      <b-button id="btntext" v-show="emailValidationStart" :disabled="emailConfirm || emailValidationClear" @click="emailComplete">{{emailState}}</b-button>
+      <b-button id="btntext" v-show="emailValidationStart && !emailValidationClear" @click="emailTimerReset">리셋</b-button>
+      <b-button id="btntext" v-show="emailValidationStart && !emailValidationClear" @click="emailCancel">취소</b-button>
       <span v-show="emailValidationStart && !emailValidationClear">{{minutes}}:{{seconds}}</span>
-      <v-text-field
+      <v-text-field id="inputtext"
         v-model="contrial.fullname"
         label="이름"
         required
         type="text"
         :rules="fullnameRule"/>
-      <v-text-field
+      <v-text-field id="inputtext"
         v-model="contrial.introduce"
         label="한 줄 소개를 해주세요."
         required
         type="text"
         :rules="introduceRule"/>
-      <v-text-field
+      <v-text-field id="inputtext"
         v-model="contrial.password"
         label="비밀번호"
         autocomplete="off"
         required
         type="password"
         :rules="passwordRule"/>
-      <v-text-field
+      <v-text-field id="inputtext"
         v-model="passwordConfirm"
         label="비밀번호 확인"
         autocomplete="off"
@@ -54,7 +55,7 @@
         type="password"
         :rules="passwordConfirmRule"/>
       <v-btn
-        id="signup_btn"
+        id="btntext"
         @click="signup"
         @keyup.enter="signup">
         회원가입

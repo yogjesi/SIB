@@ -1,11 +1,23 @@
 <template>
   <div>
-    <h2>상세글</h2>
+    <div id="board" class="col col-md-8 offset-md-2">
+      <div class="card border-light mb-3">
+        <div class="card-header" style="text-align:start;">
+          <h4>제목 : {{boardDetail.title}}</h4>        
+          <h6>작성자 : {{boardDetail.user.fullname}}({{boardDetail.user.username}})</h6>
+        </div>
+        <div class="card-body">
+          <h5><pre id="board" style="text-align:start;">{{boardDetail.content}}</pre></h5>
+        </div>
+        <div style="text-align:end;">
+          <h6>작성일 : {{boardDetail.created_at|moment(`YYYY년 MM월DD일 HH시mm분`)}}</h6>
+        </div>
+      </div>      
+    </div>
     <div>
-      <span class="display-4">{{boardDetail.title}}</span>
       <div v-if="currentUser.id==boardDetail.user.id">
-        <b-button @click="boardUpdate">수정</b-button>
-        <b-button @click="$bvModal.show('modal-scoped')">삭제</b-button>
+        <b-button id="btntext" class="mx-1 btn-primary" variant="none" @click="boardUpdate">수정</b-button>
+        <b-button id="btntext" class="mx-1 btn-danger" @click="$bvModal.show('modal-scoped')">삭제</b-button>
 
         <b-modal id="modal-scoped">
           <template #modal-header>
@@ -16,10 +28,10 @@
           </template>
 
           <template #modal-footer="{ ok, cancel }">
-            <b-button size="sm" variant="danger" @click="[ok(),boardDelete(boardDetail.id)]">
+            <b-button id="btntext" size="sm" variant="danger" @click="[ok(),boardDelete(boardDetail.id)]">
               예
             </b-button>
-            <b-button size="sm" variant="secondary" @click="cancel()">
+            <b-button id="btntext" size="sm" variant="secondary" @click="cancel()">
               아니요
             </b-button>
           </template>
@@ -27,17 +39,18 @@
       </div>
 
     </div>
+
     <div>
-      <span>{{boardDetail.user.fullname}}({{boardDetail.user.username}})</span>
-      <span>{{boardDetail.created_at|moment(`YYYY년 MM월DD일 HH시mm분`)}}</span>
+      
+      
     </div>
-    <p>{{boardDetail.content}}</p>
     <iframe v-if="boardDetail.video" :src="videoSelect(boardDetail.video)" width="640" height="360" frameborder="0"></iframe>
-    <img v-if="boardDetail.image"  width="640" height="360" :src="boardDetail.image" alt="">
-    <h1>num</h1>
-    <hr>
+    <img v-if="boardDetail.image"  :src="boardDetail.image" alt="">
     <!-- 댓글 창 -->
-    <the-comment-form></the-comment-form>
+    <div class="col col-md-8 offset-md-2">
+      <the-comment-form></the-comment-form>
+    </div>
+    
 
   </div>
 </template>

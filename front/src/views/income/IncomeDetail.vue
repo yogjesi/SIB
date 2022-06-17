@@ -1,15 +1,17 @@
 <template>
-  <div>
-    <h1>{{this.$route.params.id}}번 상세보기</h1>
-    <div>
+  <div class="col col-md-8 offset-md-2">
+    <div id="title">
+      <h2>제목 : {{ selectIncome.title }}</h2>
+    </div>
+    <div id="subtitle">
       <h6>작성 일자 : {{selectIncome.created_at}}</h6>
     </div>
-    <v-btn @click="moveToUpdate">수정</v-btn>
-    <v-btn @click="deleteIncome">삭제</v-btn>
+    <v-btn id="btntext" @click="moveToUpdate">수정</v-btn>
+    <v-btn id="btntext" @click="deleteIncome">삭제</v-btn>
     <v-data-table
-        
-        :headers="headers"
-        :items="[selectIncome]"
+      id="board"        
+      :headers="headers"
+      :items="[selectIncome]"
       >
       <template
         v-slot:body="{ items }"
@@ -27,7 +29,6 @@
         </tbody>
       </template>
     </v-data-table>
-
   </div>
 </template>
 
@@ -45,7 +46,7 @@ export default {
           align: 'start',
           value: 'category',
         },
-          { text: '내용', value: 'content' },
+          { text: '상세 내용', value: 'content' },
           { text: '사용일시', value: 'datetime' },
           { text: '금액', value: 'in_money' },
       ],

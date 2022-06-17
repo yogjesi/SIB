@@ -1,39 +1,44 @@
 <template>
-  <div>
-    <div>
-      <form @submit.prevent="formSubmit" method="post">
-        <div>
-          <select id="form-select" class="form-select" aria-label="Default select example">
-            <option selected value="재정부">재정부</option>
-            <option value="헌금">헌금</option>
-            <option value="찬조금">찬조금</option>
-            <option value="기타 수입">기타 수입</option>
-          </select>
-        </div>
-        <h1>수입 작성 양식</h1>
-        <br>
-        <h2>수입 타이틀</h2>
-        <input type="text" placeholder="큰제목" 
-        required
-        v-model.trim="income.title">
-        <h2>금액</h2>
-        <input type="text" placeholder="금액" 
-        required
-        v-model.trim="income.in_money">
-        <p>입력하신 금액은 {{ income.in_money | Comma }}원 입니다.</p>
-        <h2>수입 일시</h2>
-        <input type="date" pattern="\d{4}-\d{2}-\d{2}" 
-        required
-        v-model.trim="income.datetime">
-        <h2>수입 상세 내역</h2>
-        <input type="text" placeholder="수입에 관한 상세 내역을 입력해주세요." 
-        required
-        v-model="income.content">
-        <br>
-        <v-btn color="deep-purple white--text" class="m-2" outlined type="submit">작성 완료</v-btn>
-      </form>
-    </div>
-
+  <div id="subtitle" class="container-fluid my-5 px-3 col col-md-8 offset-md-2">
+    <v-card>
+      <div id="subtitle" class="col col-md-10 offset-md-1">
+        <form @submit.prevent="formSubmit" method="post">
+          <div>
+            <div>
+              <h2>분류</h2>
+            </div>
+            <select id="form-select" class="form-select" aria-label="Default select example">
+              <option selected value="재정부">재정부</option>
+              <option value="헌금">헌금</option>
+              <option value="찬조금">찬조금</option>
+              <option value="기타 수입">기타 수입</option>
+            </select>
+          </div>
+          <br>
+          <h2>수입 내역</h2>
+          <input type="text" placeholder="ex)0월 0째주 헌금" class="form-control border" 
+          required
+          v-model.trim="income.title">
+          <h2>금액</h2>
+          <input type="text" placeholder="금액" class="form-control border"
+          required
+          v-model.trim="income.in_money">
+          <p>입력하신 금액은 {{ income.in_money | Comma }}원 입니다.</p>
+          <h2>수입 일시</h2>
+          <input type="date" pattern="\d{4}-\d{2}-\d{2}" 
+          class="form-control border"
+          required
+          v-model.trim="income.datetime">
+          <h2>수입 상세 내역</h2>
+          <input type="text" placeholder="ex) 감사헌금 00원, 십일조 00원"  
+          class="form-control border"
+          required
+          v-model="income.content">
+          <br>
+          <v-btn color="deep-purple white--text" class="m-2" outlined type="submit">작성 완료</v-btn>
+        </form>
+      </div>
+    </v-card>
   </div>
 </template>
 
