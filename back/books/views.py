@@ -160,6 +160,9 @@ def show_outcome(request):
     outcomes = Outcome.objects.filter(state=2)  ## 승인된 요금 청구건만 불러오기 위해 filter 사용
     serializer = BookOutcomeSerializer(outcomes, many=True)
     return Response(serializer.data)
+<<<<<<< HEAD
+=======
 
 
 
+>>>>>>> 27eb2f68207674bea64d03f02063de9401b1183d

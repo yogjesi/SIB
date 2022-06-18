@@ -143,6 +143,18 @@ export default {
   }
 }
 
+.font {
+  font-family: 'Black Han Sans', sans-serif;
+  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Gowun Batang', serif;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-family: 'Jua', sans-serif;
+  font-family: 'Libre Baskerville', serif;
+  font-family: 'Nanum Myeongjo', serif;
+  font-family: 'Noto Serif', serif;
+  font-family: 'Patua One', cursive;
+  }
 // 테이블 라인 맞추는 용도
 td {
   text-align:start;
