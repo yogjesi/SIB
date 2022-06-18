@@ -28,9 +28,9 @@
 
 ------
 
-The service is for people whose role is finance manager in club or circle, etc. You can manage your account book easily with this website with following steps.
+The service is for people whose role is finance manager( in club or circle, etc. You can manage your account book easily with this website with following steps.
 
-**If you are a accountant...**
+**If you are an accountant...**
 
 1. Member of club can claim amount of money with other information in format.
 2. Check the claim in 'Outcome Claim' page.
